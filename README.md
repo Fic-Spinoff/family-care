@@ -8,7 +8,7 @@ Family care is an Android App that will track your family members state. It is f
     * Create availability zones for watched
     * Get notifications when outside zones
 * Accident detection
-    * Detect fallings (more accidents?)
+    * Detect fallings (more accidents)
     * Send notifications
 * Notifications when low battery
 * Activity monitoring
