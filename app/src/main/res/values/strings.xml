@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Family Care</string>
+    <string name="text_card_vigilante">My family members will watch my location and status to help me stay safe and prevent any accident.</string>
+    <string name="text_card_vigilado">My family members will watch my location and status to help me stay safe and prevent any accident.</string>
+    <string name="text_toast_vigilante">Ha pulsado el rol de VIGILANTE </string>
+    <string name="text_toast_vigilado">Ha pulsado el rol de VIGILADO</string>
 </resources>
