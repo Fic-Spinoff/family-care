@@ -17,6 +17,10 @@
     <string name="title_statistics">Statistics</string>
     <string name="title_state">State</string>
     <string name="title_activity">Activity</string>
+    <string name="title_activity_vip_container">VipContainerActivity</string>
+    <string name="title_zones">Zones</string>
+    <string name="title_members">Members</string>
+    <string name="title_link">Link device</string>
 
     <string name="subtitle_card_guard">This is called Guard role</string>
     <string name="subtitle_card_vip">This is called VIP role</string>
