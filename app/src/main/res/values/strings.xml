@@ -12,7 +12,11 @@
 
     <string name="title_card_guard">I will be watching!</string>
     <string name="title_card_vip">I will be watched!</string>
-
+    <string name="title_activity_vigilant_container">VigilantContainerActivity</string>
+    <string name="title_location">Location</string>
+    <string name="title_statistics">Statistics</string>
+    <string name="title_state">State</string>
+    <string name="title_activity">Activity</string>
 
     <string name="subtitle_card_guard">This is called Guard role</string>
     <string name="subtitle_card_vip">This is called VIP role</string>
@@ -22,4 +26,5 @@
     <string name="text_toast_vigilante">Ha pulsado el rol de VIGILANTE </string>
     <string name="text_toast_vigilado">Ha pulsado el rol de VIGILADO</string>
     <string name="text_agreement">Los siguientes términos y condiciones (los Términos y Condiciones) rigen el uso que usted le dé a este sitio web y a cualquiera de los contenidos disponibles por o a través de este sitio web, incluyendo cualquier contenido derivado del mismo (el Sitio Web). Family Care. (Family Care. o nosotros) ha puesto a su disposición el Sitio Web. Podemos cambiar los Términos y Condiciones de vez en cuando, en cualquier momento sin ninguna notificación, sólo publicando los cambios en el Sitio Web. \n\nAL USAR EL SITIO WEB, USTED ACEPTA Y ESTÉ DE ACUERDO CON ESTOS TÉRMINOS Y CONDICIONES EN LO QUE SE REFIERE A SU USO DEL SITIO WEB. Si usted no está de acuerdo con estos Términos y Condiciones, no puede tener acceso al mismo ni usar el Sitio Web de ninguna otra manera.  Derechos de Propiedad. Entre usted y Family Care., Family Care. es dueño único y exclusivo, de todos los derechos, título e intereses en y del Sitio Web, de todo el contenido (incluyendo, por ejemplo, audio, fotografías, ilustraciones, gráficos, otros medios visuales, videos, copias, textos, software, títulos, archivos de Onda de choque, etc.), códigos, datos y materiales del mismo, el aspecto y el ambiente, el diseño y la organización del Sitio Web y la compilación de los contenidos, códigos, datos y los materiales en el Sitio Web, incluyendo pero no limitado a, cualesquiera derechos de autor, derechos de marca, derechos de patente, derechos de base de datos, derechos morales, derechos sui generis y otras propiedades intelectuales y derechos patrimoniales del mismo. Su uso del Sitio Web no le otorga propiedad de ninguno de los contenidos, códigos, datos o materiales a los que pueda acceder en o a través del Sitio Web.</string>
+
 </resources>

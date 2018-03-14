@@ -29,6 +29,10 @@
             android:name=".TermsActivity"
             android:label="@string/app_name" />
 
+        <activity
+            android:name=".VigilantContainerActivity"
+            android:label="@string/title_activity_vigilant_container" />
+
     </application>
 
 </manifest>
