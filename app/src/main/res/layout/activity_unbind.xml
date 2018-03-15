@@ -1,56 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="es.udc.apm.familycare.UnbindActivity">
-
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/unbindToolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/darker_gray"
-        android:elevation="4dp"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:logo="?attr/actionModeCloseDrawable"
-        app:title="   Configuración" />
+    android:layout_margin="8dp"
+    android:orientation="vertical"
+    tools:context="es.udc.apm.familycare.LinkActivity">
 
     <TextView
-        android:id="@+id/unbindTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:text="@string/unbindIntro"
-        app:layout_constraintTop_toBottomOf="@+id/unbindToolbar" />
+        android:text="@string/text_unbind"/>
 
     <EditText
-        android:id="@+id/unbindEditText"
+        android:id="@+id/et_link_device"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:ems="10"
         android:enabled="false"
-        android:text="id-1293asd-klasmlasofg-23"
-        android:visibility="visible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/unbindTextView" />
+        android:text="id-1293asd-klasmlasofg-23"/>
 
     <Button
-        android:id="@+id/unbindButton"
+        android:id="@+id/btn_link_unbind"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="28dp"
-        android:layout_marginTop="12dp"
-        android:text="@string/unbindButton"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/unbindEditText" />
+        android:layout_gravity="end"
+        android:text="@string/btn_unbind"/>
 
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>

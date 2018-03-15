@@ -67,7 +67,7 @@
                 android:adjustViewBounds="true"
                 android:contentDescription="Steps"
                 android:scaleType="fitXY"
-                android:tint="@color/colorShoe"
+                android:tint="@color/state_shoe"
                 app:srcCompat="@drawable/ic_sole_48dp" />
 
             <TextView

@@ -1,5 +1,6 @@
 package es.udc.apm.familycare;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -25,8 +26,7 @@ public class VipActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
                     return true;
                 case R.id.navigation_link:
-                    text = "Link Button pressed!";
-                    Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(VipActivity.this, LinkActivity.class));
                     return true;
             }
             return false;

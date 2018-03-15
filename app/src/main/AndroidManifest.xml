@@ -37,7 +37,7 @@
             android:name=".VipActivity"
             android:label="@string/title_activity_vip_container" />
 
-        <activity android:name=".UnbindActivity" />
+        <activity android:name=".LinkActivity" />
 
         <activity android:name=".StateActivity" />
 

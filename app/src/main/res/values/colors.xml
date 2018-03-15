@@ -10,5 +10,5 @@
     <color name="dots">#3FBEE4</color>
     <color name="bg_board">#1E88E5</color>
 
-    <color name="colorShoe">#825123</color>
+    <color name="state_shoe">#825123</color>
 </resources>
