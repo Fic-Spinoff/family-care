@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_location"
+        android:icon="@drawable/ic_location_on_black_24dp"
+        android:title="@string/title_location" />
+
+    <item
+        android:id="@+id/navigation_activity"
+        android:icon="@drawable/ic_access_time_black_24dp"
+        android:title="@string/title_activity" />
+
+    <item
+        android:id="@+id/navigation_state"
+        android:icon="@drawable/ic_heart_black_24dp"
+        android:title="@string/title_state" />
+
+    <item
+        android:id="@+id/navigation_statistics"
+        android:icon="@drawable/ic_statistic_black_24dp"
+        android:title="@string/title_statistics" />
+
+</menu>

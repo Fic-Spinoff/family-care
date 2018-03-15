@@ -35,7 +35,9 @@ public class TermsActivity extends AppCompatActivity {
 
     @OnClick({R.id.btn_terms_agree})
     public void onClickAgree(View v) {
-        // TODO: Start activity
+        if(this.role.equals(RoleActivity.ROLE_GUARD)) {
+            startActivity(new Intent(this, GuardActivity.class));
+        }
     }
 
 }

@@ -29,6 +29,10 @@
             android:name=".TermsActivity"
             android:label="@string/app_name" />
 
+        <activity
+            android:name=".GuardActivity"
+            android:label="@string/title_activity_guard" />
+
     </application>
 
 </manifest>
