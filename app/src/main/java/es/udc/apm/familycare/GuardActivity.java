@@ -1,5 +1,6 @@
 package es.udc.apm.familycare;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -29,8 +30,7 @@ public class GuardActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
                     return true;
                 case R.id.navigation_state:
-                    text = "State Button pressed!";
-                    Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(GuardActivity.this, StateActivity.class));
                     return true;
             }
             return false;
