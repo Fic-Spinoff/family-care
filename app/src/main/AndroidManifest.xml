@@ -34,7 +34,7 @@
             android:label="@string/title_activity_guard" />
 
         <activity
-            android:name=".VipContainerActivity"
+            android:name=".VipActivity"
             android:label="@string/title_activity_vip_container" />
 
     </application>

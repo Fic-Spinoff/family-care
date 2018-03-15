@@ -17,7 +17,7 @@ public class TermsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_terms_and_conditions);
+        setContentView(R.layout.activity_terms);
         ButterKnife.bind(this);
 
         this.role = this.getIntent().getStringExtra(RoleActivity.KEY_ROLE);
@@ -37,6 +37,10 @@ public class TermsActivity extends AppCompatActivity {
     public void onClickAgree(View v) {
         if(this.role.equals(RoleActivity.ROLE_GUARD)) {
             startActivity(new Intent(this, GuardActivity.class));
+            finish();
+        } else if(this.role.equals(RoleActivity.ROLE_VIP)) {
+            startActivity(new Intent(this, VipActivity.class));
+            finish();
         }
     }
 
