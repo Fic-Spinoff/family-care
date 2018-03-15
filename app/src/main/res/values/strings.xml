@@ -12,7 +12,7 @@
 
     <string name="title_card_guard">I will be watching!</string>
     <string name="title_card_vip">I will be watched!</string>
-    <string name="title_activity_vigilant_container">VigilantContainerActivity</string>
+    <string name="title_activity_guard">VigilantContainerActivity</string>
     <string name="title_location">Location</string>
     <string name="title_statistics">Statistics</string>
     <string name="title_state">State</string>

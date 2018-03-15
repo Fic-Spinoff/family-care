@@ -30,8 +30,8 @@
             android:label="@string/app_name" />
 
         <activity
-            android:name=".VigilantContainerActivity"
-            android:label="@string/title_activity_vigilant_container" />
+            android:name=".GuardActivity"
+            android:label="@string/title_activity_guard" />
 
     </application>
 
