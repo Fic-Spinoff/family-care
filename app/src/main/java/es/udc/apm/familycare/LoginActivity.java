@@ -1,5 +1,6 @@
 package es.udc.apm.familycare;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -91,7 +92,8 @@ public class LoginActivity extends AppCompatActivity {
 
     @OnClick(R.id.btn_login_google)
     public void onLogin(View v) {
-        //TODO: Start activity
+        startActivity(new Intent(this, RoleActivity.class));
+        finish();
     }
 
     /**
