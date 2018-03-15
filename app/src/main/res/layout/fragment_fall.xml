@@ -1,0 +1,87 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layout_page_two"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:clipToPadding="false"
+    android:clipChildren="false">
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="56dp"
+        android:clipToPadding="false"
+        android:clipChildren="false">
+
+        <RelativeLayout
+            android:id="@+id/bg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp">
+
+            <ImageView
+                android:layout_width="170dp"
+                android:layout_height="170dp"
+                android:src="@drawable/circle"
+                android:tint="@color/bg_board"
+                android:layout_centerInParent="true"/>
+
+            <ImageView
+                android:layout_width="230dp"
+                android:layout_height="230dp"
+                android:src="@drawable/circle"
+                android:tint="@color/bg_board"
+                android:layout_centerInParent="true"/>
+
+            <ImageView
+                android:layout_width="280dp"
+                android:layout_height="280dp"
+                android:src="@drawable/circle"
+                android:tint="@color/bg_board"
+                android:layout_centerInParent="true"/>
+
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/falling"
+            android:layout_centerInParent="true"
+            android:id="@+id/imgFall"
+            android:layout_gravity="center"/>
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:gravity="bottom"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/tvFall1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:text="Don't let it down"/>
+        <TextView
+            android:id="@+id/tvFall2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            android:alpha="0.7"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textSize="12sp"
+            android:text="Get notified when your family member falls or his health could be compromised"/>
+
+    </LinearLayout>
+
+</LinearLayout>
