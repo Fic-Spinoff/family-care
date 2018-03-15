@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 public class RoleActivity extends AppCompatActivity {
@@ -14,15 +15,15 @@ public class RoleActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_role);
 
-        final CardView cardViewVigilante = findViewById(R.id.cardView2);
-        cardViewVigilante.setOnClickListener(new View.OnClickListener() {
+        final Button btnGuard = findViewById(R.id.btnCardGuard);
+        btnGuard.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 onClickRolVigilante(v);
             }
         });
 
-        final CardView cardViewVigilado = findViewById(R.id.cardView3);
-        cardViewVigilado.setOnClickListener(new View.OnClickListener() {
+        final Button btnVip = findViewById(R.id.btnCardVip);
+        btnVip.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 onClickRolVigilado(v);
             }
