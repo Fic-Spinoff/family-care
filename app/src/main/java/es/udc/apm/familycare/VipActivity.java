@@ -24,6 +24,7 @@ public class VipActivity extends AppCompatActivity {
                 case R.id.navigation_members:
                     text = "Members Button pressed!";
                     Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(VipActivity.this, MembersActivity.class));
                     return true;
                 case R.id.navigation_link:
                     startActivity(new Intent(VipActivity.this, LinkActivity.class));

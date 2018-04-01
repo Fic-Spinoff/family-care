@@ -34,6 +34,7 @@
         <activity android:name=".LinkActivity" />
         <activity android:name=".StateActivity" />
         <activity android:name=".ConfActivity" />
+        <activity android:name=".MembersActivity"></activity>
     </application>
 
 </manifest>
