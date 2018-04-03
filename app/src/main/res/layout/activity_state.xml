@@ -40,11 +40,10 @@
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentTop="true"
                 android:layout_toEndOf="@+id/imageHeart"
-                android:autoSizeTextType="uniform"
                 android:text="40\n190"
                 android:textAlignment="viewEnd"
                 android:textAppearance="@style/TextAppearance.AppCompat"
-                android:textSize="32dp"
+                android:textSize="32sp"
                 android:visibility="visible" />
 
         </RelativeLayout>
@@ -67,7 +66,7 @@
                 android:adjustViewBounds="true"
                 android:contentDescription="Steps"
                 android:scaleType="fitXY"
-                android:tint="@color/state_shoe"
+                android:tint="@color/stateShoe"
                 app:srcCompat="@drawable/ic_sole_48dp" />
 
             <TextView
