@@ -22,9 +22,8 @@ public class VipActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
                     return true;
                 case R.id.navigation_members:
-                    text = "Members Button pressed!";
-                    Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(VipActivity.this, MembersActivity.class));
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.layout_vip, MembersFragment.newInstance()).commit();
                     return true;
                 case R.id.navigation_link:
                     startActivity(new Intent(VipActivity.this, LinkActivity.class));
@@ -40,7 +39,7 @@ public class VipActivity extends AppCompatActivity {
         setContentView(R.layout.activity_vip_container);
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        navigation.setSelectedItemId(R.id.navigation_zones);
+        navigation.setSelectedItemId(R.id.navigation_members);
     }
 
 }

@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="es.udc.apm.familycare.VipActivity">
+    tools:context="es.udc.apm.familycare.VipActivity"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:id="@+id/layout_vip"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation"
@@ -14,7 +22,6 @@
         android:background="@color/colorPrimary"
         app:itemIconTint="@color/bottom_item"
         app:itemTextColor="@color/bottom_item"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/navigation_vip" />
 
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>
