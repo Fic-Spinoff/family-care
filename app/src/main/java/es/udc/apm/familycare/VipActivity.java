@@ -1,6 +1,7 @@
 package es.udc.apm.familycare;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -8,7 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-public class VipActivity extends AppCompatActivity {
+public class VipActivity extends AppCompatActivity implements DetailMemberFragment.OnFragmentInteractionListener{
 
     CharSequence text = null;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -42,4 +43,8 @@ public class VipActivity extends AppCompatActivity {
         navigation.setSelectedItemId(R.id.navigation_members);
     }
 
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
 }

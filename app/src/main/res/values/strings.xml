@@ -40,6 +40,11 @@
         <item>Member 3</item>
         <item>Member 4</item>
         <item>Member 5</item>
+        <item>Member 6</item>
+        <item>Member 7</item>
+        <item>Member 8</item>
     </string-array>
+    <string name="text_member_detail">Member</string>
+
 
 </resources>

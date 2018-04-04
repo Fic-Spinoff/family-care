@@ -2,6 +2,8 @@ package es.udc.apm.familycare;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,7 +41,16 @@ public class MembersFragment extends ListFragment implements AdapterView.OnItemC
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position,long id) {
-        Toast.makeText(getActivity(), "Item: " + position, Toast.LENGTH_SHORT).show();
+       // Toast.makeText(getActivity(), "Item: " + position, Toast.LENGTH_SHORT).show();
+
+        Fragment detailMemberFragment = new DetailMemberFragment();
+        FragmentManager frm = this.getActivity().getSupportFragmentManager();
+        FragmentTransaction transaction = frm.beginTransaction();
+        transaction.replace(R.id.layout_vip, detailMemberFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
+
+
 }
 
