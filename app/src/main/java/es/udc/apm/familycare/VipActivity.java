@@ -1,22 +1,25 @@
 package es.udc.apm.familycare;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.FragmentManager;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
+import es.udc.apm.familycare.interfaces.RouterActivity;
 
-public class VipActivity extends AppCompatActivity implements MembersFragment.InteractionListener{
+public class VipActivity extends AppCompatActivity implements RouterActivity {
+
+    public static final String SCREEN_DETAIL = "DETAIL";
+
+    private String currentScreen = null;
 
     CharSequence text = null;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -30,8 +33,7 @@ public class VipActivity extends AppCompatActivity implements MembersFragment.In
                     Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
                     return true;
                 case R.id.navigation_members:
-                    getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.layout_vip, MembersFragment.newInstance()).commit();
+                    navigate(MembersFragment.newInstance(), null);
                     return true;
                 case R.id.navigation_link:
                     startActivity(new Intent(VipActivity.this, LinkActivity.class));
@@ -63,8 +65,51 @@ public class VipActivity extends AppCompatActivity implements MembersFragment.In
     }
 
     @Override
-    public void navigateDetail(int memberId) {
-        getSupportFragmentManager().beginTransaction().replace(R.id.layout_vip,
-                DetailMemberFragment.newInstance(memberId)).addToBackStack(null).commit();
+    public void onBackPressed() {
+        super.onBackPressed();
+        updateActionBar();
+    }
+
+    @Override
+    public void navigate(Fragment fragment, @Nullable String backStack) {
+        setSupportActionBar(null);
+
+        if(SCREEN_DETAIL.equals(currentScreen)) {
+            getSupportFragmentManager().popBackStack();
+        }
+
+        if(fragment instanceof DetailMemberFragment) {
+            this.currentScreen = SCREEN_DETAIL;
+        } else {
+            this.currentScreen = null;
+        }
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        if(backStack != null) {
+            transaction.addToBackStack(backStack);
+        }
+        transaction.replace(R.id.layout_vip, fragment).commit();
+
+
+    }
+
+    @Override
+    public void setActionBar(Toolbar toolbar) {
+        setSupportActionBar(toolbar);
+
+        if(getSupportActionBar() == null) {
+            return;
+        }
+
+        updateActionBar();
+    }
+
+    private void updateActionBar() {
+        if(getSupportActionBar() == null) {
+            return;
+        }
+        if(getSupportFragmentManager().getBackStackEntryCount() == 0) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        }
     }
 }

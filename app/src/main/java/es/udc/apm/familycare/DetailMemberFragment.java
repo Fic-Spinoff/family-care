@@ -3,9 +3,7 @@ package es.udc.apm.familycare;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +11,7 @@ import android.view.ViewGroup;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import es.udc.apm.familycare.interfaces.RouterActivity;
 
 public class DetailMemberFragment extends Fragment {
 
@@ -20,6 +19,7 @@ public class DetailMemberFragment extends Fragment {
 
     private int memberId = -1;
 
+    private RouterActivity routerActivity = null;
     @BindView(R.id.detailToolbar) Toolbar toolbar;
 
     public DetailMemberFragment() {
@@ -32,6 +32,22 @@ public class DetailMemberFragment extends Fragment {
         DetailMemberFragment fragment = new DetailMemberFragment();
         fragment.setArguments(bundle);
         return fragment;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            this.routerActivity = (RouterActivity) context;
+        } catch (ClassCastException ex){
+            throw new ClassCastException(context.toString() + " must implement RouterActivity");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        this.routerActivity = null;
     }
 
     @Override
@@ -50,6 +66,8 @@ public class DetailMemberFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_detail_member, container, false);
         ButterKnife.bind(this, v);
+
+        this.routerActivity.setActionBar(this.toolbar);
 
         if(this.memberId != -1) {
             this.toolbar.setTitle(getActivity().getResources().getStringArray(R.array.members_list)[memberId]);
