@@ -13,17 +13,6 @@ import android.widget.Toast;
 
 public class VipActivity extends AppCompatActivity {
 
-    private void mapFragmentLoad() {
-        Fragment mapFragment;
-        mapFragment = new MapFragment();
-
-        FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fm.beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_switch, mapFragment);
-
-        fragmentTransaction.commit();
-    }
-
     CharSequence text = null;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -33,8 +22,6 @@ public class VipActivity extends AppCompatActivity {
             switch (item.getItemId()) {
                 case R.id.navigation_zones:
                     mapFragmentLoad();
-                    text = "Zones Button pressed!";
-                    Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
                     return true;
                 case R.id.navigation_members:
                     text = "Members Button pressed!";
@@ -55,6 +42,17 @@ public class VipActivity extends AppCompatActivity {
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         navigation.setSelectedItemId(R.id.navigation_zones);
+    }
+
+    private void mapFragmentLoad() {
+        Fragment mapFragment;
+        mapFragment = new CustomMapFragment();
+
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fm.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_switch, mapFragment);
+
+        fragmentTransaction.commit();
     }
 
 }

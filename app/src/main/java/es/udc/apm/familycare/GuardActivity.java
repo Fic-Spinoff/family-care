@@ -13,17 +13,6 @@ import android.widget.Toast;
 
 public class GuardActivity extends AppCompatActivity {
 
-    private void mapFragmentLoad() {
-        Fragment mapFragment;
-        mapFragment = new MapFragment();
-
-        FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fm.beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_switch, mapFragment);
-
-        fragmentTransaction.commit();
-    }
-
     CharSequence text = null;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -33,8 +22,6 @@ public class GuardActivity extends AppCompatActivity {
             switch (item.getItemId()) {
                 case R.id.navigation_location:
                     mapFragmentLoad();
-                    text = "Location Button pressed!";
-                    Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
                     return true;
                 case R.id.navigation_activity:
                     text = "Activity Button pressed!";
@@ -59,6 +46,17 @@ public class GuardActivity extends AppCompatActivity {
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         navigation.setSelectedItemId(R.id.navigation_activity);
+    }
+
+    private void mapFragmentLoad() {
+        Fragment mapFragment;
+        mapFragment = new CustomMapFragment();
+
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fm.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_switch, mapFragment);
+
+        fragmentTransaction.commit();
     }
 
 }
