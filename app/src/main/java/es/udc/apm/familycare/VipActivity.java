@@ -6,12 +6,12 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import es.udc.apm.familycare.interfaces.RouterActivity;
 
@@ -20,8 +20,8 @@ public class VipActivity extends AppCompatActivity implements RouterActivity {
     public static final String SCREEN_DETAIL = "DETAIL";
 
     private String currentScreen = null;
+    @BindView(R.id.navigation) BottomNavigationView navigation = null;
 
-    CharSequence text = null;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -29,7 +29,9 @@ public class VipActivity extends AppCompatActivity implements RouterActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_zones:
-                    navigate(new CustomMapFragment(), null);
+                    if(navigation.getSelectedItemId() != item.getItemId()) {
+                        navigate(new CustomMapFragment(), null);
+                    }
                     return true;
                 case R.id.navigation_members:
                     navigate(MembersFragment.newInstance(), null);
@@ -49,7 +51,6 @@ public class VipActivity extends AppCompatActivity implements RouterActivity {
 
         ButterKnife.bind(this);
 
-        BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         navigation.setSelectedItemId(R.id.navigation_members);
     }
@@ -95,11 +96,6 @@ public class VipActivity extends AppCompatActivity implements RouterActivity {
     @Override
     public void setActionBar(Toolbar toolbar) {
         setSupportActionBar(toolbar);
-
-        if(getSupportActionBar() == null) {
-            return;
-        }
-
         updateActionBar();
     }
 
@@ -109,6 +105,8 @@ public class VipActivity extends AppCompatActivity implements RouterActivity {
         }
         if(getSupportFragmentManager().getBackStackEntryCount() == 0) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        } else {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
     }
 }

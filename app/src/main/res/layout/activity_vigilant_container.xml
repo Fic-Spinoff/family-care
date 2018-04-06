@@ -7,7 +7,6 @@
     android:layout_height="match_parent"
     tools:context="es.udc.apm.familycare.GuardActivity">
 
-
     <FrameLayout
         android:id="@+id/fragment_switch"
         android:layout_width="match_parent"
