@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        android:theme="@style/AppTheme.AppBarOverlay">
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/membersToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            app:title="@string/app_name"/>
+    </android.support.design.widget.AppBarLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_weight=".33"
+        android:background="?attr/colorButtonNormal"
+        android:padding="20dp">
+
+        <ImageButton
+            android:id="@+id/imageHeart"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:adjustViewBounds="true"
+            android:contentDescription="Heart rate"
+            android:scaleType="fitXY"
+            android:tint="@android:color/holo_red_dark"
+            app:srcCompat="@drawable/ic_favorite_white_48dp" />
+
+        <TextView
+            android:id="@+id/textStateHeart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/imageHeart"
+            android:text="40\n190"
+            android:textAlignment="viewEnd"
+            android:textAppearance="@style/TextAppearance.AppCompat"
+            android:textSize="32sp"
+            android:visibility="visible" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_weight=".33"
+        android:background="?attr/colorButtonNormal"
+        android:padding="20dp">
+
+        <ImageButton
+            android:id="@+id/imageSteps"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:adjustViewBounds="true"
+            android:contentDescription="Steps"
+            android:scaleType="fitXY"
+            android:tint="@color/stateShoe"
+            app:srcCompat="@drawable/ic_sole_48dp" />
+
+        <TextView
+            android:id="@+id/textStateSteps"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignTop="@+id/imageSteps"
+            android:layout_toEndOf="@+id/imageSteps"
+            android:autoSizeTextType="uniform"
+            android:text="1233"
+            android:textAlignment="viewEnd"
+            android:textAppearance="@style/TextAppearance.AppCompat"
+            android:textSize="32dp"
+            android:visibility="visible" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_weight=".33"
+        android:background="?attr/colorButtonNormal"
+        android:padding="20dp">
+
+        <ImageButton
+            android:id="@+id/imageSedentary"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:adjustViewBounds="true"
+            android:contentDescription="Sedentary time"
+            android:scaleType="fitXY"
+            android:tint="@android:color/holo_green_dark"
+            app:srcCompat="@drawable/ic_weekend_white_48dp" />
+
+        <TextView
+            android:id="@+id/textStateSedentary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/imageSedentary"
+            android:autoSizeTextType="uniform"
+            android:text="2h 23m"
+            android:textAlignment="viewEnd"
+            android:textAppearance="@style/TextAppearance.AppCompat"
+            android:textSize="32dp"
+            android:visibility="visible" />
+    </RelativeLayout>
+
+</LinearLayout>

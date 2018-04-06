@@ -41,7 +41,6 @@
             android:name=".VipActivity"
             android:label="@string/title_activity_vip_container" />
         <activity android:name=".LinkActivity" />
-        <activity android:name=".StateActivity" />
         <activity android:name=".ConfActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
