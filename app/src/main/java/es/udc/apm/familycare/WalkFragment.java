@@ -1,9 +1,11 @@
 package es.udc.apm.familycare;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +25,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import es.udc.apm.familycare.interfaces.RouterActivity;
 
 
 /**
@@ -31,9 +34,11 @@ import butterknife.Unbinder;
 public class WalkFragment extends Fragment {
 
     private Unbinder mUnbinder;
+    private RouterActivity routerActivity = null;
 
     @BindView(R.id.chart) public PieChart chart;
     @BindView(R.id.bar_chart) public HorizontalBarChart barChart;
+    @BindView(R.id.walkToolbar) Toolbar toolbar;
 
     public WalkFragment() {
         // Required empty public constructor
@@ -45,6 +50,9 @@ public class WalkFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_walk, container, false);
         mUnbinder = ButterKnife.bind(this, view);
+
+        this.routerActivity.setActionBar(this.toolbar);
+
         return view;
     }
 
@@ -73,6 +81,22 @@ public class WalkFragment extends Fragment {
         this.barChart.setDescription(null);
         this.barChart.invalidate();
 
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            this.routerActivity = (RouterActivity) context;
+        } catch (ClassCastException ex){
+            throw new ClassCastException(context.toString() + " must implement RouterActivity");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        this.routerActivity = null;
     }
 
     @Override
