@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/Fic-Spinoff/family-care.svg?branch=master)](https://travis-ci.org/Fic-Spinoff/family-care)
 # Family Care
 
 Family care is an Android App that will track your family members state. It is focused on help you with the care of older people, your parents or grandparents as well as people with neurodegenerative diseases or cognitive diseases. The main purpose is to make it easier for you to detect if something goes wrong and solve that problem.
