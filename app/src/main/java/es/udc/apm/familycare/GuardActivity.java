@@ -74,13 +74,6 @@ public class GuardActivity extends AppCompatActivity implements RouterActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.general, menu);
-
-        MenuItem item = menu.findItem(R.id.menu_conf);
-        Drawable drawable = item.getIcon();
-        drawable = DrawableCompat.wrap(drawable);
-        DrawableCompat.setTint(drawable, ContextCompat.getColor(this, R.color.white));
-        item.setIcon(drawable);
-
         return true;
     }
 

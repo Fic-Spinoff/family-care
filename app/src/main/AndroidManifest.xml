@@ -30,17 +30,19 @@
         <activity
             android:name=".LoginActivity"
             android:theme="@style/LoginTheme" />
-        <activity android:name=".RoleActivity" />
+        <activity android:name=".RoleActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppBarTheme"/>
         <activity
             android:name=".TermsActivity"
-            android:label="@string/app_name" />
+            android:label="@string/app_name"
+            android:theme="@style/AppBarTheme"/>
         <activity
             android:name=".GuardActivity"
             android:label="@string/title_activity_guard" />
         <activity
             android:name=".VipActivity"
             android:label="@string/title_activity_vip_container" />
-        <activity android:name=".LinkActivity" />
         <activity android:name=".ConfActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
