@@ -27,6 +27,11 @@ public class TermsActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        this.onClickDisagree(null);
+    }
+
     @OnClick({R.id.btn_terms_disagree})
     public void onClickDisagree(View v) {
         startActivity(new Intent(this, RoleActivity.class));
