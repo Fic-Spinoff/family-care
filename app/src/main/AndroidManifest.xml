@@ -50,6 +50,9 @@
             android:name=".VipActivity"
             android:label="@string/title_activity_vip_container" />
         <activity android:name=".ConfActivity" />
+        <activity android:name=".bluetooth.DeviceScanActivity" />
+        <activity android:name=".bluetooth.DeviceControlActivity"/>
+        <service android:name=".bluetooth.BluetoothLeService" android:enabled="true"/>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -62,15 +65,6 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity
-            android:name=".bluetooth.DeviceScanActivity"
-            android:label="@string/title_activity_device_scan"
-            android:parentActivityName="android.app.ListActivity"
-            android:theme="@style/AppTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="android.app.ListActivity" />
-        </activity>
     </application>
 
 </manifest>
