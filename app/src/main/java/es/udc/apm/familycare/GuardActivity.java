@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import es.udc.apm.familycare.bluetooth.DeviceScanActivity;
 import es.udc.apm.familycare.interfaces.RouterActivity;
 
 public class GuardActivity extends AppCompatActivity implements RouterActivity {
@@ -47,7 +48,8 @@ public class GuardActivity extends AppCompatActivity implements RouterActivity {
                     navigate(new WalkFragment(), null);
                     return true;
                 case R.id.navigation_state:
-                    navigate(new StateFragment(), null);
+                    startActivity(new Intent(GuardActivity.this, DeviceScanActivity.class));
+//                    navigate(new StateFragment(), null);
                     return true;
             }
             return false;

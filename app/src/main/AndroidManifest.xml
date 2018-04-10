@@ -8,8 +8,13 @@
          location permissions for the 'MyLocation' functionality. 
     -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <uses-feature
+        android:name="android.hardware.bluetooth_le"
+        android:required="true" />
 
     <application
         android:allowBackup="true"
@@ -30,13 +35,14 @@
         <activity
             android:name=".LoginActivity"
             android:theme="@style/LoginTheme" />
-        <activity android:name=".RoleActivity"
+        <activity
+            android:name=".RoleActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppBarTheme"/>
+            android:theme="@style/AppBarTheme" />
         <activity
             android:name=".TermsActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppBarTheme"/>
+            android:theme="@style/AppBarTheme" />
         <activity
             android:name=".GuardActivity"
             android:label="@string/title_activity_guard" />
@@ -56,6 +62,15 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
+        <activity
+            android:name=".bluetooth.DeviceScanActivity"
+            android:label="@string/title_activity_device_scan"
+            android:parentActivityName="android.app.ListActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="android.app.ListActivity" />
+        </activity>
     </application>
 
 </manifest>
