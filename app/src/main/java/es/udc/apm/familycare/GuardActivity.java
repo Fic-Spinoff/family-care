@@ -1,15 +1,14 @@
 package es.udc.apm.familycare;
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -20,8 +19,11 @@ import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import es.udc.apm.familycare.interfaces.RouterActivity;
+import es.udc.apm.familycare.utils.Constants;
 
 public class GuardActivity extends AppCompatActivity implements RouterActivity {
+
+    private static final int REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS = 1;
 
     private String currentScreen = null;
 
@@ -35,7 +37,7 @@ public class GuardActivity extends AppCompatActivity implements RouterActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_location:
-                    if(navigation.getSelectedItemId() != item.getItemId()) {
+                    if (navigation.getSelectedItemId() != item.getItemId()) {
                         navigate(new CustomMapFragment(), null);
                     }
                     return true;
@@ -63,6 +65,36 @@ public class GuardActivity extends AppCompatActivity implements RouterActivity {
 
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         navigation.setSelectedItemId(R.id.navigation_activity);
+    }
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        // Check permissions
+        ActivityCompat.requestPermissions(this, Constants.PERMISSIONS,
+                REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS: {
+                // Exit if permission not granted
+                for (int result : grantResults) {
+                    if (result != PackageManager.PERMISSION_GRANTED) {
+                        Toast.makeText(this, getResources().getString(
+                                R.string.text_permission_toast), Toast.LENGTH_SHORT).show();
+                        finish();
+                        return;
+                    }
+                }
+            }
+            break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
     }
 
     @Override
@@ -96,7 +128,7 @@ public class GuardActivity extends AppCompatActivity implements RouterActivity {
         this.currentScreen = null;
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        if(backStack != null) {
+        if (backStack != null) {
             transaction.addToBackStack(backStack);
         }
         transaction.replace(R.id.layout_guard, fragment).commit();

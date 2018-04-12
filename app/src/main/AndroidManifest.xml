@@ -8,8 +8,12 @@
          location permissions for the 'MyLocation' functionality.
     -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <uses-feature android:name="android.hardware.bluetooth_le" android:required="true" />
     <uses-feature android:name="android.hardware.sensor.accelerometer" />
     <uses-feature android:name="android.hardware.sensor.gyroscope" />
 
@@ -25,20 +29,20 @@
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".LoginActivity"
             android:theme="@style/LoginTheme" />
-        <activity android:name=".RoleActivity"
+        <activity
+            android:name=".RoleActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppBarTheme"/>
+            android:theme="@style/AppBarTheme" />
         <activity
             android:name=".TermsActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppBarTheme"/>
+            android:theme="@style/AppBarTheme" />
         <activity
             android:name=".GuardActivity"
             android:label="@string/title_activity_guard" />
@@ -46,6 +50,15 @@
             android:name=".VipActivity"
             android:label="@string/title_activity_vip_container" />
         <activity android:name=".ConfActivity" />
+        <activity android:name=".bluetooth.DeviceScanActivity"
+            android:label="@string/title_activity_bluetooth">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".bluetooth.DeviceControlActivity"/>
+        <service android:name=".bluetooth.BluetoothLeService" android:enabled="true"/>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
