@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -44,11 +45,12 @@ public class CustomMapFragment extends Fragment implements OnMapReadyCallback {
     private MapView mMapView;
     private Location mLastKnownLocation = null;
     private CameraPosition mCameraPosition = null;
-    private Button acceptButton;
-    private Button deleteButton;
+    private FloatingActionButton acceptButton;
+    private FloatingActionButton deleteButton;
     private SeekBar seekBar;
     private FusedLocationProviderClient mFusedLocationClient;
 
+    private final int MAX_CIRCLE_RADIOUS = 1000;
     private static final String TAG = "CustomMapFragment";
 
     public CustomMapFragment(){
@@ -88,7 +90,7 @@ public class CustomMapFragment extends Fragment implements OnMapReadyCallback {
                 mMap.addMarker(new MarkerOptions().position(point));
                 Circle circle = mMap.addCircle(new CircleOptions()
                         .center(point)
-                        .radius(1000)
+                        .radius(MAX_CIRCLE_RADIOUS)
                         .strokeColor(Color.BLUE));
                 circleHashMap.put(point, circle);
             }
@@ -96,12 +98,12 @@ public class CustomMapFragment extends Fragment implements OnMapReadyCallback {
 
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
-
             public boolean onMarkerClick(Marker marker) {
                 acceptButton.setVisibility(View.VISIBLE);
                 deleteButton.setVisibility(View.VISIBLE);
                 seekBar.setVisibility(View.VISIBLE);
                 Circle c = circleHashMap.get(marker.getPosition());
+
                 deleteButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -114,8 +116,7 @@ public class CustomMapFragment extends Fragment implements OnMapReadyCallback {
                     }
 
                 });
-                seekBar.setProgress((int) c.getRadius());
-                seekBar.setMax(1000);
+
                 seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                     @Override
                     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
@@ -123,24 +124,21 @@ public class CustomMapFragment extends Fragment implements OnMapReadyCallback {
                         c.setRadius(progress);
                     }
 
-                    /**
-                     * El usuario inicia la interacción con la Seekbar.
-                     */
                     @Override
-                    public void onStartTrackingTouch(SeekBar se)
+                    public void onStartTrackingTouch(SeekBar seekBar)
                     {
                     }
 
-                    /**
-                     * El usuario finaliza la interacción con la Seekbar.
-                     */
                     @Override
-                    public void onStopTrackingTouch(SeekBar arg0)
+                    public void onStopTrackingTouch(SeekBar seekBar)
                     {
+
                     }
                 });
+                seekBar.setProgress((int) c.getRadius());
                 return true;
             }
+
         });
 
         // Turn on the My Location layer and the related control on the map.
@@ -239,6 +237,7 @@ public class CustomMapFragment extends Fragment implements OnMapReadyCallback {
         acceptButton = rootView.findViewById(R.id.button_accept);
         deleteButton = rootView.findViewById(R.id.button_delete);
         seekBar = rootView.findViewById(R.id.seekBar);
+        seekBar.setMax(MAX_CIRCLE_RADIOUS);
 
         acceptButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -254,7 +253,6 @@ public class CustomMapFragment extends Fragment implements OnMapReadyCallback {
         deleteButton.setVisibility(View.GONE);
         seekBar.setVisibility(View.GONE);
 
-
         mMapView = rootView.findViewById(R.id.mapView);
         if(mMapView != null) {
             mMapView.onCreate(savedInstanceState);
@@ -267,7 +265,6 @@ public class CustomMapFragment extends Fragment implements OnMapReadyCallback {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return rootView;
     }
 

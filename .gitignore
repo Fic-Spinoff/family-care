@@ -148,7 +148,6 @@ $RECYCLE.BIN/
 *.lnk
 
 
-.idea/caches/
-.idea/codeStyles/
+.idea/**
 # End of https://www.gitignore.io/api/windows,androidstudio
 
