@@ -29,7 +29,6 @@
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -51,7 +50,13 @@
             android:name=".VipActivity"
             android:label="@string/title_activity_vip_container" />
         <activity android:name=".ConfActivity" />
-        <activity android:name=".bluetooth.DeviceScanActivity" />
+        <activity android:name=".bluetooth.DeviceScanActivity"
+            android:label="@string/title_activity_bluetooth">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".bluetooth.DeviceControlActivity"/>
         <service android:name=".bluetooth.BluetoothLeService" android:enabled="true"/>
         <!--

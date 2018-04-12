@@ -25,11 +25,6 @@ public class StateFragment extends Fragment {
 
     @BindView(R.id.stateToolbar) Toolbar toolbar;
 
-    @OnClick(R.id.button_bluetooth)
-    public void onClickBluetooth(View v) {
-        startActivity(new Intent(getActivity(), DeviceScanActivity.class));
-    }
-
     public StateFragment() {
         // Required empty public constructor
     }

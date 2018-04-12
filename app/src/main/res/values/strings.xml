@@ -155,4 +155,5 @@
         "when a user tries to pick up one of cards.\n\n"
     </string>
     <string name="title_activity_device_scan">DeviceScanActivity</string>
+    <string name="title_activity_bluetooth">bluetooth</string>
 </resources>
