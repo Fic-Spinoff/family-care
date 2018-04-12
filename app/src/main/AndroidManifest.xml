@@ -23,11 +23,11 @@
         <activity
             android:name=".SplashActivity"
             android:theme="@style/SplashTheme">
-<!--            <intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>-->
+            </intent-filter>
         </activity>
         <activity
             android:name=".LoginActivity"
@@ -58,14 +58,27 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".AccelerometerActivity">
+        <activity android:name=".AccelerometerActivity"
+            android:label="@string/title_activity_accelerometer">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".GyroscopeSensorActivity" />
-        <activity android:name=".StepCounterActivity"></activity>
+        <activity android:name=".GyroscopeSensorActivity"
+            android:label="@string/title_activity_gyroscope">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".StepCounterActivity"
+            android:label="@string/title_activity_stepcounter">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
