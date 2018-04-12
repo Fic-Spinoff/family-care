@@ -58,6 +58,9 @@
     <string name="menu_stop">Stop</string>
     <string name="menu_refresh">Refresh</string>
 
+    <string name="title_activity_accelerometer">Family Acelerometro</string>
+    <string name="title_activity_gyroscope">Family Giroscopio</string>
+    <string name="title_activity_stepcounter">Family Contador de pasos</string>
     <!-- TODO: Remove this text when to create the backend of the members linked-->
     <string-array name="members_list">
         <item>Member 1</item>
