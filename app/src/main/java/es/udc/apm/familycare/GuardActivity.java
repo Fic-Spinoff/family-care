@@ -1,18 +1,14 @@
 package es.udc.apm.familycare;
 
-import android.Manifest;
-import android.annotation.TargetApi;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -20,18 +16,14 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import es.udc.apm.familycare.bluetooth.DeviceScanActivity;
 import es.udc.apm.familycare.interfaces.RouterActivity;
+import es.udc.apm.familycare.utils.Constants;
 
 public class GuardActivity extends AppCompatActivity implements RouterActivity {
-    private static final int REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS = 111;
+
+    private static final int REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS = 1;
 
     private String currentScreen = null;
 
@@ -69,15 +61,40 @@ public class GuardActivity extends AppCompatActivity implements RouterActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guard);
 
-        if (Build.VERSION.SDK_INT >= 23) {
-            // Marshmallow+ Permission APIs
-            fuckMarshMallow();
-        }
-
         ButterKnife.bind(this);
 
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         navigation.setSelectedItemId(R.id.navigation_activity);
+    }
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        // Check permissions
+        ActivityCompat.requestPermissions(this, Constants.PERMISSIONS,
+                REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS: {
+                // Exit if permission not granted
+                for (int result : grantResults) {
+                    if (result != PackageManager.PERMISSION_GRANTED) {
+                        Toast.makeText(this, getResources().getString(
+                                R.string.text_permission_toast), Toast.LENGTH_SHORT).show();
+                        finish();
+                        return;
+                    }
+                }
+            }
+            break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
     }
 
     @Override
@@ -132,80 +149,5 @@ public class GuardActivity extends AppCompatActivity implements RouterActivity {
         } else {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS: {
-                Map<String, Integer> perms = new HashMap<>();
-                // Initial
-                perms.put(Manifest.permission.ACCESS_FINE_LOCATION, PackageManager.PERMISSION_GRANTED);
-
-                // Fill with results
-                for (int i = 0; i < permissions.length; i++)
-                    perms.put(permissions[i], grantResults[i]);
-
-                if (perms.get(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    // Permission Denied
-                    Toast.makeText(
-                            GuardActivity.this,
-                            "One or More Permissions are DENIED Exiting App :(",
-                            Toast.LENGTH_SHORT)
-                            .show();
-                    finish();
-                }
-            }
-            break;
-            default:
-                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        }
-    }
-
-    @TargetApi(Build.VERSION_CODES.M)
-    private void fuckMarshMallow() {
-        List<String> permissionsNeeded = new ArrayList<>();
-
-        final List<String> permissionsList = new ArrayList<>();
-        if (!addPermission(permissionsList, Manifest.permission.ACCESS_FINE_LOCATION))
-            permissionsNeeded.add("Show Location");
-
-        if (permissionsList.size() > 0) {
-            if (permissionsNeeded.size() > 0) {
-
-                // Need Rationale
-                StringBuilder message = new StringBuilder("App need access to " + permissionsNeeded.get(0));
-                for (int i = 1; i < permissionsNeeded.size(); i++)
-                    message.append(", ").append(permissionsNeeded.get(i));
-
-                showMessageOKCancel(message.toString(),
-                        (dialog, which) -> requestPermissions(permissionsList.toArray(new String[permissionsList.size()]),
-                                REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS));
-                return;
-            }
-            requestPermissions(permissionsList.toArray(new String[permissionsList.size()]),
-                    REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS);
-        }
-    }
-
-    private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
-        new AlertDialog.Builder(GuardActivity.this)
-                .setMessage(message)
-                .setPositiveButton("OK", okListener)
-                .setNegativeButton("Cancel", null)
-                .create()
-                .show();
-    }
-
-    @TargetApi(Build.VERSION_CODES.M)
-    private boolean addPermission(List<String> permissionsList, String permission) {
-
-        if (checkSelfPermission(permission) != PackageManager.PERMISSION_GRANTED) {
-            permissionsList.add(permission);
-            // Check for Rationale Option
-            if (!shouldShowRequestPermissionRationale(permission))
-                return false;
-        }
-        return true;
     }
 }
