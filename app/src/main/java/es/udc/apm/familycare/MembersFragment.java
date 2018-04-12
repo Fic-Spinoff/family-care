@@ -15,7 +15,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import es.udc.apm.familycare.interfaces.RouterActivity;
 
-
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link MembersFragment#newInstance} factory method to
@@ -73,4 +72,3 @@ public class MembersFragment extends ListFragment implements AdapterView.OnItemC
         }
     }
 }
-
