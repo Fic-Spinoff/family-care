@@ -23,6 +23,8 @@
     <string name="title_members">Members</string>
     <string name="title_link">Link device</string>
     <string name="title_settings">Settings</string>
+    <string name="title_activity_device_scan">Family Scan</string>
+    <string name="title_activity_bluetooth">Family Bluetooth</string>
 
     <string name="subtitle_card_guard">This is called Guard role</string>
     <string name="subtitle_card_vip">This is called VIP role</string>
@@ -33,7 +35,32 @@
     <string name="text_toast_vigilado">Ha pulsado el rol de VIGILADO</string>
     <string name="text_agreement">Los siguientes términos y condiciones (los Términos y Condiciones) rigen el uso que usted le dé a este sitio web y a cualquiera de los contenidos disponibles por o a través de este sitio web, incluyendo cualquier contenido derivado del mismo (el Sitio Web). Family Care. (Family Care. o nosotros) ha puesto a su disposición el Sitio Web. Podemos cambiar los Términos y Condiciones de vez en cuando, en cualquier momento sin ninguna notificación, sólo publicando los cambios en el Sitio Web. \n\nAL USAR EL SITIO WEB, USTED ACEPTA Y ESTÉ DE ACUERDO CON ESTOS TÉRMINOS Y CONDICIONES EN LO QUE SE REFIERE A SU USO DEL SITIO WEB. Si usted no está de acuerdo con estos Términos y Condiciones, no puede tener acceso al mismo ni usar el Sitio Web de ninguna otra manera.  Derechos de Propiedad. Entre usted y Family Care., Family Care. es dueño único y exclusivo, de todos los derechos, título e intereses en y del Sitio Web, de todo el contenido (incluyendo, por ejemplo, audio, fotografías, ilustraciones, gráficos, otros medios visuales, videos, copias, textos, software, títulos, archivos de Onda de choque, etc.), códigos, datos y materiales del mismo, el aspecto y el ambiente, el diseño y la organización del Sitio Web y la compilación de los contenidos, códigos, datos y los materiales en el Sitio Web, incluyendo pero no limitado a, cualesquiera derechos de autor, derechos de marca, derechos de patente, derechos de base de datos, derechos morales, derechos sui generis y otras propiedades intelectuales y derechos patrimoniales del mismo. Su uso del Sitio Web no le otorga propiedad de ninguno de los contenidos, códigos, datos o materiales a los que pueda acceder en o a través del Sitio Web.</string>
     <string name="text_unbind">Your device is linked to the next ID. You can unbind the device to link to a new one.\n\n(We can show some info like linked user name, etc.)</string>
+    <string name="text_permission_toast">Permission are mandatory for Family care to work!</string>
 
+    <string name="ble_not_supported">BLE is not supported</string>
+    <string name="label_data">Data:</string>
+    <string name="label_device_address">Device address:</string>
+    <string name="label_state">State:</string>
+    <string name="no_data">No data</string>
+    <string name="connected">Connected</string>
+    <string name="disconnected">Disconnected</string>
+    <string name="title_devices">BLE Device Scan</string>
+    <string name="error_bluetooth_not_supported">Bluetooth not supported.</string>
+
+    <string name="unknown_device">Unknown device</string>
+    <string name="unknown_characteristic">Unknown characteristic</string>
+    <string name="unknown_service">Unknown service</string>
+
+    <!-- Menu items -->
+    <string name="menu_connect">Connect</string>
+    <string name="menu_disconnect">Disconnect</string>
+    <string name="menu_scan">Scan</string>
+    <string name="menu_stop">Stop</string>
+    <string name="menu_refresh">Refresh</string>
+
+    <string name="title_activity_accelerometer">Family Acelerometro</string>
+    <string name="title_activity_gyroscope">Family Giroscopio</string>
+    <string name="title_activity_stepcounter">Family Contador de pasos</string>
     <!-- TODO: Remove this text when to create the backend of the members linked-->
     <string-array name="members_list">
         <item>Member 1</item>
