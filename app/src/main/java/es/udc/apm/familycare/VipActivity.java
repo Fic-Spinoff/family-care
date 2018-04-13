@@ -11,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -42,7 +43,10 @@ public class VipActivity extends AppCompatActivity implements RouterActivity {
                     }
                     return true;
                 case R.id.navigation_members:
-                    navigate(MembersFragment.newInstance(), null);
+                    if (findViewById(R.id.vip_list) != null)
+                        navigate(DetailMemberFragment.newInstance(0), null);
+                    else
+                        navigate(MembersFragment.newInstance(), null);
                     return true;
                 case R.id.navigation_link:
                     navigate(LinkFragment.newInstance(), null);
@@ -61,6 +65,23 @@ public class VipActivity extends AppCompatActivity implements RouterActivity {
 
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         navigation.setSelectedItemId(R.id.navigation_members);
+
+        if (findViewById(R.id.vip_list) != null) {
+            if (savedInstanceState != null) {
+                Log.i("VipActivity", "savedInstanceState no es null");
+                return;
+            }
+            Log.i("VipActivity", "Dispositivo grande");
+            // Create a new Fragment to be placed in the activity layout
+            MembersFragment memberlist = new MembersFragment();
+            // In case this activity was started with special instructions from an
+            // Intent, pass the Intent's extras to the fragment as arguments
+            memberlist.setArguments(getIntent().getExtras());
+            // Add the fragment to the FrameLayout
+            getSupportFragmentManager().beginTransaction().add(R.id.vip_list, memberlist).commit();
+        } else {
+            Log.i("VipActivity", "Dispositivo pequeño");
+        }
     }
 
     @Override
