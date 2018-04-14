@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/navigation_zones"
+        android:id="@+id/navigation_map_vip"
         android:icon="@drawable/ic_nav_location"
         android:title="@string/title_zones" />
 

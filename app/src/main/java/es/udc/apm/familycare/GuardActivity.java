@@ -140,6 +140,11 @@ public class GuardActivity extends AppCompatActivity implements RouterActivity {
         updateActionBar();
     }
 
+    @Override
+    public void goBack() {
+        getSupportFragmentManager().popBackStack();
+    }
+
     private void updateActionBar() {
         if (getSupportActionBar() == null) {
             return;

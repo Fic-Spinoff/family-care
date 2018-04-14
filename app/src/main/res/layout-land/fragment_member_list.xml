@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="es.udc.apm.familycare.MembersFragment">
+    tools:context="es.udc.apm.familycare.members.MemberListFragment">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -20,9 +20,22 @@
             app:title="@string/app_name"/>
     </android.support.design.widget.AppBarLayout>
 
-    <ListView
-        android:id="@android:id/list"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
 
+        <ListView
+            android:id="@android:id/list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1.5"/>
+
+        <FrameLayout
+            android:id="@+id/layout_member_detail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
 </LinearLayout>

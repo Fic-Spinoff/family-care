@@ -11,7 +11,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -20,68 +19,65 @@ import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import es.udc.apm.familycare.interfaces.RouterActivity;
+import es.udc.apm.familycare.members.DetailMemberFragment;
+import es.udc.apm.familycare.members.MemberListFragment;
 import es.udc.apm.familycare.utils.Constants;
 
 public class VipActivity extends AppCompatActivity implements RouterActivity {
 
     private static final int REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS = 1;
 
+    public static final String KEY_SCREEN = "KEY_SCREEN";
+
     public static final String SCREEN_DETAIL = "DETAIL";
+    public static final String SCREEN_MEMBERS = "MEMBERS";
+    public static final String SCREEN_LINK = "LINK";
+    public static final String SCREEN_MAP = "MAP";
 
     private String currentScreen = null;
     @BindView(R.id.navigation) BottomNavigationView navigation = null;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.navigation_zones:
-                    if(navigation.getSelectedItemId() != item.getItemId()) {
-                        navigate(new CustomMapFragment(), null);
-                    }
-                    return true;
-                case R.id.navigation_members:
-                    if (findViewById(R.id.vip_list) != null)
-                        navigate(DetailMemberFragment.newInstance(0), null);
-                    else
-                        navigate(MembersFragment.newInstance(), null);
-                    return true;
-                case R.id.navigation_link:
-                    navigate(LinkFragment.newInstance(), null);
-                    return true;
-            }
-            return false;
-        }
-    };
+            = item -> {
+                switch (item.getItemId()) {
+                    case R.id.navigation_map_vip:
+                        // Don't reload map, heavy operation
+                        if(navigation.getSelectedItemId() != item.getItemId()) {
+                            navigate(new CustomMapFragment(), null);
+                        }
+                        return true;
+                    case R.id.navigation_members:
+                        navigate(MemberListFragment.newInstance(), null);
+                        return true;
+                    case R.id.navigation_link:
+                        navigate(LinkFragment.newInstance(), null);
+                        return true;
+                }
+                return false;
+            };
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onCreate(Bundle saved) {
+        super.onCreate(saved);
         setContentView(R.layout.activity_vip);
 
         ButterKnife.bind(this);
 
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        navigation.setSelectedItemId(R.id.navigation_members);
-
-        if (findViewById(R.id.vip_list) != null) {
-            if (savedInstanceState != null) {
-                Log.i("VipActivity", "savedInstanceState no es null");
-                return;
-            }
-            Log.i("VipActivity", "Dispositivo grande");
-            // Create a new Fragment to be placed in the activity layout
-            MembersFragment memberlist = new MembersFragment();
-            // In case this activity was started with special instructions from an
-            // Intent, pass the Intent's extras to the fragment as arguments
-            memberlist.setArguments(getIntent().getExtras());
-            // Add the fragment to the FrameLayout
-            getSupportFragmentManager().beginTransaction().add(R.id.vip_list, memberlist).commit();
-        } else {
-            Log.i("VipActivity", "Dispositivo pequeño");
+        if(saved != null) {
+            this.currentScreen = saved.getString(KEY_SCREEN);
         }
+
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+        if(this.currentScreen == null) {
+            navigation.setSelectedItemId(R.id.navigation_members);
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putString(KEY_SCREEN, this.currentScreen);
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -145,14 +141,18 @@ public class VipActivity extends AppCompatActivity implements RouterActivity {
     public void navigate(Fragment fragment, @Nullable String backStack) {
         setSupportActionBar(null);
 
-        if(SCREEN_DETAIL.equals(currentScreen)) {
+        if(SCREEN_DETAIL.equals(this.currentScreen)) {
             getSupportFragmentManager().popBackStack();
         }
 
         if(fragment instanceof DetailMemberFragment) {
             this.currentScreen = SCREEN_DETAIL;
-        } else {
-            this.currentScreen = null;
+        } else if (fragment instanceof MemberListFragment) {
+            this.currentScreen = SCREEN_MEMBERS;
+        } else if (fragment instanceof CustomMapFragment){
+            this.currentScreen = SCREEN_MAP;
+        } else if (fragment instanceof LinkFragment){
+            this.currentScreen = SCREEN_LINK;
         }
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -166,6 +166,11 @@ public class VipActivity extends AppCompatActivity implements RouterActivity {
     public void setActionBar(Toolbar toolbar) {
         setSupportActionBar(toolbar);
         updateActionBar();
+    }
+
+    @Override
+    public void goBack() {
+        getSupportFragmentManager().popBackStack();
     }
 
     private void updateActionBar() {
