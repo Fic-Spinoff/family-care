@@ -33,7 +33,7 @@ public class MemberListFragment extends ListFragment {
     private boolean mIsDualPane = false;
     private ListView mListView;
 
-    private List<String> places;
+    private List<String> members;
     private int mActivatedPosition = ListView.INVALID_POSITION;
     private boolean mIsSelected = false, mDetailStarted = false;
 
@@ -49,9 +49,9 @@ public class MemberListFragment extends ListFragment {
         super.onCreate(savedInstanceState);
 
         //TODO: Data from model
-        places = Arrays.asList(getResources().getStringArray(R.array.members_list));
+        members = Arrays.asList(getResources().getStringArray(R.array.members_list));
 
-        MemberAdapter mListAdapter = new MemberAdapter(getActivity(), places);
+        MemberAdapter mListAdapter = new MemberAdapter(getActivity(), members);
         setListAdapter(mListAdapter);
     }
 
@@ -157,6 +157,8 @@ public class MemberListFragment extends ListFragment {
 
         if (mIsDualPane) {
             // If dual replace side detail fragment
+            // TODO: Model data
+            this.toolbar.setTitle(members.get(position));
             getActivity().getSupportFragmentManager().beginTransaction()
                     .replace(R.id.layout_member_detail,
                             DetailMemberFragment.newInstance(position, true),
