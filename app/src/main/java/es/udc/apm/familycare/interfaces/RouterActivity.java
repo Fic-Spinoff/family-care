@@ -12,4 +12,5 @@ import android.support.v7.widget.Toolbar;
 public interface RouterActivity {
     void navigate(Fragment fragment, @Nullable String backStack);
     void setActionBar(Toolbar toolbar);
+    void goBack();
 }

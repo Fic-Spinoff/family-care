@@ -29,6 +29,9 @@
     <string name="subtitle_card_guard">This is called Guard role</string>
     <string name="subtitle_card_vip">This is called VIP role</string>
 
+    <string name="label_member">Member</string>
+    <string name="label_member_icon">Member icon</string>
+
     <string name="text_card_guard">I want to receive notifications when my family member needs me and track his location and health state.</string>
     <string name="text_card_vip">My family members will watch my location and status to help me stay safe and prevent any accident.</string>
     <string name="text_toast_vigilante">Ha pulsado el rol de VIGILANTE </string>

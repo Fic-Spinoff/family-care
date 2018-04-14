@@ -24,7 +24,7 @@
             app:toolbarId="@+id/toolbar">
 
             <ImageView
-                android:id="@+id/imgMemberDetail"
+                android:id="@+id/img_member_detail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
@@ -34,7 +34,7 @@
                 android:tint="@color/colorPrimaryDark"/>
 
             <android.support.v7.widget.Toolbar
-                android:id="@+id/detailToolbar"
+                android:id="@+id/toolbar_detail"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
@@ -58,7 +58,7 @@
     </android.support.v4.widget.NestedScrollView>
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/button_delete"
+        android:id="@+id/btn_detail_delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"

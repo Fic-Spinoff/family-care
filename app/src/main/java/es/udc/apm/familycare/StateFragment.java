@@ -1,7 +1,6 @@
 package es.udc.apm.familycare;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,9 +11,7 @@ import android.view.ViewGroup;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import butterknife.Unbinder;
-import es.udc.apm.familycare.bluetooth.DeviceScanActivity;
 import es.udc.apm.familycare.interfaces.RouterActivity;
 
 
@@ -23,7 +20,7 @@ public class StateFragment extends Fragment {
     private Unbinder mUnbinder;
     private RouterActivity routerActivity = null;
 
-    @BindView(R.id.stateToolbar) Toolbar toolbar;
+    @BindView(R.id.state_toolbar) Toolbar toolbar;
 
     public StateFragment() {
         // Required empty public constructor
