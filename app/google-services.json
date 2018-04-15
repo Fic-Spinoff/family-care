@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "175055718450",
+    "firebase_url": "https://family-care-4df72.firebaseio.com",
+    "project_id": "family-care-4df72",
+    "storage_bucket": "family-care-4df72.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:175055718450:android:72d848e7bc767c82",
+        "android_client_info": {
+          "package_name": "es.udc.apm.familycare"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "175055718450-cvsdcn6pc11fjtr696dh78goqj7bogf6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "es.udc.apm.familycare",
+            "certificate_hash": "65387382d595bfc027640b2231ed0178b42e16ed"
+          }
+        },
+        {
+          "client_id": "175055718450-hojad80nrp2tkv74f6dgasv1c61kb8j6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCD49GD0t3i9SePfeOQtsXwYx3NxH0Pwn8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "175055718450-hojad80nrp2tkv74f6dgasv1c61kb8j6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
