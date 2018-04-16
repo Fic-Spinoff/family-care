@@ -29,8 +29,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
-import java.util.Objects;
-
 import butterknife.ButterKnife;
 import es.udc.apm.familycare.utils.Utils;
 
@@ -124,7 +122,9 @@ public class LoginActivity extends AppCompatActivity {
                 //
                 /*AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
                 firebaseAuthWithGoogle(credential);*/
-                firebaseAuthWithGoogle(Objects.requireNonNull(account));
+                if (account != null) {
+                    firebaseAuthWithGoogle(account);
+                }
             } else {
                 // Google Sign In failed, update UI appropriately
                 Log.e(TAG, "Login Unsuccessful.");
@@ -157,6 +157,13 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         Log.d(TAG, "signInWithCredential:onComplete:" + task.isSuccessful());
 
+                        if (!task.isSuccessful() || user == null) {
+                            Log.w(TAG, "signInWithCredential", task.getException());
+                            Toast.makeText(LoginActivity.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
@@ -166,11 +173,6 @@ public class LoginActivity extends AppCompatActivity {
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
                         finish();
-                        if (!task.isSuccessful()) {
-                            Log.w(TAG, "signInWithCredential", task.getException());
-                            Toast.makeText(LoginActivity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
-                        }
                     }
                 });
     }
