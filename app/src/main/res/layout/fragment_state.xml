@@ -2,6 +2,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -14,7 +15,7 @@
         <android.support.v7.widget.Toolbar
             android:id="@+id/state_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="?android:attr/actionBarSize"
             app:popupTheme="@style/AppTheme.PopupOverlay"
             app:title="@string/app_name"/>
     </android.support.design.widget.AppBarLayout>
@@ -27,7 +28,7 @@
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
         android:layout_weight=".33"
-        android:background="?attr/colorButtonNormal"
+        android:background="@color/colorLightGrey"
         android:padding="20dp">
 
         <ImageButton
@@ -48,11 +49,13 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentTop="true"
             android:layout_toEndOf="@+id/imageHeart"
-            android:text="40\n190"
+            android:text="40/190"
+            android:autoSizeTextType="uniform"
             android:textAlignment="viewEnd"
             android:textAppearance="@style/TextAppearance.AppCompat"
             android:textSize="32sp"
-            android:visibility="visible" />
+            android:visibility="visible"
+            tools:targetApi="o" />
 
     </RelativeLayout>
 
@@ -63,7 +66,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_weight=".33"
-        android:background="?attr/colorButtonNormal"
+        android:background="@color/colorLightGrey"
         android:padding="20dp">
 
         <ImageButton
@@ -89,8 +92,9 @@
             android:text="1233"
             android:textAlignment="viewEnd"
             android:textAppearance="@style/TextAppearance.AppCompat"
-            android:textSize="32dp"
-            android:visibility="visible" />
+            android:textSize="32sp"
+            android:visibility="visible"
+            tools:targetApi="o" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -100,7 +104,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_weight=".33"
-        android:background="?attr/colorButtonNormal"
+        android:background="@color/colorLightGrey"
         android:padding="20dp">
 
         <ImageButton
@@ -125,8 +129,9 @@
             android:text="2h 23m"
             android:textAlignment="viewEnd"
             android:textAppearance="@style/TextAppearance.AppCompat"
-            android:textSize="32dp"
-            android:visibility="visible" />
+            android:textSize="32sp"
+            android:visibility="visible"
+            tools:targetApi="o" />
     </RelativeLayout>
 
 </LinearLayout>

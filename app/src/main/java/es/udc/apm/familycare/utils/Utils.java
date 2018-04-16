@@ -3,11 +3,12 @@ package es.udc.apm.familycare.utils;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.view.View;
+
+import java.util.Objects;
 
 public class Utils {
 
-    private Context mContext = null;
+    private Context mContext;
 
     /**
      * Public constructor that takes mContext for later use
@@ -31,7 +32,7 @@ public class Utils {
         ConnectivityManager connectivityManager =
                 (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
 
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        NetworkInfo activeNetworkInfo = Objects.requireNonNull(connectivityManager).getActiveNetworkInfo();
 
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
 
