@@ -157,6 +157,7 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         Log.d(TAG, "signInWithCredential:onComplete:" + task.isSuccessful());
 
+                        // If sign in fails, display a message to the user.
                         if (!task.isSuccessful() || user == null) {
                             Log.w(TAG, "signInWithCredential", task.getException());
                             Toast.makeText(LoginActivity.this, "Authentication failed.",
@@ -164,9 +165,8 @@ public class LoginActivity extends AppCompatActivity {
                             return;
                         }
 
-                        // If sign in fails, display a message to the user. If sign in succeeds
-                        // the auth state listener will be notified and logic to handle the
-                        // signed in user can be handled in the listener.
+                        //If sign in succeeds the auth state listener will be notified and logic
+                        // to handle the signed in user can be handled in the listener.
                         Toast.makeText(LoginActivity.this, "Signed in as " + user.getEmail(),
                                 Toast.LENGTH_LONG).show();
                         Intent intent = new Intent(LoginActivity.this, RoleActivity.class);
