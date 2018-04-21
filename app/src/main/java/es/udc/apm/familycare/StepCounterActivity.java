@@ -23,8 +23,8 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_step_counter);
 
-        textView = (TextView) findViewById(R.id.textViewId );
-        textViewData = (TextView) findViewById(R.id.textViewData );
+        textView = findViewById(R.id.textViewId );
+        textViewData = findViewById(R.id.textViewData );
         manager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 
         textView.setText( (manager.getSensorList( sensorType).size() == 0)

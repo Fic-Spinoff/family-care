@@ -16,21 +16,24 @@
             android:layout_height="170dp"
             android:src="@drawable/circle"
             android:tint="@color/bgBoard"
-            android:layout_centerInParent="true"/>
+            android:layout_centerInParent="true"
+            android:contentDescription="Drawing of a map" />
 
         <ImageView
             android:layout_width="230dp"
             android:layout_height="230dp"
             android:src="@drawable/circle"
             android:tint="@color/bgBoard"
-            android:layout_centerInParent="true"/>
+            android:layout_centerInParent="true"
+            android:contentDescription="Drawing of a map" />
 
         <ImageView
             android:layout_width="280dp"
             android:layout_height="280dp"
             android:src="@drawable/circle"
             android:tint="@color/bgBoard"
-            android:layout_centerInParent="true"/>
+            android:layout_centerInParent="true"
+            android:contentDescription="Drawing of a map" />
 
         <ImageView
             android:layout_width="300dp"
@@ -38,7 +41,8 @@
             app:srcCompat="@drawable/map2"
             android:layout_centerInParent="true"
             android:paddingTop="50dp"
-            android:id="@+id/imgMap" />
+            android:id="@+id/imgMap"
+            android:contentDescription="Drawing of a map" />
 
         <ImageView
             android:id="@+id/imgCloud1"
@@ -49,7 +53,8 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_marginTop="80dp"
-            android:layout_marginLeft="140dp"/>
+            android:layout_marginLeft="140dp"
+            android:contentDescription="Blank space" />
 
         <ImageView
             android:id="@+id/imgCloud2"
@@ -59,7 +64,8 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:layout_marginTop="110dp"
-            android:layout_marginRight="50dp"/>
+            android:layout_marginRight="50dp"
+            android:contentDescription="Blank space" />
 
         <ImageView
             android:id="@+id/imgCloud3"
@@ -69,7 +75,8 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_marginTop="175dp"
-            android:layout_marginLeft="55dp"/>
+            android:layout_marginLeft="55dp"
+            android:contentDescription="Blank space" />
 
         <ImageView
             android:id="@+id/imgCloud4"
@@ -80,7 +87,8 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:layout_marginTop="210dp"
-            android:layout_marginRight="70dp"/>
+            android:layout_marginRight="70dp"
+            android:contentDescription="Blank space" />
 
     </RelativeLayout>
 
