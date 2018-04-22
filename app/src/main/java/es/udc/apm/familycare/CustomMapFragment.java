@@ -64,9 +64,9 @@ public class CustomMapFragment extends Fragment implements OnMapReadyCallback {
     private MapView mMapView;
     private Location mLastKnownLocation = null;
     private CameraPosition mCameraPosition = null;
-    private FloatingActionButton acceptButton;
-    private FloatingActionButton deleteButton;
-    private SeekBar seekBar;
+    private FloatingActionButton mAcceptButton;
+    private FloatingActionButton mDeleteButton;
+    private SeekBar mSeekBar;
     private FusedLocationProviderClient mFusedLocationClient;
 
     @BindView(R.id.et_map_search) EditText etSearch;
@@ -189,21 +189,21 @@ public class CustomMapFragment extends Fragment implements OnMapReadyCallback {
         mMap.setOnMapClickListener(this::setMarker);
 
         mMap.setOnMarkerClickListener(marker -> {
-            acceptButton.setVisibility(View.VISIBLE);
-            deleteButton.setVisibility(View.VISIBLE);
-            seekBar.setVisibility(View.VISIBLE);
+            mAcceptButton.setVisibility(View.VISIBLE);
+            mDeleteButton.setVisibility(View.VISIBLE);
+            mSeekBar.setVisibility(View.VISIBLE);
             Circle c = circleHashMap.get(marker.getPosition());
 
-            deleteButton.setOnClickListener(v -> {
+            mDeleteButton.setOnClickListener(v -> {
                 c.remove();
                 marker.remove();
-                acceptButton.setVisibility(View.GONE);
-                deleteButton.setVisibility(View.GONE);
-                seekBar.setVisibility(View.GONE);
-                seekBar.setOnSeekBarChangeListener(null);
+                mAcceptButton.setVisibility(View.GONE);
+                mDeleteButton.setVisibility(View.GONE);
+                mSeekBar.setVisibility(View.GONE);
+                mSeekBar.setOnSeekBarChangeListener(null);
             });
 
-            seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                 @Override
                 public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
                 {
@@ -221,7 +221,7 @@ public class CustomMapFragment extends Fragment implements OnMapReadyCallback {
 
                 }
             });
-            seekBar.setProgress((int) c.getRadius());
+            mSeekBar.setProgress((int) c.getRadius());
             return true;
         });
 
@@ -323,21 +323,21 @@ public class CustomMapFragment extends Fragment implements OnMapReadyCallback {
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
 
         View rootView = inflater.inflate(R.layout.fragment_map, container, false);
-        acceptButton = rootView.findViewById(R.id.button_accept);
-        deleteButton = rootView.findViewById(R.id.button_delete);
-        seekBar = rootView.findViewById(R.id.seekBar);
-        seekBar.setMax(MAX_CIRCLE_RADIUS);
+        mAcceptButton = rootView.findViewById(R.id.button_accept);
+        mDeleteButton = rootView.findViewById(R.id.button_delete);
+        mSeekBar = rootView.findViewById(R.id.seekBar);
+        mSeekBar.setMax(MAX_CIRCLE_RADIUS);
 
-        acceptButton.setOnClickListener(v -> {
-            acceptButton.setVisibility(View.GONE);
-            deleteButton.setVisibility(View.GONE);
-            seekBar.setVisibility(View.GONE);
-            seekBar.setOnSeekBarChangeListener(null);
+        mAcceptButton.setOnClickListener(v -> {
+            mAcceptButton.setVisibility(View.GONE);
+            mDeleteButton.setVisibility(View.GONE);
+            mSeekBar.setVisibility(View.GONE);
+            mSeekBar.setOnSeekBarChangeListener(null);
         });
 
-        acceptButton.setVisibility(View.GONE);
-        deleteButton.setVisibility(View.GONE);
-        seekBar.setVisibility(View.GONE);
+        mAcceptButton.setVisibility(View.GONE);
+        mDeleteButton.setVisibility(View.GONE);
+        mSeekBar.setVisibility(View.GONE);
 
         mMapView = rootView.findViewById(R.id.mapView);
         if(mMapView != null) {
