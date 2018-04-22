@@ -24,12 +24,12 @@ public class GyroscopeSensorActivity extends AppCompatActivity implements Sensor
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gyroscope_sensor);
 
-        textView = (TextView) findViewById(R.id.textViewId );
-        textViewData = (TextView) findViewById(R.id.textViewData );
+        textView = findViewById(R.id.textViewId );
+        textViewData = findViewById(R.id.textViewData );
         manager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         textView.setText( (manager.getSensorList( Sensor.TYPE_GYROSCOPE ).size() == 0)
                 ? "No hay acelerometro" : manager.getSensorList( Sensor.TYPE_GYROSCOPE ).get(0).toString()  );
-        Button stepCounterButton = (Button) findViewById(R.id.stepCounterButton);
+        Button stepCounterButton = findViewById(R.id.stepCounterButton);
         stepCounterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
