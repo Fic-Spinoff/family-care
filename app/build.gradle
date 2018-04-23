@@ -48,6 +48,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:15.0.0'
     implementation 'com.google.android.gms:play-services-auth:15.0.0'
     implementation 'com.firebase:firebase-client-android:2.5.0'
+    implementation 'com.google.firebase:firebase-firestore:15.0.0'
 
     //UI
     implementation 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
