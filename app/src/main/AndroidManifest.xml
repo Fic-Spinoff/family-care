@@ -33,7 +33,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LoginActivity"
+            android:name=".login.LoginActivity"
             android:theme="@style/LoginTheme"
             android:screenOrientation="portrait" />
         <activity
@@ -97,6 +97,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <service android:name=".maps.GeofenceTransitionsIntentService" />
+        <service android:name=".maps.GeolocationService" />
+        <service android:name=".maps.GeofenceUpdateService" />
+        <service android:name=".maps.GeofenceRemoveService" />
     </application>
 
 </manifest>

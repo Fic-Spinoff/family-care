@@ -19,6 +19,7 @@ import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import es.udc.apm.familycare.interfaces.RouterActivity;
+import es.udc.apm.familycare.maps.GuardMapFragment;
 import es.udc.apm.familycare.utils.Constants;
 
 public class GuardActivity extends AppCompatActivity implements RouterActivity {
@@ -38,7 +39,7 @@ public class GuardActivity extends AppCompatActivity implements RouterActivity {
             switch (item.getItemId()) {
                 case R.id.navigation_location:
                     if (navigation.getSelectedItemId() != item.getItemId()) {
-                        navigate(new CustomMapFragment(), null);
+                        navigate(new GuardMapFragment(), null);
                     }
                     return true;
                 case R.id.navigation_activity:
