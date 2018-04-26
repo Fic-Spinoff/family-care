@@ -27,21 +27,24 @@
                 android:layout_height="170dp"
                 android:src="@drawable/circle"
                 android:tint="@color/bgBoard"
-                android:layout_centerInParent="true"/>
+                android:layout_centerInParent="true"
+                android:contentDescription="Drawing of a person falling" />
 
             <ImageView
                 android:layout_width="230dp"
                 android:layout_height="230dp"
                 android:src="@drawable/circle"
                 android:tint="@color/bgBoard"
-                android:layout_centerInParent="true"/>
+                android:layout_centerInParent="true"
+                android:contentDescription="Drawing of a person falling" />
 
             <ImageView
                 android:layout_width="280dp"
                 android:layout_height="280dp"
                 android:src="@drawable/circle"
                 android:tint="@color/bgBoard"
-                android:layout_centerInParent="true"/>
+                android:layout_centerInParent="true"
+                android:contentDescription="Drawing of a person falling" />
 
         </RelativeLayout>
 
@@ -51,7 +54,8 @@
             app:srcCompat="@drawable/falling"
             android:layout_centerInParent="true"
             android:id="@+id/imgFall"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center"
+            android:contentDescription="Drawing of a person falling" />
 
     </FrameLayout>
 

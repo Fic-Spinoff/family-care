@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class AccelerometerActivity extends AppCompatActivity implements SensorEventListener {
 
@@ -25,13 +24,13 @@ public class AccelerometerActivity extends AppCompatActivity implements SensorEv
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_accelerometer);
-        textView = (TextView) findViewById(R.id.textViewId );
-        textViewData = (TextView) findViewById(R.id.textViewData );
+        textView = findViewById(R.id.textViewId );
+        textViewData = findViewById(R.id.textViewData );
         manager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         textView.setText( (manager.getSensorList( sensorType ).size() == 0)
                 ? "No hay acelerometro" : manager.getSensorList( sensorType).get(0).toString()  );
 
-        Button giroscopioButton = (Button) findViewById(R.id.giroscopioButton);
+        Button giroscopioButton = findViewById(R.id.giroscopioButton);
         giroscopioButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -1,0 +1,95 @@
+{
+  "project_info": {
+    "project_number": "973138789954",
+    "firebase_url": "https://family-care-200323.firebaseio.com",
+    "project_id": "family-care-200323",
+    "storage_bucket": "family-care-200323.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:973138789954:android:72d848e7bc767c82",
+        "android_client_info": {
+          "package_name": "es.udc.apm.familycare"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "973138789954-q7shvatofn4o19p0q0138ajobtq3kjc4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "es.udc.apm.familycare",
+            "certificate_hash": "4437c81280de54ec369d15759b4d7c39d48fcd3c"
+          }
+        },
+        {
+          "client_id": "973138789954-l0t9lu0u9plrpfo9if62g3t9fqc9trpi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "es.udc.apm.familycare",
+            "certificate_hash": "54819a14561b1606eb2a9546772bf88dba03372d"
+          }
+        },
+        {
+          "client_id": "973138789954-47sqhjeqahh1p05iu9euvbmldtiqi9c4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "es.udc.apm.familycare",
+            "certificate_hash": "65387382d595bfc027640b2231ed0178b42e16ed"
+          }
+        },
+        {
+          "client_id": "973138789954-j1t1vht86rd5780doojav8g81hcn3j1e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "es.udc.apm.familycare",
+            "certificate_hash": "41f2b19f8fa336c6978746c5241255d3730607c0"
+          }
+        },
+        {
+          "client_id": "973138789954-6avagaa1chq8hf9kdlli1u60osgm8s3m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "es.udc.apm.familycare",
+            "certificate_hash": "c0f672bd13f0a16d9cead82d8be69154262defe1"
+          }
+        },
+        {
+          "client_id": "973138789954-ahkj9vibsc30ea7msod6mjsdpdg73ojd.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "973138789954-jf3kl5n99fm385497pdegq0h228rk1pg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "es.udc.apm.familycare",
+            "certificate_hash": "67e1973baf0d6ed8cf21ec773f81d2fc88554bbc"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAUSXRNVgUWaFVYfZ1S3V9_-q4zJwhoLeQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "973138789954-ahkj9vibsc30ea7msod6mjsdpdg73ojd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

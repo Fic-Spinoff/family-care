@@ -2,6 +2,8 @@ package es.udc.apm.familycare;
 
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
@@ -14,11 +16,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.SeekBar;
+import android.widget.Toast;
 
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -28,19 +37,29 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.nio.channels.SeekableByteChannel;
 import java.util.HashMap;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.OnFocusChange;
+import butterknife.OnTextChanged;
 
 
 public class CustomMapFragment extends Fragment implements OnMapReadyCallback {
 
-    private Boolean mLocationPermissionGranted = false;
+    private static final String TAG = "CustomMapFragment";
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
+    private static final int MAX_CIRCLE_RADIUS = 500;
+    private static final int DEFAULT_CIRCLE_RADIUS = 100;
+    private static final int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1;
     private static final float DEFAULT_ZOOM = 15f;
-    private HashMap<LatLng, Circle> circleHashMap = new HashMap<LatLng, Circle>();
+    private static final float SEARCH_ZOOM = 18f;
+
+    private Boolean mLocationPermissionGranted = false;
+    private HashMap<LatLng, Circle> circleHashMap = new HashMap<>();
     private GoogleMap mMap;
     private MapView mMapView;
     private Location mLastKnownLocation = null;
@@ -50,8 +69,9 @@ public class CustomMapFragment extends Fragment implements OnMapReadyCallback {
     private SeekBar seekBar;
     private FusedLocationProviderClient mFusedLocationClient;
 
-    private final int MAX_CIRCLE_RADIOUS = 1000;
-    private static final String TAG = "CustomMapFragment";
+    @BindView(R.id.et_map_search) EditText etSearch;
+    @BindView(R.id.btn_map_center) ImageView btnCenter;
+    @BindView(R.id.btn_map_clear) ImageView btnClear;
 
     public CustomMapFragment(){
     }
@@ -80,65 +100,129 @@ public class CustomMapFragment extends Fragment implements OnMapReadyCallback {
         mMapView.onLowMemory();
     }
 
+    @OnClick(R.id.et_map_search)
+    void OnSearch() {
+        dispatchSearch();
+    }
+
+    @OnFocusChange(R.id.et_map_search)
+    void OnSearch(boolean focused) {
+        if(focused) {
+            dispatchSearch();
+        }
+    }
+
+    @OnTextChanged(R.id.et_map_search)
+    void OnSearchChanged() {
+        if(etSearch.length() > 0) {
+            btnClear.setVisibility(View.VISIBLE);
+        } else {
+            btnClear.setVisibility(View.GONE);
+        }
+    }
+
+    @OnClick(R.id.btn_map_center)
+    void OnClickCenter() {
+        this.getDeviceLocation();
+    }
+
+    @OnClick(R.id.btn_map_clear)
+    void OnClickClear() {
+        etSearch.setText("");
+    }
+
+    private void dispatchSearch() {
+        try {
+            Intent intent = new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_OVERLAY)
+                    //.setBoundsBias()
+                    .build(getActivity());
+            startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
+        } catch (GooglePlayServicesRepairableException e) {
+            // TODO: Handle the error.
+            Log.e(TAG, e.getMessage());
+        } catch (GooglePlayServicesNotAvailableException e) {
+            // TODO: Handle the error.
+            Log.e(TAG, e.getMessage());
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE) {
+            if (resultCode == Activity.RESULT_OK) {
+                // Place selected
+                Place place = PlaceAutocomplete.getPlace(getActivity(), data);
+                // Set search text
+                CharSequence name = place.getAddress() != null ? place.getAddress() :
+                        place.getName();
+                etSearch.setText(name);
+                // Go to location
+                // TODO: Markers without zones
+                // this.setMarker(place.getLatLng());
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(place.getLatLng(), SEARCH_ZOOM));
+            } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
+                // Error selecting place
+                Status status = PlaceAutocomplete.getStatus(getActivity(), data);
+                Toast.makeText(getActivity(), getResources().getString(R.string.error_places),
+                        Toast.LENGTH_SHORT).show();
+                Log.e(TAG, status.getStatusMessage());
+            } else if (resultCode == Activity.RESULT_CANCELED) {
+                // The user canceled the operation.
+                Log.d(TAG, "User cancel place");
+            }
+        }
+    }
+
+    private void setMarker(LatLng point) {
+        mMap.addMarker(new MarkerOptions().position(point));
+        Circle circle = mMap.addCircle(new CircleOptions()
+                .center(point)
+                .radius(DEFAULT_CIRCLE_RADIUS)
+                .strokeColor(Color.BLUE));
+        circleHashMap.put(point, circle);
+    }
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-            @Override
-            public void onMapClick(LatLng point) {
-                mMap.addMarker(new MarkerOptions().position(point));
-                Circle circle = mMap.addCircle(new CircleOptions()
-                        .center(point)
-                        .radius(MAX_CIRCLE_RADIOUS)
-                        .strokeColor(Color.BLUE));
-                circleHashMap.put(point, circle);
-            }
-        });
+        mMap.setOnMapClickListener(this::setMarker);
 
-        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-            @Override
-            public boolean onMarkerClick(Marker marker) {
-                acceptButton.setVisibility(View.VISIBLE);
-                deleteButton.setVisibility(View.VISIBLE);
-                seekBar.setVisibility(View.VISIBLE);
-                Circle c = circleHashMap.get(marker.getPosition());
+        mMap.setOnMarkerClickListener(marker -> {
+            acceptButton.setVisibility(View.VISIBLE);
+            deleteButton.setVisibility(View.VISIBLE);
+            seekBar.setVisibility(View.VISIBLE);
+            Circle c = circleHashMap.get(marker.getPosition());
 
-                deleteButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        c.remove();
-                        marker.remove();
-                        acceptButton.setVisibility(View.GONE);
-                        deleteButton.setVisibility(View.GONE);
-                        seekBar.setVisibility(View.GONE);
-                        seekBar.setOnSeekBarChangeListener(null);
-                    }
+            deleteButton.setOnClickListener(v -> {
+                c.remove();
+                marker.remove();
+                acceptButton.setVisibility(View.GONE);
+                deleteButton.setVisibility(View.GONE);
+                seekBar.setVisibility(View.GONE);
+                seekBar.setOnSeekBarChangeListener(null);
+            });
 
-                });
+            seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                @Override
+                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
+                {
+                    c.setRadius(progress);
+                }
 
-                seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-                    @Override
-                    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
-                    {
-                        c.setRadius(progress);
-                    }
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar)
+                {
+                }
 
-                    @Override
-                    public void onStartTrackingTouch(SeekBar seekBar)
-                    {
-                    }
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar)
+                {
 
-                    @Override
-                    public void onStopTrackingTouch(SeekBar seekBar)
-                    {
-
-                    }
-                });
-                seekBar.setProgress((int) c.getRadius());
-                return true;
-            }
-
+                }
+            });
+            seekBar.setProgress((int) c.getRadius());
+            return true;
         });
 
         // Turn on the My Location layer and the related control on the map.
@@ -153,17 +237,22 @@ public class CustomMapFragment extends Fragment implements OnMapReadyCallback {
             return;
         }
         try {
-            getLocationPermission();
-            if (mLocationPermissionGranted) {
-                mMap.setMyLocationEnabled(true);
-                mMap.getUiSettings().setMyLocationButtonEnabled(true);
+            this.getLocationPermission();
+            if (this.mLocationPermissionGranted) {
+                this.mMap.setMyLocationEnabled(true);
+                this.btnCenter.setVisibility(View.VISIBLE);
             } else {
-                mMap.setMyLocationEnabled(false);
-                mMap.getUiSettings().setMyLocationButtonEnabled(false);
-                mLastKnownLocation = null;
+                this.mMap.setMyLocationEnabled(false);
+                this.btnCenter.setVisibility(View.GONE);
+                this.mLastKnownLocation = null;
             }
+            // Custom location button
+            this.mMap.getUiSettings().setMyLocationButtonEnabled(false);
+            this.mMap.getUiSettings().setCompassEnabled(false);
         } catch (SecurityException e)  {
-            Log.e("Exception: %s", e.getMessage());
+            Log.e(TAG, e.getMessage());
+            Toast.makeText(getActivity(), getResources().getString(R.string.error_location),
+                    Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -237,16 +326,13 @@ public class CustomMapFragment extends Fragment implements OnMapReadyCallback {
         acceptButton = rootView.findViewById(R.id.button_accept);
         deleteButton = rootView.findViewById(R.id.button_delete);
         seekBar = rootView.findViewById(R.id.seekBar);
-        seekBar.setMax(MAX_CIRCLE_RADIOUS);
+        seekBar.setMax(MAX_CIRCLE_RADIUS);
 
-        acceptButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                acceptButton.setVisibility(View.GONE);
-                deleteButton.setVisibility(View.GONE);
-                seekBar.setVisibility(View.GONE);
-                seekBar.setOnSeekBarChangeListener(null);
-            }
+        acceptButton.setOnClickListener(v -> {
+            acceptButton.setVisibility(View.GONE);
+            deleteButton.setVisibility(View.GONE);
+            seekBar.setVisibility(View.GONE);
+            seekBar.setOnSeekBarChangeListener(null);
         });
 
         acceptButton.setVisibility(View.GONE);
@@ -265,6 +351,9 @@ public class CustomMapFragment extends Fragment implements OnMapReadyCallback {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        ButterKnife.bind(this, rootView);
+
         return rootView;
     }
 
