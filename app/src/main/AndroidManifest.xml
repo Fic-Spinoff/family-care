@@ -113,7 +113,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".fit.FitActivity">
+        <activity android:name=".fit.FitActivity"
+            android:label="@string/title_activity_fit">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
