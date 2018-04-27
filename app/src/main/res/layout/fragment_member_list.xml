@@ -20,8 +20,8 @@
             app:title="@string/app_name"/>
     </android.support.design.widget.AppBarLayout>
 
-    <ListView
-        android:id="@android:id/list"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/lv_members"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

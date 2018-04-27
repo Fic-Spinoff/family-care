@@ -1,13 +1,12 @@
 package es.udc.apm.familycare.members;
 
-import android.content.Context;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,6 +16,8 @@ import com.amulyakhare.textdrawable.util.ColorGenerator;
 import java.text.Normalizer;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import es.udc.apm.familycare.R;
 
 /**
@@ -24,64 +25,76 @@ import es.udc.apm.familycare.R;
  * Member adapter to use with member list
  */
 
-public class MemberAdapter extends ArrayAdapter<String>  {
+public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder> {
 
-    private final List<String> values;
-
-    private TextDrawable.IShapeBuilder builder = TextDrawable.builder()
-            .beginConfig().toUpperCase().endConfig();
-
-    static class ViewHolder {
-        TextView itemName;
-        ImageView itemImg;
-        int position;
+    public interface OnMemberSelectedListener {
+        void onMemberSelected(Member member);
     }
 
-    MemberAdapter(Context context, List<String> values) {
-        super(context, -1, values);
+    private List<Member> values;
+    private OnMemberSelectedListener mListener;
+
+    MemberAdapter(List<Member> values, OnMemberSelectedListener listener) {
         this.values = values;
+        this.mListener = listener;
     }
 
     @NonNull
     @Override
-    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
-        ViewHolder holder;
-
-        if (convertView == null) {
-            LayoutInflater inflater = (LayoutInflater) getContext()
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-            assert inflater != null;
-            convertView = inflater.inflate(R.layout.lv_item_member, parent, false);
-            holder = new ViewHolder();
-            holder.itemName = convertView.findViewById(R.id.tv_item_name);
-            holder.itemImg = convertView.findViewById(R.id.img_item);
-            convertView.setTag(holder);
-        }
-        else{
-            holder = (ViewHolder) convertView.getTag();
-        }
-
-        // Background of selected item
-        Drawable background = getContext().getResources().getDrawable(R.drawable.list_selector);
-        background.setColorFilter(getContext().getResources().getColor(R.color.colorAccent), PorterDuff.Mode.MULTIPLY);
-        convertView.setBackground(background);
-
-        String member = values.get(position);
-
-        //Name
-        holder.itemName.setText(member);
-        //Image
-        // TODO: In memory letter cache
-        String letter = Normalizer.normalize(String.valueOf(member.charAt(0)),
-                Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
-        ColorGenerator generator = ColorGenerator.MATERIAL;
-        int color = generator.getColor(letter);
-        TextDrawable drawable = builder.buildRound(letter, color);
-        holder.itemImg.setImageDrawable(drawable);
-
-        holder.position = position;
-        return convertView;
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        View v = inflater.inflate(R.layout.lv_item_member, parent, false);
+        return new ViewHolder(v);
     }
 
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        holder.bind(values.get(position), this.mListener);
+    }
+
+    @Override
+    public int getItemCount() {
+        return values.size();
+    }
+
+    static class ViewHolder extends RecyclerView.ViewHolder{
+        private TextDrawable.IShapeBuilder builder = TextDrawable.builder()
+                .beginConfig().toUpperCase().endConfig();
+
+        @BindView(R.id.tv_item_name)
+        TextView itemName;
+
+        @BindView(R.id.img_item)
+        ImageView itemImage;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+        }
+
+        public void bind(final Member member, final OnMemberSelectedListener listener) {
+            //Name
+            this.itemName.setText(member.getName());
+
+            //Image
+            // TODO: In memory letter cache
+            String letter = Normalizer.normalize(String.valueOf(member.getName().charAt(0)),
+                    Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
+            ColorGenerator generator = ColorGenerator.MATERIAL;
+            int color = generator.getColor(letter);
+            TextDrawable drawable = builder.buildRound(letter, color);
+            itemImage.setImageDrawable(drawable);
+
+            // Click listener
+            this.itemView.setOnClickListener(v -> {
+                if(listener != null) {
+                    // Set selected background
+                    this.itemView.setBackground(background);
+
+                    // Call listener
+                    listener.onMemberSelected(member);
+                }
+            });
+        }
+    }
 }

@@ -2,9 +2,11 @@ package es.udc.apm.familycare.members;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.ListFragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,13 +27,17 @@ import es.udc.apm.familycare.interfaces.RouterActivity;
  * Use the {@link MemberListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MemberListFragment extends ListFragment {
+public class MemberListFragment extends Fragment {
 
     private static final String KEY_ACTIVATED_POSITION = "activated_position";
     private static final String KEY_IS_SELECTED = "mIsSelected";
 
+    @BindView(R.id.lv_members)
+    private RecyclerView mRecyclerView;
+    private MemberAdapter mListAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
+
     private boolean mIsDualPane = false;
-    private ListView mListView;
 
     private List<String> members;
     private int mActivatedPosition = ListView.INVALID_POSITION;
@@ -48,11 +54,11 @@ public class MemberListFragment extends ListFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //TODO: Data from model
-        members = Arrays.asList(getResources().getStringArray(R.array.members_list));
 
-        MemberAdapter mListAdapter = new MemberAdapter(getActivity(), members);
-        setListAdapter(mListAdapter);
+
+        //TODO: Data from model
+        this.members = Arrays.asList(getResources().getStringArray(R.array.members_list));
+
     }
 
     @Override
@@ -63,16 +69,26 @@ public class MemberListFragment extends ListFragment {
 
         mIsDualPane =  v.findViewById(R.id.layout_member_detail) != null;
 
+        // Bind actionbar
         this.routerActivity.setActionBar(this.toolbar);
+
+        // Layout won't change, this improves performance
+        this.mRecyclerView.setHasFixedSize(true);
+
+        // use a linear layout manager for recycler view
+        this.mLayoutManager = new LinearLayoutManager(getActivity());
+        this.mRecyclerView.setLayoutManager(mLayoutManager);
+
+        // Init recycler view
+        this.mListAdapter = new MemberAdapter(members);
+        this.mRecyclerView.setAdapter(mListAdapter);
 
         return v;
     }
 
     @Override
-    public void onViewCreated(View view, Bundle saved) {
+    public void onViewCreated(@NonNull View view, Bundle saved) {
         super.onViewCreated(view, saved);
-
-        mListView = getListView();
 
         if (saved != null) {
             // Restore the previously serialized activated item position.
@@ -180,10 +196,10 @@ public class MemberListFragment extends ListFragment {
     private void setActivatedPosition() {
         Boolean tmp = mIsSelected;
         if (mActivatedPosition == ListView.INVALID_POSITION) {
-            mListView.performItemClick(null, 0, 0);
+            mRecyclerView.performItemClick(null, 0, 0);
         }
         else {
-            mListView.performItemClick(null, mActivatedPosition, 0);
+            mRecyclerView.performItemClick(null, mActivatedPosition, 0);
         }
         mIsSelected = tmp; //Conservar el valor modificado en el onclick
     }
@@ -195,7 +211,7 @@ public class MemberListFragment extends ListFragment {
     public void setActivateOnItemClick(boolean activateOnItemClick) {
         // When setting CHOICE_MODE_SINGLE, ListView will automatically
         // give items the 'activated' state when touched.
-        mListView.setChoiceMode(activateOnItemClick
+        mRecyclerView.setChoiceMode(activateOnItemClick
                 ? ListView.CHOICE_MODE_SINGLE
                 : ListView.CHOICE_MODE_NONE);
     }
