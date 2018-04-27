@@ -78,13 +78,11 @@ public class WalkFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        int layout = R.layout.fragment_walk;
         if (!isPackageInstalled("com.google.android.apps.fitness", getContext().getPackageManager())) {
             Toast.makeText(getContext(), R.string.error_fit, Toast.LENGTH_SHORT).show();
-            layout = R.layout.fragment_disabled;
             isEnabled = false;
         }
-        View view = inflater.inflate(layout, container, false);
+        View view = inflater.inflate(R.layout.fragment_walk, container, false);
         mUnbinder = ButterKnife.bind(this, view);
 
         this.routerActivity.setActionBar(this.toolbar);
