@@ -8,6 +8,7 @@ android {
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -34,17 +35,6 @@ android {
     }
 }
 
-configurations.all {
-    resolutionStrategy {
-        eachDependency { details ->
-            // Force all of the primary support libraries to use the same version.
-            if (details.requested.group == 'com.android.support') {
-                details.useVersion '27.1.1'
-            }
-        }
-    }
-}
-
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:support-v4:27.1.1'
@@ -53,6 +43,7 @@ dependencies {
     implementation 'com.android.support:design:27.1.1'
     implementation 'com.android.support.constraint:constraint-layout:1.1.0'
     implementation 'com.android.support:support-vector-drawable:27.1.1'
+    implementation 'com.android.support:multidex:1.0.3'
 
     // Testing
     testImplementation 'junit:junit:4.12'
