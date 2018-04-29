@@ -89,8 +89,8 @@ public class DetailMemberFragment extends Fragment {
 
             if(this.memberId != -1 && this.toolbar != null) {
                 // TODO: Model data
-                this.toolbar.setTitle(getActivity().getResources()
-                        .getStringArray(R.array.members_list)[memberId]);
+//                this.toolbar.setTitle(getActivity().getResources()
+//                        .getStringArray(R.array.members_list)[memberId]);
             }
         }
 
