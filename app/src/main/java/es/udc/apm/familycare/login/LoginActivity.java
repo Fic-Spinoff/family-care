@@ -1,4 +1,4 @@
-package es.udc.apm.familycare;
+package es.udc.apm.familycare.login;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,7 +10,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.util.Log;
-import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,69 +25,67 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import es.udc.apm.familycare.GuardActivity;
+import es.udc.apm.familycare.PageOne;
+import es.udc.apm.familycare.PageTwo;
+import es.udc.apm.familycare.R;
+import es.udc.apm.familycare.RoleActivity;
+import es.udc.apm.familycare.Transformer;
+import es.udc.apm.familycare.VipActivity;
+import es.udc.apm.familycare.model.User;
+import es.udc.apm.familycare.utils.Constants;
 import es.udc.apm.familycare.utils.Utils;
 
 public class LoginActivity extends AppCompatActivity {
 
+    private static final String TAG = "LoginActivity";
+    private static final int RC_SIGN_IN = 0 ;
+
     private ViewPager viewPager;
     private LinearLayout dotsLayout;
     private Fragment[] layouts;
-    private static final String TAG = "LoginActivity";
+
     private GoogleApiClient mGoogleApiClient;
-    private static final int RC_SIGN_IN = 0 ;
     private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mAuthListener;
-    private FirebaseUser user;
-    private SharedPreferences prefs;
+
+    private UserRepository mRepo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        prefs = getSharedPreferences("StartPrefs", MODE_PRIVATE);
         setContentView(R.layout.activity_login);
 
         ButterKnife.bind(this);
 
         initControls();
 
-        Log.d(TAG, "default_web_client_id: " + getString(R.string.default_web_client_id));
+        // Configure Google Sign In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this , connectionResult -> {
 
-                } /* OnConnectionFailedListener */)
+        // Api client for google sign in
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
 
+        // Firebase instance
         mAuth = FirebaseAuth.getInstance();
-        mAuthListener = firebaseAuth -> {
-            user = firebaseAuth.getCurrentUser();
-            if (user != null) {
-                // User is signed in
-                ///// Acá podemos llamar al método que crea usuario en ua BD de Firebase
-                Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-            } else {
-                // User is signed out
-                Log.d(TAG, "onAuthStateChanged:signed_out");
-            }
-        };
 
-        View signInButton = findViewById(R.id.btn_login_google);
-        signInButton.setOnClickListener(v -> {
-            Utils utils = new Utils(LoginActivity.this);
-            int id = v.getId();
-            if (id == R.id.btn_login_google) {
-                if (utils.isNetworkAvailable()) {
-                    signIn();
-                } else {
-                    Toast.makeText(LoginActivity.this, "Oops! no internet connection!",
-                            Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+        // Init repository
+        this.mRepo = new UserRepository();
+    }
+
+    @OnClick(R.id.btn_login_google) void onClickLogin() {
+        Utils utils = new Utils(LoginActivity.this);
+        if (utils.isNetworkAvailable()) {
+            signIn();
+        } else {
+            Toast.makeText(LoginActivity.this, "Oops! no internet connection!",
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void signIn() {
@@ -107,79 +104,76 @@ public class LoginActivity extends AppCompatActivity {
                 // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = result.getSignInAccount();
                 if (account != null) {
-                    SharedPreferences.Editor editor = prefs.edit();
-                    editor.putBoolean("IS_LOGGED_IN", true);
-                    editor.putString("GOOGLE_ID_TOKEN", account.getIdToken());
-                    editor.putString("GOOGLE_EMAIL", account.getEmail());
-                    editor.putString("USER_NAME", account.getDisplayName());
-                    editor.apply();
                     firebaseAuthWithGoogle(account);
+                    return;
                 }
-            } else {
-                // Google Sign In failed, update UI appropriately
-                Log.e(TAG, "Login Unsuccessful.");
-                Toast.makeText(this, "Login Unsuccessful", Toast.LENGTH_SHORT).show();
             }
-        }
-    }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        mAuth.addAuthStateListener(mAuthListener);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (mAuthListener != null) {
-            mAuth.removeAuthStateListener(mAuthListener);
+            // Google Sign In failed or no account, update UI appropriately
+            Log.e(TAG, "Login Unsuccessful.");
+            Toast.makeText(this, "Login Unsuccessful", Toast.LENGTH_SHORT).show();
         }
     }
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
-        Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
-
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, task -> {
-                    Log.d(TAG, "signInWithCredential:onComplete:" + task.isSuccessful());
                     // If sign in fails, display a message to the user.
-                    if (!task.isSuccessful() || user == null) {
+                    if (!task.isSuccessful() || task.getResult().getUser() == null) {
                         Log.w(TAG, "signInWithCredential", task.getException());
                         Toast.makeText(LoginActivity.this, "Authentication failed.",
                                 Toast.LENGTH_SHORT).show();
                         return;
                     }
 
-                    /* If sign in succeeds the auth state listener will be notified and logic
-                    to handle the signed in user can be handled in the listener.*/
-                    Toast.makeText(LoginActivity.this, "Signed in as " + user.getEmail(),
-                            Toast.LENGTH_LONG).show();
-                    Class c = RoleActivity.class;
-                    String role = prefs.getString("KEY_ROLE", null);
-                    Boolean terms = prefs.getBoolean("TERMS_AGREED", false);
-                    if (role != null) {
-                        if (terms) {
-                            switch (role) {
-                                case RoleActivity.ROLE_VIP:
-                                    c = VipActivity.class;
-                                    break;
-                                case RoleActivity.ROLE_GUARD:
-                                    c = GuardActivity.class;
-                                    break;
+                    // Sign in success
+                    FirebaseUser firebaseUser = task.getResult().getUser();
+
+                    // Save user uid
+                    SharedPreferences prefs = getSharedPreferences(Constants.PREFS_USER, MODE_PRIVATE);
+                    prefs.edit().putString(Constants.PREFS_USER_UID, firebaseUser.getUid()).apply();
+
+                    // If first time user create user in firestore
+                    if(task.getResult().getAdditionalUserInfo().isNewUser()) {
+                        User user = new User(
+                                firebaseUser.getUid(),
+                                firebaseUser.getDisplayName(),
+                                firebaseUser.getPhotoUrl().toString()
+                        );
+                        this.mRepo.setUser(user);
+                        Intent intent = new Intent(LoginActivity.this, RoleActivity.class);
+                        startActivity(intent);
+                        finish();
+                    } else {
+                        // If user exists get data
+                        //TODO: Loading
+                        this.mRepo.getUser(firebaseUser.getUid()).observe(this, user -> {
+                            if (user != null) {
+                                if(user.getRole() != null) {
+                                    // If user has role start activity
+                                    Intent intent = new Intent(LoginActivity.this, GuardActivity.class);
+                                    if (user.getRole().equals(Constants.ROLE_VIP)) {
+                                        intent = new Intent(LoginActivity.this, VipActivity.class);
+                                    }
+                                    startActivity(intent);
+                                    finish();
+                                } else {
+                                    // If no role then choose
+                                    Intent intent = new Intent(LoginActivity.this, RoleActivity.class);
+                                    startActivity(intent);
+                                    finish();
+                                }
+                            } else {
+                                // No user then error
+                                Toast.makeText(this, "Error no user found!", Toast.LENGTH_SHORT).show();
                             }
-                        } else {
-                            c = TermsActivity.class;
-                        }
+                        });
                     }
-                    Intent intent = new Intent(LoginActivity.this, c);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
-                    finish();
                 });
     }
 
+    // Login UI View
     private void initControls() {
         viewPager = findViewById(R.id.viewPager);
         dotsLayout = findViewById(R.id.layoutDots);
