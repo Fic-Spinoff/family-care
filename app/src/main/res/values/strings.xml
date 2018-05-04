@@ -7,9 +7,14 @@
 
     <string name="btn_disagree">Disagree</string>
     <string name="btn_agree">Agree</string>
+    <string name="btn_bind">BIND</string>
     <string name="btn_select_role">SELECT THIS ROLE</string>
     <string name="btn_login">Log in</string>
     <string name="btn_unbind">Unbind</string>
+
+    <string name="caption_link_copied">Link copied to clipboard</string>
+    <string name="caption_no_key">You must enter a key!</string>
+    <string name="caption_invalid_key">Key not valid!</string>
 
     <string name="title_card_guard">I will be watching!</string>
     <string name="title_card_vip">I will be watched!</string>
@@ -34,16 +39,23 @@
     <string name="label_center_location">Center location</string>
     <string name="label_clear">Clear</string>
     <string name="label_search">Search</string>
+    <string name="label_share">Share</string>
 
+
+    <string name="text_bind">Use they key provided by your family VIP member to link your devices.\n\nWhen your devices are linked you will see the VIP name here. You can unbind them anytime.</string>
     <string name="text_card_guard">I want to receive notifications when my family member needs me and track his location and health state.</string>
     <string name="text_card_vip">My family members will watch my location and status to help me stay safe and prevent any accident.</string>
     <string name="text_agreement">Los siguientes términos y condiciones (los Términos y Condiciones) rigen el uso que usted le dé a este sitio web y a cualquiera de los contenidos disponibles por o a través de este sitio web, incluyendo cualquier contenido derivado del mismo (el Sitio Web). Family Care. (Family Care. o nosotros) ha puesto a su disposición el Sitio Web. Podemos cambiar los Términos y Condiciones de vez en cuando, en cualquier momento sin ninguna notificación, sólo publicando los cambios en el Sitio Web. \n\nAL USAR EL SITIO WEB, USTED ACEPTA Y ESTÉ DE ACUERDO CON ESTOS TÉRMINOS Y CONDICIONES EN LO QUE SE REFIERE A SU USO DEL SITIO WEB. Si usted no está de acuerdo con estos Términos y Condiciones, no puede tener acceso al mismo ni usar el Sitio Web de ninguna otra manera.  Derechos de Propiedad. Entre usted y Family Care., Family Care. es dueño único y exclusivo, de todos los derechos, título e intereses en y del Sitio Web, de todo el contenido (incluyendo, por ejemplo, audio, fotografías, ilustraciones, gráficos, otros medios visuales, videos, copias, textos, software, títulos, archivos de Onda de choque, etc.), códigos, datos y materiales del mismo, el aspecto y el ambiente, el diseño y la organización del Sitio Web y la compilación de los contenidos, códigos, datos y los materiales en el Sitio Web, incluyendo pero no limitado a, cualesquiera derechos de autor, derechos de marca, derechos de patente, derechos de base de datos, derechos morales, derechos sui generis y otras propiedades intelectuales y derechos patrimoniales del mismo. Su uso del Sitio Web no le otorga propiedad de ninguno de los contenidos, códigos, datos o materiales a los que pueda acceder en o a través del Sitio Web.</string>
     <string name="text_unbind">Your device is linked to the next ID. You can unbind the device to link to a new one.\n\n(We can show some info like linked user name, etc.)</string>
     <string name="text_permission_toast">Permission are mandatory for Family care to work!</string>
     <string name="text_member_list_info">It seems there is nobody guarding you!\nLink your device with someone else\'s to start seeing members.</string>
+    <string name="text_link_key">Use this key to connect a Guard device to yours and start watching you. Don\'t make the key public, share it just with your family guard. You can refresh your key to get a new one, that will invalidate previous keys but won\'t remove linked devices.</string>
+    <string name="text_link_link">Also you can share this link to bind it easier. Someone with a Guard account who use this link will bind his device automatically.</string>
+    <string name="text_share_link">Use this key to bind your Guard Family Care App to my VIP account:&#032;</string>
 
     <string name="error_places">Error selecting place</string>
     <string name="error_location">Error finding your location</string>
+    <string name="error_get_user">Error fetching user!</string>
 
     <string name="ble_not_supported">BLE is not supported</string>
     <string name="label_data">Data:</string>

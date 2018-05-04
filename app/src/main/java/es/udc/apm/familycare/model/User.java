@@ -12,6 +12,7 @@ public class User {
     private String role;
     private String link;
     private String vip;
+    private String vipName;
 
     public User(){
     }
@@ -29,6 +30,14 @@ public class User {
         this.uid = uid;
         this.name = name;
         this.photo = photo;
+    }
+
+    public String getVipName() {
+        return vipName;
+    }
+
+    public void setVipName(String vipName) {
+        this.vipName = vipName;
     }
 
     public String getUid() {

@@ -45,7 +45,7 @@ public class MemberRepository {
         this.memberList.setValue(dataList);
 
         this.mFirestore.collection("users")
-                .whereEqualTo("VIP", vipUid)
+                .whereEqualTo("vip", vipUid)
                 .addSnapshotListener((documentSnapshots, e) -> {
                     // Handle errors
                     if (e != null || documentSnapshots == null) {
