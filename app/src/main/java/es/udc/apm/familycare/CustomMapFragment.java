@@ -24,9 +24,7 @@ import android.widget.Toast;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.common.api.Status;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.Geofence;
-import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.FusedLocationProviderClient;import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -49,7 +47,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnFocusChange;
 import butterknife.OnTextChanged;
-import es.udc.apm.familycare.maps.GeofenceService;
+import es.udc.apm.familycare.maps.GeofenceRemoveService;
+import es.udc.apm.familycare.maps.GeofenceUpdateService;
 import es.udc.apm.familycare.maps.GeolocationService;
 
 
@@ -74,6 +73,7 @@ public class CustomMapFragment extends Fragment implements OnMapReadyCallback {
     private SeekBar mSeekBar;
     private FusedLocationProviderClient mFusedLocationClient;
     private Marker lastMarker;
+
 
     @BindView(R.id.et_map_search)
     EditText etSearch;
@@ -160,9 +160,7 @@ public class CustomMapFragment extends Fragment implements OnMapReadyCallback {
             marker.remove();
         });
 
-        mAcceptButton.setOnClickListener(v -> {
-            hideButtonLayer();
-        });
+        mAcceptButton.setOnClickListener(v -> hideButtonLayer());
 
         mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -277,20 +275,18 @@ public class CustomMapFragment extends Fragment implements OnMapReadyCallback {
     }
 
     private void addGeofenceFromCircle(Circle c) {
-        Intent intent = new Intent();
+        Intent intent = new Intent(this.getContext(), GeofenceUpdateService.class);
+        intent.putExtra("Radius", (float) c.getRadius());
         intent.putExtra("Center",c.getCenter());
-        intent.putExtra("Radius",c.getRadius());
-        intent.setAction(GeofenceService.UPDATE_GEOFENCES);
-        this.getActivity().sendBroadcast(intent);
+        this.getActivity().startService(intent);
     }
 
     private void removeGeofenceFromCircle(Circle c) {
-        Intent intent = new Intent();
+        Intent intent = new Intent(this.getActivity(), GeofenceRemoveService.class);
         intent.putExtra("Center",c.getCenter());
-        intent.putExtra("Radius",c.getRadius());
-        intent.setAction(GeofenceService.REMOVE_GEOFENCES);
-        this.getActivity().sendBroadcast(intent);
+        this.getActivity().startService(intent);
     }
+
 
 
     public CustomMapFragment() {
@@ -310,7 +306,7 @@ public class CustomMapFragment extends Fragment implements OnMapReadyCallback {
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this.getActivity());
 
         this.getActivity().startService(new Intent(this.getActivity(),GeolocationService.class));
-        this.getActivity().startService(new Intent(this.getActivity(),GeofenceService.class));
+
         hideButtonLayer();
 
         mMapView = rootView.findViewById(R.id.mapView);
