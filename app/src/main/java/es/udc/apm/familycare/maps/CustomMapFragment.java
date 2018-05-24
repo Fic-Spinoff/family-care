@@ -25,6 +25,7 @@ import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocomplete;
@@ -48,7 +49,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnFocusChange;
 import butterknife.OnTextChanged;
-import es.udc.apm.familycare.R;
+import es.udc.apm.familycare.maps.GeofenceService;
+import es.udc.apm.familycare.maps.GeolocationService;
 
 
 public abstract class CustomMapFragment extends Fragment implements OnMapReadyCallback {
@@ -63,12 +65,16 @@ public abstract class CustomMapFragment extends Fragment implements OnMapReadyCa
     private FloatingActionButton mDeleteButton;
     private SeekBar mSeekBar;
     private Boolean mLocationPermissionGranted = false;
+    private HashMap<LatLng, Circle> mCircleHashMap = new HashMap<>();
     private GoogleMap mMap;
     private MapView mMapView;
     private Location mLastKnownLocation = null;
     private CameraPosition mCameraPosition = null;
-
+    private FloatingActionButton mAcceptButton;
+    private FloatingActionButton mDeleteButton;
+    private SeekBar mSeekBar;
     private FusedLocationProviderClient mFusedLocationClient;
+    private Marker lastMarker;
 
     @BindView(R.id.et_map_search)
     EditText etSearch;
@@ -77,10 +83,114 @@ public abstract class CustomMapFragment extends Fragment implements OnMapReadyCa
     @BindView(R.id.btn_map_clear)
     ImageView btnClear;
 
+    private void showButtonLayer() {
+        mAcceptButton.setVisibility(View.VISIBLE);
+        mDeleteButton.setVisibility(View.VISIBLE);
+        mSeekBar.setVisibility(View.VISIBLE);
+    }
+
+    private void hideButtonLayer() {
+        mAcceptButton.setVisibility(View.GONE);
+        mDeleteButton.setVisibility(View.GONE);
+        mSeekBar.setVisibility(View.GONE);
+        mSeekBar.setOnSeekBarChangeListener(null);
+    }
+
+    private void setMarker(LatLng point) {
+        if (lastMarker != null) {
+            mCircleHashMap.get(lastMarker.getPosition()).remove();
+            lastMarker.remove();
+        }
+
+        lastMarker = mMap.addMarker(new MarkerOptions()
+                .position(point)
+                .icon(BitmapDescriptorFactory
+                        .defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+
+        Circle circle = mMap.addCircle(new CircleOptions()
+                .center(point)
+                .radius(DEFAULT_CIRCLE_RADIUS)
+                .strokeColor(Color.BLUE));
+        showButtonLayer();
+
+        mCircleHashMap.put(point, circle);
+
+        mAcceptButton.setOnClickListener(v -> {
+            lastMarker = null;
+            hideButtonLayer();
+            addGeofenceFromCircle(circle);
+        });
+
+        mDeleteButton.setOnClickListener(v -> {
+            circle.remove();
+            hideButtonLayer();
+            lastMarker.remove();
+        });
+
+        mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                circle.setRadius(progress);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+        mSeekBar.setProgress((int) circle.getRadius());
+
+    }
+
+    private boolean modifyMarker(Marker marker) {
+        if (lastMarker != null && !lastMarker.equals(marker)) {
+            mCircleHashMap.get(lastMarker.getPosition()).remove();
+            lastMarker.remove();
+        }
+
+        showButtonLayer();
+        Circle c = mCircleHashMap.get(marker.getPosition());
+        mDeleteButton.setOnClickListener(v -> {
+            removeGeofenceFromCircle(c);
+            c.remove();
+            hideButtonLayer();
+            marker.remove();
+        });
+
+        mAcceptButton.setOnClickListener(v -> {
+            hideButtonLayer();
+        });
+
+        mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                c.setRadius(progress);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                addGeofenceFromCircle(c);
+            }
+        });
+        mSeekBar.setProgress((int) c.getRadius());
+        return true;
+    }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+
+        mMap.setOnMapClickListener(this::setMarker);
+
+        mMap.setOnMarkerClickListener(this::modifyMarker);
 
         updateLocationUI();
 
@@ -168,44 +278,44 @@ public abstract class CustomMapFragment extends Fragment implements OnMapReadyCa
     }
 
     private void addGeofenceFromCircle(Circle c) {
-        Intent intent = new Intent(this.getContext(), GeofenceUpdateService.class);
-        intent.putExtra("Radius", (float) c.getRadius());
+        Intent intent = new Intent();
         intent.putExtra("Center",c.getCenter());
-        this.getActivity().startService(intent);
+        intent.putExtra("Radius",c.getRadius());
+        intent.setAction(GeofenceService.UPDATE_GEOFENCES);
+        this.getActivity().sendBroadcast(intent);
     }
 
     private void removeGeofenceFromCircle(Circle c) {
-        Intent intent = new Intent(this.getActivity(), GeofenceRemoveService.class);
+        Intent intent = new Intent();
         intent.putExtra("Center",c.getCenter());
-        this.getActivity().startService(intent);
+        intent.putExtra("Radius",c.getRadius());
+        intent.setAction(GeofenceService.REMOVE_GEOFENCES);
+        this.getActivity().sendBroadcast(intent);
     }
 
-
-    private void hideButtonLayer() {
-        mAcceptButton.setVisibility(View.GONE);
-        mDeleteButton.setVisibility(View.GONE);
-        mSeekBar.setVisibility(View.GONE);
-        mSeekBar.setOnSeekBarChangeListener(null);
-    }
 
     public CustomMapFragment() {
     }
 
-    public View inflateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this.getActivity());
 
         View rootView = inflater.inflate(R.layout.fragment_map, container, false);
-
         mAcceptButton = rootView.findViewById(R.id.button_accept);
         mDeleteButton = rootView.findViewById(R.id.button_delete);
         mSeekBar = rootView.findViewById(R.id.seekBar);
-        hideButtonLayer();
+        mSeekBar.setMax(MAX_CIRCLE_RADIUS);
+
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this.getActivity());
 
         this.getActivity().startService(new Intent(this.getActivity(),GeolocationService.class));
+        this.getActivity().startService(new Intent(this.getActivity(),GeofenceService.class));
+        hideButtonLayer();
 
         mMapView = rootView.findViewById(R.id.mapView);
-        Log.e("test", "laod map view");
+
         if (mMapView != null) {
             mMapView.onCreate(savedInstanceState);
             mMapView.getMapAsync(this);
