@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.Toast;
 
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.common.api.Status;
@@ -33,8 +34,9 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.CameraPosition;
-import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -60,6 +62,7 @@ public abstract class CustomMapFragment extends Fragment implements OnMapReadyCa
     private MapView mMapView;
     private Location mLastKnownLocation = null;
     private CameraPosition mCameraPosition = null;
+    private Marker searchMarker = null;
 
     private FusedLocationProviderClient mFusedLocationClient;
 
@@ -94,7 +97,6 @@ public abstract class CustomMapFragment extends Fragment implements OnMapReadyCa
                 this.btnCenter.setVisibility(View.GONE);
                 this.mLastKnownLocation = null;
             }
-            // Custom location button
             this.mMap.getUiSettings().setMyLocationButtonEnabled(false);
             this.mMap.getUiSettings().setCompassEnabled(false);
         } catch (SecurityException e) {
@@ -114,6 +116,7 @@ public abstract class CustomMapFragment extends Fragment implements OnMapReadyCa
                     PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
         }
     }
+
 
     @SuppressLint("MissingPermission")
     private void getDeviceLocation() {
@@ -138,8 +141,6 @@ public abstract class CustomMapFragment extends Fragment implements OnMapReadyCa
                             mLastKnownLocation.getLongitude()), DEFAULT_ZOOM));
         } else {
             Log.d(TAG, "Current location is null. Using defaults.");
-            //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM));
-            //mMap.getUiSettings().setMyLocationButtonEnabled(false);
         }
     }
 
@@ -149,7 +150,6 @@ public abstract class CustomMapFragment extends Fragment implements OnMapReadyCa
         mLocationPermissionGranted = false;
         switch (requestCode) {
             case PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: {
-                // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     mLocationPermissionGranted = true;
@@ -158,19 +158,6 @@ public abstract class CustomMapFragment extends Fragment implements OnMapReadyCa
                 }
             }
         }
-    }
-
-    private void addGeofenceFromCircle(Circle c) {
-        Intent intent = new Intent(this.getContext(), GeofenceUpdateService.class);
-        intent.putExtra("Radius", (float) c.getRadius());
-        intent.putExtra("Center",c.getCenter());
-        this.getActivity().startService(intent);
-    }
-
-    private void removeGeofenceFromCircle(Circle c) {
-        Intent intent = new Intent(this.getActivity(), GeofenceRemoveService.class);
-        intent.putExtra("Center",c.getCenter());
-        this.getActivity().startService(intent);
     }
 
 
@@ -273,15 +260,15 @@ public abstract class CustomMapFragment extends Fragment implements OnMapReadyCa
     private void dispatchSearch() {
         try {
             Intent intent = new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_OVERLAY)
-                    //.setBoundsBias()
                     .build(getActivity());
             startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
         } catch (GooglePlayServicesRepairableException e) {
-            // TODO: Handle the error.
-            Log.e(TAG, e.getMessage());
+            GoogleApiAvailability.getInstance().getErrorDialog(this.getActivity(),e.getConnectionStatusCode(),PLACE_AUTOCOMPLETE_REQUEST_CODE).show();
         } catch (GooglePlayServicesNotAvailableException e) {
-            // TODO: Handle the error.
-            Log.e(TAG, e.getMessage());
+            String message = "Google Play Services is not available: " +
+                    GoogleApiAvailability.getInstance().getErrorString(e.errorCode);
+            Log.e(TAG, message);
+            Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -289,24 +276,20 @@ public abstract class CustomMapFragment extends Fragment implements OnMapReadyCa
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
-                // Place selected
                 Place place = PlaceAutocomplete.getPlace(getActivity(), data);
-                // Set search text
                 CharSequence name = place.getAddress() != null ? place.getAddress() :
                         place.getName();
                 etSearch.setText(name);
                 // Go to location
-                // TODO: Markers without zones
-                // this.setMarker(place.getLatLng());
+                // ToDo: Set Marker
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(place.getLatLng(), SEARCH_ZOOM));
             } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
-                // Error selecting place
                 Status status = PlaceAutocomplete.getStatus(getActivity(), data);
                 Toast.makeText(getActivity(), getResources().getString(R.string.error_places),
                         Toast.LENGTH_SHORT).show();
                 Log.e(TAG, status.getStatusMessage());
+                searchMarker.remove();
             } else if (resultCode == Activity.RESULT_CANCELED) {
-                // The user canceled the operation.
                 Log.d(TAG, "User cancel place");
             }
         }

@@ -1,15 +1,21 @@
 package es.udc.apm.familycare.maps;
 
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SeekBar;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Circle;
@@ -36,7 +42,7 @@ public class VipMapFragment extends CustomMapFragment {
     private SeekBar mSeekBar;
     private Marker lastMarker;
 
-
+    private FusedLocationProviderClient mFusedLocationClient;
 
     private void showButtonLayer() {
         mAcceptButton.setVisibility(View.VISIBLE);
@@ -150,27 +156,33 @@ public class VipMapFragment extends CustomMapFragment {
 
     }
 
-
     private void addGeofenceFromCircle(Circle c) {
         Intent intent = new Intent(this.getContext(), GeofenceUpdateService.class);
-        intent.putExtra("Radius", (float) c.getRadius());
-        intent.putExtra("Center",c.getCenter());
+        GeofenceStore.getInstance().addGeofence(c.getCenter(), (float) c.getRadius());
         this.getActivity().startService(intent);
     }
 
+    @SuppressLint("MissingPermission")
     private void removeGeofenceFromCircle(Circle c) {
-        Intent intent = new Intent(this.getActivity(), GeofenceRemoveService.class);
-        intent.putExtra("Center",c.getCenter());
+        Intent intent = new Intent(this.getActivity(), GeofenceUpdateService.class);
+        GeofenceStore.getInstance().removeGeofence(c.getCenter());
         this.getActivity().startService(intent);
+        mFusedLocationClient.getLastLocation().addOnSuccessListener(location -> {
+            if (location != null) {
+                Intent intentDelete = new Intent(this.getActivity(), GeofenceTransitionsIntentService.class);
+                intentDelete.putExtra("com.google.android.location.intent.extra.triggering_location", location);
+                this.getActivity().startService(intentDelete);
+            }
+        });
+
     }
-
-
 
     public VipMapFragment() {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this.getActivity());
         View rootView = super.inflateView(inflater, container, savedInstanceState);
         mAcceptButton = rootView.findViewById(R.id.button_accept);
         mDeleteButton = rootView.findViewById(R.id.button_delete);

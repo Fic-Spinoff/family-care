@@ -2,16 +2,34 @@ package es.udc.apm.familycare.maps;
 
 import android.app.IntentService;
 import android.content.Intent;
+import android.location.Location;
 import android.util.Log;
 
-import com.google.android.gms.location.Geofence;
-import com.google.android.gms.location.GeofencingEvent;
+import com.google.android.gms.maps.model.LatLng;
+import java.util.HashMap;
 
-import java.util.List;
 
 public class GeofenceTransitionsIntentService extends IntentService {
     protected static final String TAG = "GeofenceTransitionsIS";
 
+    private boolean checkInside(LatLng center, float radius, double longitude, double latitude) {
+        return calculateDistance(
+                center.longitude, center.latitude, longitude, latitude
+        ) < (double) radius;}
+
+    private double calculateDistance(
+            double longitude1, double latitude1,
+            double longitude2, double latitude2) {
+        double c =
+                Math.sin(Math.toRadians(latitude1)) *
+                        Math.sin(Math.toRadians(latitude2)) +
+                        Math.cos(Math.toRadians(latitude1)) *
+                                Math.cos(Math.toRadians(latitude2)) *
+                                Math.cos(Math.toRadians(longitude2) -
+                                        Math.toRadians(longitude1));
+        c = c > 0 ? Math.min(1, c) : Math.max(-1, c);
+        return 3959 * 1.609 * 1000 * Math.acos(c);
+    }
 
     public GeofenceTransitionsIntentService() {
         super(TAG);
@@ -19,27 +37,16 @@ public class GeofenceTransitionsIntentService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        GeofencingEvent event = GeofencingEvent.fromIntent(intent);
-        if (event.hasError()) {
-            Log.e(TAG, "GeofencingEvent Error: " + event.getErrorCode());
-            return;
-        }
-        getGeofenceTransitionDetails(event);
+        HashMap<LatLng, Float> geofenceData = GeofenceStore.getInstance().getGeofenceData();
+        Location triggeringLocation = intent.getParcelableExtra("com.google.android.location.intent.extra.triggering_location");
 
-    }
-
-    private void getGeofenceTransitionDetails(GeofencingEvent event) {
-
-        // Get the transition type.
-        int geofenceTransition = event.getGeofenceTransition();
-
-        List<Geofence> triggeringGeofences = null;
-        if (geofenceTransition == Geofence.GEOFENCE_TRANSITION_ENTER) {
-            Log.e(TAG, "Enter in geofence");
+        for (LatLng center : geofenceData.keySet()) {
+            if (checkInside(center, geofenceData.get(center), triggeringLocation.getLongitude(), triggeringLocation.getLatitude()))
+                return;
         }
 
-        if (geofenceTransition == Geofence.GEOFENCE_TRANSITION_EXIT) {
-            Log.e(TAG, "Exit from Geofence");
-        }
+        // Avisos aqui
+        Log.e(TAG,"Not in safe zone");
+
     }
 }

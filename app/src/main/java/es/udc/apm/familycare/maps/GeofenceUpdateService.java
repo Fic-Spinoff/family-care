@@ -11,7 +11,6 @@ import android.util.Log;
 import com.google.android.gms.location.GeofencingClient;
 import com.google.android.gms.location.GeofencingRequest;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
@@ -34,9 +33,6 @@ public class GeofenceUpdateService extends IntentService {
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
-        LatLng center = intent.getExtras().getParcelable("Center");
-        float radius = intent.getFloatExtra("Radius",0);
-        (GeofenceStore.getInstance()).addGeofence(center, radius);
         mGeofendcingClient = LocationServices.getGeofencingClient(this.getBaseContext());
         updateGeofences();
     }

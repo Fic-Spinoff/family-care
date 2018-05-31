@@ -100,7 +100,6 @@
         <service android:name=".maps.GeofenceTransitionsIntentService" />
         <service android:name=".maps.GeolocationService" />
         <service android:name=".maps.GeofenceUpdateService" />
-        <service android:name=".maps.GeofenceRemoveService" />
     </application>
 
 </manifest>
