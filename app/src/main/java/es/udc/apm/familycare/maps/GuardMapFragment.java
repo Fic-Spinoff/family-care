@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 
 
 public class GuardMapFragment extends CustomMapFragment {
-    private static final String TAG = "VipCustomMapFragment";
+    private static final String TAG = "GuardCustomMapFragment";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

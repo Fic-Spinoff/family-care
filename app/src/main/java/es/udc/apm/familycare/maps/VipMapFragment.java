@@ -4,10 +4,8 @@ package es.udc.apm.familycare.maps;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
-import android.location.Location;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +13,6 @@ import android.widget.SeekBar;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Circle;
@@ -27,7 +24,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.HashMap;
 
 import es.udc.apm.familycare.R;
-
 
 public class VipMapFragment extends CustomMapFragment {
     private static final String TAG = "GuardCustomMapFragment";
@@ -152,8 +148,6 @@ public class VipMapFragment extends CustomMapFragment {
         mMap.setOnMapClickListener(this::setMarker);
 
         mMap.setOnMarkerClickListener(this::modifyMarker);
-
-
     }
 
     private void addGeofenceFromCircle(Circle c) {

@@ -132,7 +132,7 @@ public abstract class CustomMapFragment extends Fragment implements OnMapReadyCa
             });
         }
 
-        // Set the map's camera position to the current location of the device.
+
         if (mCameraPosition != null) {
             mMap.moveCamera(CameraUpdateFactory.newCameraPosition(mCameraPosition));
         } else if (mLastKnownLocation != null) {
@@ -140,7 +140,7 @@ public abstract class CustomMapFragment extends Fragment implements OnMapReadyCa
                     new LatLng(mLastKnownLocation.getLatitude(),
                             mLastKnownLocation.getLongitude()), DEFAULT_ZOOM));
         } else {
-            Log.d(TAG, "Current location is null. Using defaults.");
+            Log.d(TAG, "Current location is null");
         }
     }
 
@@ -185,7 +185,6 @@ public abstract class CustomMapFragment extends Fragment implements OnMapReadyCa
         this.getActivity().startService(new Intent(this.getActivity(),GeolocationService.class));
 
         mMapView = rootView.findViewById(R.id.mapView);
-        Log.e("test", "laod map view");
         if (mMapView != null) {
             mMapView.onCreate(savedInstanceState);
             mMapView.getMapAsync(this);
@@ -280,8 +279,6 @@ public abstract class CustomMapFragment extends Fragment implements OnMapReadyCa
                 CharSequence name = place.getAddress() != null ? place.getAddress() :
                         place.getName();
                 etSearch.setText(name);
-                // Go to location
-                // ToDo: Set Marker
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(place.getLatLng(), SEARCH_ZOOM));
             } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
                 Status status = PlaceAutocomplete.getStatus(getActivity(), data);
