@@ -100,7 +100,7 @@ public class VipActivity extends AppCompatActivity implements RouterActivity {
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.menu_conf:
-                startActivity(new Intent(this, ConfActivity.class));
+                startActivity(new Intent(this, ConfActivity_Vip.class));
                 return true;
             case android.R.id.home:
                 this.onBackPressed();
