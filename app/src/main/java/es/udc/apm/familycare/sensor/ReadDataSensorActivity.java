@@ -2,25 +2,30 @@ package es.udc.apm.familycare.sensor;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Service;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.os.IBinder;
+import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 
 import java.util.Calendar;
 
 import es.udc.apm.familycare.R;
 
-public class ReadDataSensorActivity extends Activity implements SensorEventListener {
+public class ReadDataSensorActivity extends Service implements SensorEventListener {
 
-    public final static String EXTRA_MESSAGE = "com.example.sensefall.MESSAGE";
-    public static final String PREFS_NAME_SITTING = "SittingPrefFile";
-    public static final String PREFS_NAME_FALL = "FallPrefFile";
-    public static final String PREFS_NAME_WALKING = "WalkingPrefFile";
-    public static final String PREFS_NAME_STANDING = "StandingPrefFile";
+    public static final String PREFS_SHARED_FILE = "PrefesSensorDataFile";
+    public static final String PREFS_NAME_SITTING_KEY = "SittingPrefFile";
+    public static final String PREFS_NAME_FALL_KEY = "FallPrefFile";
+    public static final String PREFS_NAME_WALKING_KEY = "WalkingPrefFile";
+    public static final String PREFS_NAME_STANDING_KEY = "StandingPrefFile";
     public double ax,ay,az;
     public double a_norm;
     public int i=0;
@@ -30,16 +35,14 @@ public class ReadDataSensorActivity extends Activity implements SensorEventListe
     private SensorManager sensorManager;
     public static String curr_state,prev_state;
     private int sensorType = Sensor.TYPE_ACCELEROMETER;
-    private SharedPreferences sharedPrefSitting,sharedPrefFall,sharedPrefWalking,sharedPrefStanding;
+    private SharedPreferences sharedPrefSensorData;
 
 
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_read_data_sensor);
-        sharedPrefSitting = getApplicationContext().getSharedPreferences(PREFS_NAME_SITTING, Context.MODE_PRIVATE);
-        sharedPrefFall = getApplicationContext().getSharedPreferences(PREFS_NAME_FALL, Context.MODE_PRIVATE);
-        sharedPrefWalking = getApplicationContext().getSharedPreferences(PREFS_NAME_WALKING, Context.MODE_PRIVATE);
-        sharedPrefStanding = getApplicationContext().getSharedPreferences(PREFS_NAME_STANDING, Context.MODE_PRIVATE);
+        //super.onCreate(savedInstanceState);
+        //setContentView(R.layout.activity_read_data_sensor);
+        PreferenceManager.getDefaultSharedPreferences(this);
+        //sharedPrefSensorData =  this..getSharedPreferences(PREFS_SHARED_FILE, Context.MODE_PRIVATE);
 
         sensorManager=(SensorManager) getSystemService(SENSOR_SERVICE);
         sensorManager.registerListener(this, sensorManager.getDefaultSensor(sensorType), SensorManager.SENSOR_DELAY_UI);
@@ -142,53 +145,75 @@ public class ReadDataSensorActivity extends Activity implements SensorEventListe
 
     }
 
-    @Override
-    protected void onResume()
-    {
-        super.onResume();
-
-        sensorManager.registerListener(this, sensorManager.getDefaultSensor(sensorType),
-                SensorManager.SENSOR_DELAY_NORMAL);
-    }
-
-    @Override
-    protected void onPause()
-    {
-        super.onPause();
-
-        sensorManager.unregisterListener(this);
-    }
+//    @Override
+//    protected void onResume()
+//    {
+//        super.onResume();
+//
+//        sensorManager.registerListener(this, sensorManager.getDefaultSensor(sensorType),
+//                SensorManager.SENSOR_DELAY_NORMAL);
+//    }
+//
+//    @Override
+//    protected void onPause()
+//    {
+//        super.onPause();
+//
+//        sensorManager.unregisterListener(this);
+//    }
 
     private void saveDataNumberSittingUser(long value){
 
         // Save preference
-        SharedPreferences.Editor editor = sharedPrefSitting.edit();
-        editor.putLong(PREFS_NAME_SITTING, value);
+        SharedPreferences.Editor editor = sharedPrefSensorData.edit();
+        editor.putLong(PREFS_NAME_SITTING_KEY, value);
         editor.commit();
     }
 
     private void saveDataNumberFallUser(long value){
 
         // Save preference
-        SharedPreferences.Editor editor = sharedPrefFall.edit();
-        editor.putLong(PREFS_NAME_FALL, value);
+        SharedPreferences.Editor editor = sharedPrefSensorData.edit();
+        editor.putLong(PREFS_NAME_FALL_KEY, value);
         editor.commit();;
     }
 
     private void saveDataNumberWalkingUser(long value){
 
         // Save preference
-        SharedPreferences.Editor editor = sharedPrefWalking.edit();
-        editor.putLong(PREFS_NAME_WALKING, value);
+        SharedPreferences.Editor editor = sharedPrefSensorData.edit();
+        editor.putLong(PREFS_NAME_WALKING_KEY, value);
         editor.commit();
     }
 
     private void saveDataNumberStandingUser(long value){
 
         // Save preference
-        SharedPreferences.Editor editor = sharedPrefStanding.edit();
-        editor.putLong(PREFS_NAME_STANDING, value);
+        SharedPreferences.Editor editor = sharedPrefSensorData.edit();
+        editor.putLong(PREFS_NAME_STANDING_KEY, value);
         editor.commit();
     }
 
+    @Nullable
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+
+        sensorManager.registerListener(this, sensorManager.getDefaultSensor(sensorType),
+                SensorManager.SENSOR_DELAY_NORMAL);
+        return super.onStartCommand(intent, flags, startId);
+
+
+    }
+
+    @Override
+    public void onDestroy() {
+
+        super.onDestroy();
+        sensorManager.unregisterListener(this);
+    }
 }
