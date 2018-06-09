@@ -19,6 +19,7 @@ import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import es.udc.apm.familycare.interfaces.RouterActivity;
+import es.udc.apm.familycare.sensor.AccelerometerDataService;
 import es.udc.apm.familycare.utils.Constants;
 
 public class GuardActivity extends AppCompatActivity implements RouterActivity {
@@ -44,6 +45,7 @@ public class GuardActivity extends AppCompatActivity implements RouterActivity {
                 case R.id.navigation_activity:
                     text = "Activity Button pressed!";
                     Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
+                    startService(new Intent(GuardActivity.this,AccelerometerDataService.class));
                     return true;
                 case R.id.navigation_statistics:
                     navigate(new WalkFragment(), null);

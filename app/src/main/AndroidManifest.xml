@@ -113,7 +113,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".sensor.ReadDataSensorActivity" />
+        <service android:name=".sensor.AccelerometerDataService" />
     </application>
 
 </manifest>

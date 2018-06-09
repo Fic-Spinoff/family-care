@@ -21,6 +21,7 @@ import butterknife.ButterKnife;
 import es.udc.apm.familycare.interfaces.RouterActivity;
 import es.udc.apm.familycare.members.DetailMemberFragment;
 import es.udc.apm.familycare.members.MemberListFragment;
+import es.udc.apm.familycare.sensor.AccelerometerDataService;
 import es.udc.apm.familycare.utils.Constants;
 
 public class VipActivity extends AppCompatActivity implements RouterActivity {
@@ -48,6 +49,7 @@ public class VipActivity extends AppCompatActivity implements RouterActivity {
                         return true;
                     case R.id.navigation_members:
                         navigate(MemberListFragment.newInstance(), null);
+                        this.startService(new Intent(this,AccelerometerDataService.class));
                         return true;
                     case R.id.navigation_link:
                         navigate(LinkFragment.newInstance(), null);

@@ -14,12 +14,13 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.widget.Toast;
 
 import java.util.Calendar;
 
 import es.udc.apm.familycare.R;
 
-public class ReadDataSensorActivity extends Service implements SensorEventListener {
+public class AccelerometerDataService extends Service implements SensorEventListener {
 
     public static final String PREFS_SHARED_FILE = "PrefesSensorDataFile";
     public static final String PREFS_NAME_SITTING_KEY = "SittingPrefFile";
@@ -37,25 +38,45 @@ public class ReadDataSensorActivity extends Service implements SensorEventListen
     private int sensorType = Sensor.TYPE_ACCELEROMETER;
     private SharedPreferences sharedPrefSensorData;
 
+    @Nullable
+    @Override
+    public IBinder onBind(Intent intent) {
 
-    public void onCreate(Bundle savedInstanceState) {
-        //super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_read_data_sensor);
-        PreferenceManager.getDefaultSharedPreferences(this);
-        //sharedPrefSensorData =  this..getSharedPreferences(PREFS_SHARED_FILE, Context.MODE_PRIVATE);
+        return null;
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        sharedPrefSensorData = PreferenceManager.getDefaultSharedPreferences(this);
 
         sensorManager=(SensorManager) getSystemService(SENSOR_SERVICE);
         sensorManager.registerListener(this, sensorManager.getDefaultSensor(sensorType), SensorManager.SENSOR_DELAY_UI);
         initialize();
     }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        super.onStartCommand(intent, flags, startId);
+        sensorManager.registerListener(this, sensorManager.getDefaultSensor(sensorType),
+                SensorManager.SENSOR_DELAY_NORMAL);
+
+        return START_NOT_STICKY;
+    }
+
+    @Override
+    public void onDestroy() {
+        sensorManager.unregisterListener(this);
+        super.onDestroy();
+
+    }
+
     private void initialize() {
-        // TODO Auto-generated method stub
         for(i=0;i<BUFF_SIZE;i++){
             window[i]=0;
         }
         prev_state="none";
         curr_state="none";
-
     }
     @Override
     public void onAccuracyChanged(Sensor arg0, int arg1) {
@@ -79,7 +100,6 @@ public class ReadDataSensorActivity extends Service implements SensorEventListen
         }
     }
     private void posture_recognition(double[] window2,double ay2) {
-        // TODO Auto-generated method stub
         int zrc=compute_zrc(window2);
         if(zrc==0){
 
@@ -94,16 +114,12 @@ public class ReadDataSensorActivity extends Service implements SensorEventListen
             if(zrc>th2){
                 curr_state="walking";
             }else{
-                curr_state="none";
+                curr_state="fall";
             }
 
         }
-
-
-
     }
     private int compute_zrc(double[] window2) {
-        // TODO Auto-generated method stub
         int count=0;
         for(i=1;i<=BUFF_SIZE-1;i++){
 
@@ -115,55 +131,39 @@ public class ReadDataSensorActivity extends Service implements SensorEventListen
         return count;
     }
     private void systemState(String curr_state1, String prev_state1) {
-        // TODO Auto-generated method stub
-
-        //Fall !!
+        //ToDo eliminar los toast cuando se guarde la info en firebase
+        CharSequence text = "";
         if(!prev_state1.equalsIgnoreCase(curr_state1)){
             if(curr_state1.equalsIgnoreCase("fall")){
+                text = "fall";
                 saveDataNumberFallUser(Calendar.getInstance().getTimeInMillis());
             }
             if(curr_state1.equalsIgnoreCase("sitting")){
+                text = "sitting";
                 saveDataNumberSittingUser(Calendar.getInstance().getTimeInMillis());
             }
             if(curr_state1.equalsIgnoreCase("standing")){
+                text = "standing";
                 saveDataNumberStandingUser(Calendar.getInstance().getTimeInMillis());
             }
             if(curr_state1.equalsIgnoreCase("walking")){
+                text = "walking";
                 saveDataNumberWalkingUser(Calendar.getInstance().getTimeInMillis());
             }
+            Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
         }
-
 
     }
     private void AddData(double ax2, double ay2, double az2) {
-        // TODO Auto-generated method stub
         a_norm=Math.sqrt(ax*ax+ay*ay+az*az);
         for(i=0;i<=BUFF_SIZE-2;i++){
             window[i]=window[i+1];
         }
         window[BUFF_SIZE-1]=a_norm;
-
     }
 
-//    @Override
-//    protected void onResume()
-//    {
-//        super.onResume();
-//
-//        sensorManager.registerListener(this, sensorManager.getDefaultSensor(sensorType),
-//                SensorManager.SENSOR_DELAY_NORMAL);
-//    }
-//
-//    @Override
-//    protected void onPause()
-//    {
-//        super.onPause();
-//
-//        sensorManager.unregisterListener(this);
-//    }
 
     private void saveDataNumberSittingUser(long value){
-
         // Save preference
         SharedPreferences.Editor editor = sharedPrefSensorData.edit();
         editor.putLong(PREFS_NAME_SITTING_KEY, value);
@@ -171,7 +171,6 @@ public class ReadDataSensorActivity extends Service implements SensorEventListen
     }
 
     private void saveDataNumberFallUser(long value){
-
         // Save preference
         SharedPreferences.Editor editor = sharedPrefSensorData.edit();
         editor.putLong(PREFS_NAME_FALL_KEY, value);
@@ -179,7 +178,6 @@ public class ReadDataSensorActivity extends Service implements SensorEventListen
     }
 
     private void saveDataNumberWalkingUser(long value){
-
         // Save preference
         SharedPreferences.Editor editor = sharedPrefSensorData.edit();
         editor.putLong(PREFS_NAME_WALKING_KEY, value);
@@ -187,33 +185,11 @@ public class ReadDataSensorActivity extends Service implements SensorEventListen
     }
 
     private void saveDataNumberStandingUser(long value){
-
         // Save preference
         SharedPreferences.Editor editor = sharedPrefSensorData.edit();
         editor.putLong(PREFS_NAME_STANDING_KEY, value);
         editor.commit();
     }
 
-    @Nullable
-    @Override
-    public IBinder onBind(Intent intent) {
-        return null;
-    }
 
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-
-        sensorManager.registerListener(this, sensorManager.getDefaultSensor(sensorType),
-                SensorManager.SENSOR_DELAY_NORMAL);
-        return super.onStartCommand(intent, flags, startId);
-
-
-    }
-
-    @Override
-    public void onDestroy() {
-
-        super.onDestroy();
-        sensorManager.unregisterListener(this);
-    }
 }
