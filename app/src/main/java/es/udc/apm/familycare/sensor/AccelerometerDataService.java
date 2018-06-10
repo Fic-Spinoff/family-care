@@ -11,12 +11,15 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.widget.Toast;
 
 import java.util.Calendar;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import es.udc.apm.familycare.R;
 
@@ -27,6 +30,7 @@ public class AccelerometerDataService extends Service implements SensorEventList
     public static final String PREFS_NAME_FALL_KEY = "FallPrefFile";
     public static final String PREFS_NAME_WALKING_KEY = "WalkingPrefFile";
     public static final String PREFS_NAME_STANDING_KEY = "StandingPrefFile";
+    private  static final int TIEMPO_ESPERA_CAIDA=30000;
     public double ax,ay,az;
     public double a_norm;
     public int i=0;
@@ -37,6 +41,7 @@ public class AccelerometerDataService extends Service implements SensorEventList
     public static String curr_state,prev_state;
     private int sensorType = Sensor.TYPE_ACCELEROMETER;
     private SharedPreferences sharedPrefSensorData;
+    final Handler handler = new Handler();
 
     @Nullable
     @Override
@@ -135,7 +140,18 @@ public class AccelerometerDataService extends Service implements SensorEventList
         CharSequence text = "";
         if(!prev_state1.equalsIgnoreCase(curr_state1)){
             if(curr_state1.equalsIgnoreCase("fall")){
-                text = "fall";
+                //text = "fall";
+                Timer timer = new Timer();
+                timer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        handler.post(new Runnable() {
+                             public void run() {
+                                 Toast.makeText(getApplicationContext(), "fall", Toast.LENGTH_SHORT).show();
+                             }
+                         });
+                    }
+                },TIEMPO_ESPERA_CAIDA);
                 saveDataNumberFallUser(Calendar.getInstance().getTimeInMillis());
             }
             if(curr_state1.equalsIgnoreCase("sitting")){
