@@ -2,11 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="es.udc.apm.familycare">
 
-    <!--
-         The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
-         Google Maps Android API v2, but you must specify either coarse or fine
-         location permissions for the 'MyLocation' functionality.
-    -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
@@ -25,7 +20,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:name=".FamilyCare">
         <activity
             android:name=".SplashActivity"
             android:theme="@style/SplashTheme">
@@ -36,9 +32,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LoginActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/LoginTheme" />
+            android:name=".login.LoginActivity"
+            android:theme="@style/LoginTheme"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".RoleActivity"
             android:label="@string/app_name"
@@ -114,6 +110,9 @@
             </intent-filter>
         </activity>
         <service android:name=".sensor.AccelerometerDataService" />
+        <service android:name=".maps.GeofenceTransitionsIntentService" />
+        <service android:name=".maps.GeolocationService" />
+        <service android:name=".maps.GeofenceService" />
     </application>
 
 </manifest>

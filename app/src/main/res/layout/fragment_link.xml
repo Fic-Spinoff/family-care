@@ -31,23 +31,77 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/text_unbind"/>
+        android:textSize="16sp"
+        android:text="@string/text_link_key"/>
 
-    <EditText
-        android:hint="id-1293asd-klasmlasofg-23"
-        android:id="@+id/et_link_device"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:enabled="false"
-        android:inputType="text" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginBottom="@dimen/activity_vertical_margin">
+            <EditText
+                android:id="@+id/et_link_key"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/colorPrimaryDark"
+                android:textColor="#fff"
+                android:textSize="16sp"
+                android:padding="6dp"
+                android:gravity="center"
+                android:scrollHorizontally="true"
+                android:layout_marginRight="12dp"/>
+            <ImageView
+                android:id="@+id/btn_link_refresh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimaryDark"
+                android:layout_marginRight="12dp"
+                android:padding="6dp"
+                app:srcCompat="@drawable/ic_refresh_black"
+                android:tint="@color/white"/>
+            <ImageView
+                android:id="@+id/btn_link_share"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimaryDark"
+                android:padding="6dp"
+                app:srcCompat="@drawable/ic_share_black"
+                android:tint="@color/white"/>
+        </LinearLayout>
 
-    <Button
-        android:id="@+id/btn_link_unbind"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:text="@string/btn_unbind"
-        android:theme="@style/RaisedButton"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:textSize="16sp"
+            android:text="@string/text_link_link"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginBottom="@dimen/activity_vertical_margin">
+            <TextView
+                android:id="@+id/tv_link_link"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/colorPrimaryDark"
+                android:textColor="#fff"
+                android:textSize="16sp"
+                android:padding="6dp"
+                android:gravity="center"
+                android:layout_marginRight="12dp"/>
+            <ImageView
+                android:id="@+id/btn_link_share_link"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimaryDark"
+                android:padding="6dp"
+                app:srcCompat="@drawable/ic_share_black"
+                android:tint="@color/white"/>
+        </LinearLayout>
 
     </LinearLayout>
 

@@ -19,6 +19,7 @@ import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import es.udc.apm.familycare.interfaces.RouterActivity;
+import es.udc.apm.familycare.link.LinkFragment;
 import es.udc.apm.familycare.members.DetailMemberFragment;
 import es.udc.apm.familycare.members.MemberListFragment;
 import es.udc.apm.familycare.sensor.AccelerometerDataService;
