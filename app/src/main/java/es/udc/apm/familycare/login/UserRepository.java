@@ -9,9 +9,11 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 
+import java.util.List;
 import java.util.Map;
 
 import es.udc.apm.familycare.model.User;
+import es.udc.apm.familycare.utils.Constants;
 
 /**
  * Created by Gonzalo on 04/05/2018.
@@ -46,15 +48,34 @@ public class UserRepository {
         return user;
     }
 
+    public LiveData<List<User>> getUserByLink(String link) {
+        final MutableLiveData<List<User>> users = new MutableLiveData<>();
+        this.mFirestore.collection("users")
+                .whereEqualTo("link", link).get().addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        if (task.getResult() != null) {
+                            users.setValue(task.getResult().toObjects(User.class));
+                        } else {
+                            Log.d(TAG, "No documents by link: "+link);
+                            users.setValue(null);
+                        }
+                    } else {
+                        Log.d(TAG, "get failed with ", task.getException());
+                    }
+                });
+        return users;
+    }
+
+
     public void setUser(User user) {
-        this.mFirestore.collection("users").document(user.getUid()).set(user);
+        this.mFirestore.collection(Constants.Collections.USERS).document(user.getUid()).set(user);
     }
 
     public void editUser(User user) {
-        this.mFirestore.collection("users").document(user.getUid()).set(user, SetOptions.merge());
+        this.mFirestore.collection(Constants.Collections.USERS).document(user.getUid()).set(user, SetOptions.merge());
     }
 
     public void editUser(String uid, Map<String, Object> userData) {
-        this.mFirestore.collection("users").document(uid).update(userData);
+        this.mFirestore.collection(Constants.Collections.USERS).document(uid).update(userData);
     }
 }

@@ -12,6 +12,26 @@ public class Constants {
     public static final String PREFS_USER_UID = "Prefs.User.UID";
     public static final String PREFS_USER_ROLE= "Prefs.User.Role";
 
+    public static final String PREFS_GUARD_LINK= "Prefs.Guard.Link";
+
     public static final String ROLE_VIP = "VIP";
     public static final String ROLE_GUARD = "GUARD";
+
+    public static class Collections {
+        public static final String USERS = "users";
+    }
+
+    public static class Properties {
+        public static final String LINK = "link";
+        public static final String VIP = "vip";
+        public static final String VIP_NAME = "vipName";
+    }
+
+    public static class Keys {
+        public static final String LINK = "Key.Link";
+    }
+
+    public static class MimeType {
+        public static final String TEXT = "text/plain";
+    }
 }

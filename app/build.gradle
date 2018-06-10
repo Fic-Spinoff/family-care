@@ -72,6 +72,9 @@ dependencies {
     // ReactiveStreams support for LiveData
     //implementation "android.arch.lifecycle:reactivestreams:1.1.1"
 
+    //Circle image
+    implementation 'de.hdodenhof:circleimageview:2.1.0'
+
     // Charts
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
 
