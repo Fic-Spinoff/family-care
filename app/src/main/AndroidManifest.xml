@@ -5,8 +5,10 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <!--<uses-permission android:name="android.pxermission.BLUETOOTH_ADMIN" />-->
     <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-permission android:name="com.google.android.gms.permission.ACTIVITY_RECOGNITION" />
 
     <uses-feature
         android:name="android.hardware.bluetooth_le"
@@ -82,37 +84,11 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity
-            android:name=".AccelerometerActivity"
-            android:label="@string/title_activity_accelerometer">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".GyroscopeSensorActivity"
-            android:label="@string/title_activity_gyroscope">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".StepCounterActivity"
-            android:label="@string/title_activity_stepcounter">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
         <service android:name=".sensor.AccelerometerDataService" />
         <service android:name=".maps.GeofenceTransitionsIntentService" />
         <service android:name=".maps.GeolocationService" />
         <service android:name=".maps.GeofenceService" />
+        <service android:name=".sensor.ActivityRecognizedService" />
     </application>
 
 </manifest>

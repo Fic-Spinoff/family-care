@@ -15,6 +15,9 @@
     <string name="caption_link_copied">Link copied to clipboard</string>
     <string name="caption_no_key">You must enter a key!</string>
     <string name="caption_invalid_key">Key not valid!</string>
+    <string name="caption_loading">Loading…</string>
+    <string name="caption_still">%1$dh %2$dm</string>
+    <string name="caption_still_empty">0h 0m</string>
 
     <string name="title_card_guard">I will be watching!</string>
     <string name="title_card_vip">I will be watched!</string>
