@@ -1,5 +1,6 @@
 package es.udc.apm.familycare;
 
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -16,11 +17,23 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.google.android.gms.location.ActivityRecognition;
+import com.google.android.gms.location.ActivityTransition;
+import com.google.android.gms.location.ActivityTransitionRequest;
+import com.google.android.gms.location.DetectedActivity;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import es.udc.apm.familycare.interfaces.RouterActivity;
+import es.udc.apm.familycare.maps.VipMapFragment;
+import es.udc.apm.familycare.link.LinkFragment;
 import es.udc.apm.familycare.members.DetailMemberFragment;
 import es.udc.apm.familycare.members.MemberListFragment;
+import es.udc.apm.familycare.sensor.AccelerometerDataService;
+import es.udc.apm.familycare.sensor.ActivityRecognizedService;
 import es.udc.apm.familycare.utils.Constants;
 
 public class VipActivity extends AppCompatActivity implements RouterActivity {
@@ -43,11 +56,12 @@ public class VipActivity extends AppCompatActivity implements RouterActivity {
                     case R.id.navigation_map_vip:
                         // Don't reload map, heavy operation
                         if(navigation.getSelectedItemId() != item.getItemId()) {
-                            navigate(new CustomMapFragment(), null);
+                            navigate(new VipMapFragment(), null);
                         }
                         return true;
                     case R.id.navigation_members:
                         navigate(MemberListFragment.newInstance(), null);
+                        //this.startService(new Intent(this, AccelerometerDataService.class));
                         return true;
                     case R.id.navigation_link:
                         navigate(LinkFragment.newInstance(), null);
@@ -72,6 +86,33 @@ public class VipActivity extends AppCompatActivity implements RouterActivity {
         if(this.currentScreen == null) {
             navigation.setSelectedItemId(R.id.navigation_members);
         }
+
+
+        // Listen for activity events
+        Intent intent = new Intent(FamilyCare.app, ActivityRecognizedService.class);
+        PendingIntent pendingIntent = PendingIntent.getService(FamilyCare.app, 0,
+                intent, PendingIntent.FLAG_CANCEL_CURRENT);
+
+        // Activity transition listener
+        ActivityTransitionRequest request = buildTransitionRequest();
+        ActivityRecognition.getClient(FamilyCare.app).requestActivityTransitionUpdates(request, pendingIntent);
+
+        // Start fall detector
+        startService(new Intent(FamilyCare.app, AccelerometerDataService.class));
+    }
+
+    // Transition Request for Still events
+    private ActivityTransitionRequest buildTransitionRequest() {
+        List<ActivityTransition> transitions = new ArrayList<>();
+        transitions.add(new ActivityTransition.Builder()
+                .setActivityType(DetectedActivity.STILL)
+                .setActivityTransition(ActivityTransition.ACTIVITY_TRANSITION_ENTER)
+                .build());
+        transitions.add(new ActivityTransition.Builder()
+                .setActivityType(DetectedActivity.STILL)
+                .setActivityTransition(ActivityTransition.ACTIVITY_TRANSITION_EXIT)
+                .build());
+        return new ActivityTransitionRequest(transitions);
     }
 
     @Override
@@ -149,7 +190,7 @@ public class VipActivity extends AppCompatActivity implements RouterActivity {
             this.currentScreen = SCREEN_DETAIL;
         } else if (fragment instanceof MemberListFragment) {
             this.currentScreen = SCREEN_MEMBERS;
-        } else if (fragment instanceof CustomMapFragment){
+        } else if (fragment instanceof VipMapFragment){
             this.currentScreen = SCREEN_MAP;
         } else if (fragment instanceof LinkFragment){
             this.currentScreen = SCREEN_LINK;
