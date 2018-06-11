@@ -1,5 +1,9 @@
 package es.udc.apm.familycare.model;
 
+import com.google.firebase.Timestamp;
+
+import java.util.Date;
+
 /**
  * Created by Gonzalo on 29/04/2018.
  */
@@ -12,6 +16,8 @@ public class User {
     private String role;
     private String link;
     private String vip;
+    private String vipName;
+    private Timestamp stillSince;
 
     public User(){
     }
@@ -29,6 +35,22 @@ public class User {
         this.uid = uid;
         this.name = name;
         this.photo = photo;
+    }
+
+    public Date getStillSince() {
+        return stillSince.toDate();
+    }
+
+    public void setStillSince(Date stillSince) {
+        this.stillSince = new Timestamp(stillSince);
+    }
+
+    public String getVipName() {
+        return vipName;
+    }
+
+    public void setVipName(String vipName) {
+        this.vipName = vipName;
     }
 
     public String getUid() {
