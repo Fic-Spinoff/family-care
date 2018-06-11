@@ -14,23 +14,25 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.HorizontalBarChart;
-import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.fitness.Fitness;
 import com.google.android.gms.fitness.FitnessOptions;
 import com.google.android.gms.fitness.data.DataPoint;
-import com.google.android.gms.fitness.data.DataSet;
 import com.google.android.gms.fitness.data.DataType;
 import com.google.android.gms.fitness.data.Field;
 import com.google.android.gms.fitness.request.DataReadRequest;
 import com.google.android.gms.fitness.result.DataReadResponse;
-import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
@@ -57,7 +59,7 @@ public class WalkFragment extends Fragment {
     private RouterActivity routerActivity = null;
     private boolean isEnabled = true;
 
-    @BindView(R.id.chart) public PieChart chart;
+    @BindView(R.id.bpm_text) public TextView bpmText;
     @BindView(R.id.bar_chart) public HorizontalBarChart barChart;
     @BindView(R.id.walkToolbar) Toolbar toolbar;
 
@@ -109,27 +111,6 @@ public class WalkFragment extends Fragment {
             } else {
                 accessGoogleFit();
             }
-//            List<PieEntry> entries = new ArrayList<>();
-//            entries.add(new PieEntry(33.0f));
-//            entries.add(new PieEntry(67.0f));
-//            PieDataSet set = new PieDataSet(entries, "Pasos");
-//            set.setColors(getResources().getColor(android.R.color.black),
-//                    getResources().getColor(android.R.color.transparent));
-//            this.chart.setEntryLabelColor(getResources().getColor(android.R.color.transparent));
-//            this.chart.setData(new PieData(set));
-//            this.chart.setTouchEnabled(false);
-//            this.chart.setDescription(null);
-//            this.chart.invalidate();
-//
-//            List<BarEntry> barEntries = new ArrayList<>();
-//            barEntries.add(new BarEntry(0f, 3000f));
-//            barEntries.add(new BarEntry(1f, 5000f));
-//            BarDataSet barSet = new BarDataSet(barEntries, "Semana");
-//            this.barChart.setData(new BarData(barSet));
-//            this.barChart.setFitBars(true);
-//            this.barChart.setTouchEnabled(false);
-//            this.barChart.setDescription(null);
-//            this.barChart.invalidate();
         }
     }
 
@@ -184,23 +165,35 @@ public class WalkFragment extends Fragment {
                 .addOnSuccessListener(new OnSuccessListener<DataReadResponse>() {
                     @Override
                     public void onSuccess(DataReadResponse dataReadResponse) {
-                        for (DataSet ds : dataReadResponse.getDataSets()) {
-                            for (DataPoint dp : ds.getDataPoints()) {
-                                for (Field field : dp.getDataType().getFields()) {
-                                    Log.i(TAG, "\tField: " + field.getName() + " Value: " + dp.getValue(field));
+                        List<BarEntry> barEntries = new ArrayList<>();
+                        int index = 0;
+                        for (DataPoint dp : dataReadResponse.getDataSet(DataType.TYPE_STEP_COUNT_DELTA).getDataPoints()) { // Each week day
+                            float value = 0;
+                            for (Field field : dp.getDataType().getFields()) {
+                                Log.i(TAG, "\tField: " + field.getName() + " Value: " + dp.getValue(field));
+                                if (field.getName().toLowerCase().equals("steps")) {
+                                    value += dp.getValue(field).asFloat();
                                 }
                             }
+                            barEntries.add(new BarEntry(index, value));
+                            index++;
                         }
+                        barChart.setData(new BarData(new BarDataSet(barEntries, "Semana")));
+                        barChart.setVisibleXRangeMaximum(7);
+                        barChart.setFitBars(true);
+                        barChart.setTouchEnabled(false);
+                        barChart.setDescription(null);
+                        barChart.invalidate();
                         Log.d(TAG, "Success: " + dataReadResponse.toString());
                     }
                 })
-                .addOnCompleteListener(new OnCompleteListener<DataReadResponse>() {
+                .addOnFailureListener(new OnFailureListener() {
                     @Override
-                    public void onComplete(@NonNull Task<DataReadResponse> task) {
-                        Log.d(TAG, "Completed: " + task.toString());
+                    public void onFailure(@NonNull Exception e) {
+                        Log.e(TAG, "onFailure()", e);
+                        Toast.makeText(getContext(), "Error cargando FitData", Toast.LENGTH_SHORT).show();
                     }
-                })
-                .addOnFailureListener(e -> Log.e(TAG, "onFailure()", e));
+                });
 
         cal.add(Calendar.WEEK_OF_YEAR, 1);
         cal.add(Calendar.DAY_OF_WEEK, -1);
@@ -217,23 +210,24 @@ public class WalkFragment extends Fragment {
                 .addOnSuccessListener(new OnSuccessListener<DataReadResponse>() {
                     @Override
                     public void onSuccess(DataReadResponse dataReadResponse) {
-                        for (DataSet ds : dataReadResponse.getDataSets()) {
-                            for (DataPoint dp : ds.getDataPoints()) {
-                                for (Field field : dp.getDataType().getFields()) {
-                                    Log.i(TAG, "\tField: " + field.getName() + " Value: " + dp.getValue(field));
+                        Log.d(TAG, "Success: " + dataReadResponse.toString());
+                        for (DataPoint dp : dataReadResponse.getDataSet(DataType.TYPE_HEART_RATE_BPM).getDataPoints()) {
+                            for (Field field : dp.getDataType().getFields()) {
+                                Log.i(TAG, "\tField: " + field.getName() + " Value: " + dp.getValue(field));
+                                if (field.getName().toLowerCase().equals("bpm")) {
+                                    bpmText.setText(dp.getValue(field).asString());
                                 }
                             }
                         }
-                        Log.d(TAG, "Success: " + dataReadResponse.toString());
                     }
                 })
-                .addOnCompleteListener(new OnCompleteListener<DataReadResponse>() {
+                .addOnFailureListener(new OnFailureListener() {
                     @Override
-                    public void onComplete(@NonNull Task<DataReadResponse> task) {
-                        Log.d(TAG, "Completed: " + task.toString());
+                    public void onFailure(@NonNull Exception e) {
+                        Log.e(TAG, "onFailure()", e);
+                        Toast.makeText(getContext(), "Error cargando FitData", Toast.LENGTH_SHORT).show();
                     }
-                })
-                .addOnFailureListener(e -> Log.e(TAG, "onFailure()", e));
+                });
 
     }
 
