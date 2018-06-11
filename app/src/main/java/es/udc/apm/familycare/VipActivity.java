@@ -1,7 +1,9 @@
 package es.udc.apm.familycare;
 
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -31,6 +33,7 @@ import es.udc.apm.familycare.interfaces.RouterActivity;
 import es.udc.apm.familycare.link.LinkFragment;
 import es.udc.apm.familycare.members.DetailMemberFragment;
 import es.udc.apm.familycare.members.MemberListFragment;
+import es.udc.apm.familycare.receiver.BatteryLevelReceiver;
 import es.udc.apm.familycare.sensor.AccelerometerDataService;
 import es.udc.apm.familycare.sensor.ActivityRecognizedService;
 import es.udc.apm.familycare.utils.Constants;
@@ -39,17 +42,19 @@ public class VipActivity extends AppCompatActivity implements RouterActivity {
 
     private static final int REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS = 1;
 
-    public static final String KEY_SCREEN = "KEY_SCREEN";
+    private static final String KEY_SCREEN = "KEY_SCREEN";
 
     public static final String SCREEN_DETAIL = "DETAIL";
-    public static final String SCREEN_MEMBERS = "MEMBERS";
-    public static final String SCREEN_LINK = "LINK";
-    public static final String SCREEN_MAP = "MAP";
+    private static final String SCREEN_MEMBERS = "MEMBERS";
+    private static final String SCREEN_LINK = "LINK";
+    private static final String SCREEN_MAP = "MAP";
 
     private String currentScreen = null;
     @BindView(R.id.navigation) BottomNavigationView navigation = null;
 
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+    private final BroadcastReceiver br = new BatteryLevelReceiver();
+
+    private final BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = item -> {
                 switch (item.getItemId()) {
                     case R.id.navigation_map_vip:
@@ -98,6 +103,15 @@ public class VipActivity extends AppCompatActivity implements RouterActivity {
 
         // Start fall detector
         startService(new Intent(FamilyCare.app, AccelerometerDataService.class));
+
+        // Start low battery level broadcast receiver
+        this.registerReceiver(br, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(br);
     }
 
     // Transition Request for Still events
