@@ -54,7 +54,7 @@
     <string name="text_member_list_info">It seems there is nobody guarding you!\nLink your device with someone else\'s to start seeing members.</string>
     <string name="text_link_key">Use this key to connect a Guard device to yours and start watching you. Don\'t make the key public, share it just with your family guard. You can refresh your key to get a new one, that will invalidate previous keys but won\'t remove linked devices.</string>
     <string name="text_link_link">Also you can share this link to bind it easier. Someone with a Guard account who use this link will bind his device automatically.</string>
-    <string name="text_share_link" tools:keep="@string/text_share_link">Use this key to bind your Guard Family Care App to my VIP account:&#032;</string>
+    <string name="text_share_link" tools:keep="@string/text_share_link">Use this key to bind your Guard Family Care App to my VIP account: %1$s</string>
 
     <string name="error_places">Error selecting place</string>
     <string name="error_location">Error finding your location</string>
