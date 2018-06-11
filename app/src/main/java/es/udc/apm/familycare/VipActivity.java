@@ -30,6 +30,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import es.udc.apm.familycare.interfaces.RouterActivity;
+import es.udc.apm.familycare.maps.VipMapFragment;
 import es.udc.apm.familycare.link.LinkFragment;
 import es.udc.apm.familycare.members.DetailMemberFragment;
 import es.udc.apm.familycare.members.MemberListFragment;
@@ -60,7 +61,7 @@ public class VipActivity extends AppCompatActivity implements RouterActivity {
                     case R.id.navigation_map_vip:
                         // Don't reload map, heavy operation
                         if(navigation.getSelectedItemId() != item.getItemId()) {
-                            navigate(new CustomMapFragment(), null);
+                            navigate(new VipMapFragment(), null);
                         }
                         return true;
                     case R.id.navigation_members:
@@ -203,7 +204,7 @@ public class VipActivity extends AppCompatActivity implements RouterActivity {
             this.currentScreen = SCREEN_DETAIL;
         } else if (fragment instanceof MemberListFragment) {
             this.currentScreen = SCREEN_MEMBERS;
-        } else if (fragment instanceof CustomMapFragment){
+        } else if (fragment instanceof VipMapFragment){
             this.currentScreen = SCREEN_MAP;
         } else if (fragment instanceof LinkFragment){
             this.currentScreen = SCREEN_LINK;
