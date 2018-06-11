@@ -44,6 +44,12 @@
             android:name=".GuardActivity"
             android:label="@string/title_activity_guard" />
         <activity
+            android:name=".ConfActivityVip"
+            android:label=".cConfActivityVip" />
+        <activity
+            android:name=".ConfActivityGuard"
+            android:label=".cConfActivityGuard" />
+        <activity
             android:name=".VipActivity"
             android:label="@string/title_activity_vip_container">
             <intent-filter>
@@ -52,7 +58,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ConfActivity" />
 
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.

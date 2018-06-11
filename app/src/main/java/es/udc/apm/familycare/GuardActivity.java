@@ -115,7 +115,7 @@ public class GuardActivity extends AppCompatActivity implements RouterActivity {
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.menu_conf:
-                startActivity(new Intent(this, ConfActivity_Guard.class));
+                startActivity(new Intent(this, ConfActivityGuard.class));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
