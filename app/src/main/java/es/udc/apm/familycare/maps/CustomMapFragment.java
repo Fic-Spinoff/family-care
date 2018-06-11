@@ -33,9 +33,11 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 
 import butterknife.BindView;
@@ -63,6 +65,7 @@ public abstract class CustomMapFragment extends Fragment implements OnMapReadyCa
     private Location mLastKnownLocation = null;
     private CameraPosition mCameraPosition = null;
     private Marker searchMarker = null;
+
 
     private FusedLocationProviderClient mFusedLocationClient;
 
@@ -104,6 +107,10 @@ public abstract class CustomMapFragment extends Fragment implements OnMapReadyCa
             Toast.makeText(getActivity(), getResources().getString(R.string.error_location),
                     Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void deleteMarker(){
+        searchMarker.remove();
     }
 
     private void getLocationPermission() {
@@ -200,6 +207,11 @@ public abstract class CustomMapFragment extends Fragment implements OnMapReadyCa
         ButterKnife.bind(this, rootView);
         return rootView;
     }
+    public boolean isSearchMarker(Marker m) {
+        if (searchMarker == null)
+            return false;
+        else return searchMarker.equals(m);
+    }
 
     @Override
     public void onResume() {
@@ -271,23 +283,36 @@ public abstract class CustomMapFragment extends Fragment implements OnMapReadyCa
         }
     }
 
+    public void removeSearchMarker(){
+        if (searchMarker != null){
+            searchMarker.remove();
+            searchMarker = null;
+        }
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
+                removeSearchMarker();
                 Place place = PlaceAutocomplete.getPlace(getActivity(), data);
                 CharSequence name = place.getAddress() != null ? place.getAddress() :
                         place.getName();
                 etSearch.setText(name);
+                searchMarker = mMap.addMarker(new MarkerOptions()
+                        .position(place.getLatLng())
+                        .icon(BitmapDescriptorFactory
+                                .defaultMarker(BitmapDescriptorFactory.HUE_RED)));
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(place.getLatLng(), SEARCH_ZOOM));
             } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
                 Status status = PlaceAutocomplete.getStatus(getActivity(), data);
                 Toast.makeText(getActivity(), getResources().getString(R.string.error_places),
                         Toast.LENGTH_SHORT).show();
                 Log.e(TAG, status.getStatusMessage());
-                searchMarker.remove();
+                removeSearchMarker();
             } else if (resultCode == Activity.RESULT_CANCELED) {
                 Log.d(TAG, "User cancel place");
+                removeSearchMarker();
             }
         }
     }
