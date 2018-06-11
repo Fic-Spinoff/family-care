@@ -64,7 +64,7 @@ public class StateFragment extends Fragment {
                     if (user.getStillSince() == null) {
                         tvStill.setText(R.string.caption_still_empty);
                     } else {
-                        long diff = (new Date()).getTime() - user.getStillSince().getTime();
+                        long diff = (new Date()).getTime() - user.getStillSince().toDate().getTime();
                         long hours = TimeUnit.MILLISECONDS.toHours(diff);
                         long minutes = TimeUnit.MILLISECONDS.toMinutes(diff) - hours * 60;
                         tvStill.setText(getString(R.string.caption_still, hours, minutes));

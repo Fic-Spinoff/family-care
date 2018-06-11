@@ -1,4 +1,4 @@
-package es.udc.apm.familycare.login;
+package es.udc.apm.familycare.repository;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
@@ -30,7 +30,7 @@ public class UserRepository {
 
     public LiveData<User> getUser(String uid) {
         final MutableLiveData<User> user = new MutableLiveData<>();
-        DocumentReference docRef = this.mFirestore.collection("users").document(uid);
+        DocumentReference docRef = this.mFirestore.collection(Constants.Collections.USERS).document(uid);
         docRef.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 DocumentSnapshot document = task.getResult();
@@ -50,7 +50,7 @@ public class UserRepository {
 
     public LiveData<List<User>> getUserByLink(String link) {
         final MutableLiveData<List<User>> users = new MutableLiveData<>();
-        this.mFirestore.collection("users")
+        this.mFirestore.collection(Constants.Collections.USERS)
                 .whereEqualTo("link", link).get().addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         if (task.getResult() != null) {

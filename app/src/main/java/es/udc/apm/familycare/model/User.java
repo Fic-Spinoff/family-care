@@ -2,8 +2,6 @@ package es.udc.apm.familycare.model;
 
 import com.google.firebase.Timestamp;
 
-import java.util.Date;
-
 /**
  * Created by Gonzalo on 29/04/2018.
  */
@@ -18,8 +16,10 @@ public class User {
     private String vip;
     private String vipName;
     private Timestamp stillSince;
+    private String fcmId;
 
-    public User(){
+    public User() {
+
     }
 
     public User(String uid, String name, String photo, String role, String link, String vip) {
@@ -31,18 +31,27 @@ public class User {
         this.vip = vip;
     }
 
-    public User(String uid, String name, String photo) {
+    public User(String uid, String name, String photo, String fcmId){
         this.uid = uid;
         this.name = name;
         this.photo = photo;
+        this.fcmId = fcmId;
     }
 
-    public Date getStillSince() {
-        return stillSince.toDate();
+    public void setStillSince(Timestamp stillSince) {
+        this.stillSince = stillSince;
     }
 
-    public void setStillSince(Date stillSince) {
-        this.stillSince = new Timestamp(stillSince);
+    public String getFcmId() {
+        return fcmId;
+    }
+
+    public void setFcmId(String fcmId) {
+        this.fcmId = fcmId;
+    }
+
+    public Timestamp getStillSince() {
+        return stillSince;
     }
 
     public String getVipName() {

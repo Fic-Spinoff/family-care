@@ -9,6 +9,7 @@ import android.util.Log;
 import com.google.android.gms.location.ActivityTransition;
 import com.google.android.gms.location.ActivityTransitionEvent;
 import com.google.android.gms.location.ActivityTransitionResult;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Date;
@@ -60,7 +61,7 @@ public class ActivityRecognizedService extends IntentService {
                             // Update firebase
                             if (uid != null) {
                                 Map<String, Object> data = new Hashtable<>();
-                                data.put(Constants.Properties.VIP_STILL_SINCE, new Date());
+                                data.put(Constants.Properties.VIP_STILL_SINCE, new Timestamp(new Date()));
                                 firestore.collection(Constants.Collections.USERS).document(uid).update(data);
                                 editor.putBoolean(Constants.Prefs.KEY_VIP_STILL, true);
                             }

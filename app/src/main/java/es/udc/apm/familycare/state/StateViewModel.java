@@ -3,7 +3,7 @@ package es.udc.apm.familycare.state;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
 
-import es.udc.apm.familycare.login.UserRepository;
+import es.udc.apm.familycare.repository.UserRepository;
 import es.udc.apm.familycare.model.User;
 
 /**

@@ -11,7 +11,7 @@ import java.util.HashMap;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import es.udc.apm.familycare.login.UserRepository;
+import es.udc.apm.familycare.repository.UserRepository;
 import es.udc.apm.familycare.utils.Constants;
 
 

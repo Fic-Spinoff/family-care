@@ -22,8 +22,9 @@ import butterknife.OnClick;
 import es.udc.apm.familycare.FamilyCare;
 import es.udc.apm.familycare.R;
 import es.udc.apm.familycare.interfaces.RouterActivity;
-import es.udc.apm.familycare.login.UserRepository;
 import es.udc.apm.familycare.model.User;
+import es.udc.apm.familycare.repository.GroupRepository;
+import es.udc.apm.familycare.repository.UserRepository;
 import es.udc.apm.familycare.utils.Constants;
 
 public class BindFragment extends Fragment {
@@ -36,6 +37,7 @@ public class BindFragment extends Fragment {
     @BindView(R.id.btn_bind_unbind) Button btnUnbind;
 
     private UserRepository mRepo;
+    private GroupRepository mGroupRepo;
     private User user = null;
 
     public static BindFragment newInstance() {
@@ -53,6 +55,7 @@ public class BindFragment extends Fragment {
         }
 
         this.mRepo = new UserRepository();
+        this.mGroupRepo = new GroupRepository();
 
         FamilyCare.getUser().observe(this, user -> {
             this.user = user;
@@ -95,13 +98,17 @@ public class BindFragment extends Fragment {
         this.etBind.setEnabled(false);
         this.mRepo.getUserByLink(link).observe(this, users -> {
             if(users != null && users.size() == 1) {
-                // Save in db
+                // Update db
                 if (this.user != null) {
+                    // Save vip data on firestore
                     User vipUser = users.get(0);
                     Map<String, Object> values = new HashMap<>();
                     values.put(Constants.Properties.VIP, vipUser.getUid());
                     values.put(Constants.Properties.VIP_NAME, vipUser.getName());
                     this.mRepo.editUser(this.user.getUid(), values);
+
+                    // Save guard data on message group for vip
+                    this.mGroupRepo.addGuard(vipUser.getUid(), this.user.getUid(), this.user.getFcmId());
                 }
             } else {
                 // Redo UI
@@ -114,6 +121,10 @@ public class BindFragment extends Fragment {
     @OnClick(R.id.btn_bind_unbind) void onClickUnbind() {
         this.btnUnbind.setVisibility(View.GONE);
         if (this.user != null) {
+            // Update message group for vip
+            this.mGroupRepo.removeGuard(this.user.getVip(), this.user.getUid());
+
+            // Update user data
             Map<String, Object> values = new HashMap<>();
             values.put(Constants.Properties.VIP, null);
             values.put(Constants.Properties.VIP_NAME, null);

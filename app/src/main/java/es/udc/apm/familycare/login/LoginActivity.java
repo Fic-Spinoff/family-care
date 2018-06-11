@@ -23,6 +23,9 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.iid.FirebaseInstanceId;
+
+import java.util.Hashtable;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -34,6 +37,8 @@ import es.udc.apm.familycare.RoleActivity;
 import es.udc.apm.familycare.Transformer;
 import es.udc.apm.familycare.VipActivity;
 import es.udc.apm.familycare.model.User;
+import es.udc.apm.familycare.repository.GroupRepository;
+import es.udc.apm.familycare.repository.UserRepository;
 import es.udc.apm.familycare.utils.Constants;
 import es.udc.apm.familycare.utils.Utils;
 
@@ -50,6 +55,7 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
 
     private UserRepository mRepo;
+    private GroupRepository mGroupRepo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +82,7 @@ public class LoginActivity extends AppCompatActivity {
 
         // Init repository
         this.mRepo = new UserRepository();
+        this.mGroupRepo = new GroupRepository();
     }
 
     @OnClick(R.id.btn_login_google) void onClickLogin() {
@@ -132,14 +139,16 @@ public class LoginActivity extends AppCompatActivity {
 
                     // Save user uid
                     SharedPreferences prefs = getSharedPreferences(Constants.PREFS_USER, MODE_PRIVATE);
-                    prefs.edit().putString(Constants.PREFS_USER_UID, firebaseUser.getUid()).apply();
+                    prefs.edit().putString(Constants.Prefs.KEY_USER_UID, firebaseUser.getUid()).apply();
 
+                    //TODO: Loading
                     // If first time user create user in firestore
                     if(task.getResult().getAdditionalUserInfo().isNewUser()) {
                         User user = new User(
                                 firebaseUser.getUid(),
                                 firebaseUser.getDisplayName(),
-                                firebaseUser.getPhotoUrl().toString()
+                                firebaseUser.getPhotoUrl() != null ? firebaseUser.getPhotoUrl().toString() : "",
+                                FirebaseInstanceId.getInstance().getToken()
                         );
                         this.mRepo.setUser(user);
                         Intent intent = new Intent(LoginActivity.this, RoleActivity.class);
@@ -147,7 +156,16 @@ public class LoginActivity extends AppCompatActivity {
                         finish();
                     } else {
                         // If user exists get data
-                        //TODO: Loading
+
+                        // Update FCM Instance Id when first login
+                        String fcmToken = FirebaseInstanceId.getInstance().getToken();
+                        if (fcmToken != null) {
+                            Hashtable<String, Object> data = new Hashtable<>();
+                            data.put(Constants.Properties.FCM_ID, fcmToken);
+                            this.mRepo.editUser(firebaseUser.getUid(), data);
+                        }
+
+                        // Get data and open app
                         this.mRepo.getUser(firebaseUser.getUid()).observe(this, user -> {
                             if (user != null) {
                                 if(user.getRole() != null) {
@@ -155,6 +173,11 @@ public class LoginActivity extends AppCompatActivity {
                                     Intent intent = new Intent(LoginActivity.this, GuardActivity.class);
                                     if (user.getRole().equals(Constants.ROLE_VIP)) {
                                         intent = new Intent(LoginActivity.this, VipActivity.class);
+                                    } else {
+                                        // Update message group fcm instance id
+                                        if (user.getVip() != null) {
+                                            this.mGroupRepo.addGuard(user.getVip(), user.getUid(), fcmToken);
+                                        }
                                     }
                                     startActivity(intent);
                                     finish();

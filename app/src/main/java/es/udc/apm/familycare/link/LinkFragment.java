@@ -21,7 +21,7 @@ import butterknife.OnClick;
 import es.udc.apm.familycare.FamilyCare;
 import es.udc.apm.familycare.R;
 import es.udc.apm.familycare.interfaces.RouterActivity;
-import es.udc.apm.familycare.login.UserRepository;
+import es.udc.apm.familycare.repository.UserRepository;
 import es.udc.apm.familycare.utils.Constants;
 
 public class LinkFragment extends Fragment {
