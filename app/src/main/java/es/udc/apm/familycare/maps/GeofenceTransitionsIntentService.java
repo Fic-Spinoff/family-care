@@ -2,18 +2,34 @@ package es.udc.apm.familycare.maps;
 
 import android.app.IntentService;
 import android.content.Intent;
-import android.text.TextUtils;
+import android.location.Location;
 import android.util.Log;
 
-import com.google.android.gms.location.Geofence;
+import com.google.android.gms.maps.model.LatLng;
+import java.util.HashMap;
 
-import com.google.android.gms.location.GeofencingEvent;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class GeofenceTransitionsIntentService extends IntentService {
     protected static final String TAG = "GeofenceTransitionsIS";
+
+    private boolean checkInside(LatLng center, float radius, double longitude, double latitude) {
+        return calculateDistance(
+                center.longitude, center.latitude, longitude, latitude
+        ) < (double) radius;}
+
+    private double calculateDistance(
+            double longitude1, double latitude1,
+            double longitude2, double latitude2) {
+        double c =
+                Math.sin(Math.toRadians(latitude1)) *
+                        Math.sin(Math.toRadians(latitude2)) +
+                        Math.cos(Math.toRadians(latitude1)) *
+                                Math.cos(Math.toRadians(latitude2)) *
+                                Math.cos(Math.toRadians(longitude2) -
+                                        Math.toRadians(longitude1));
+        c = c > 0 ? Math.min(1, c) : Math.max(-1, c);
+        return 3959 * 1.609 * 1000 * Math.acos(c);
+    }
 
     public GeofenceTransitionsIntentService() {
         super(TAG);
@@ -21,64 +37,16 @@ public class GeofenceTransitionsIntentService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        GeofencingEvent event = GeofencingEvent.fromIntent(intent);
+        HashMap<LatLng, Float> geofenceData = GeofenceStore.getInstance().getGeofenceData();
+        Location triggeringLocation = intent.getParcelableExtra("com.google.android.location.intent.extra.triggering_location");
 
-        if (event.hasError()) {
-            Log.e(TAG, "GeofencingEvent Error: " + event.getErrorCode());
-            return;
-        }
-        getGeofenceTransitionDetails(event);
-
-    }
-
-    private static void getGeofenceTransitionDetails(GeofencingEvent event) {
-
-        // Get the transition type.
-        int geofenceTransition = event.getGeofenceTransition();
-
-        // Test that the reported transition was of interest.
-        if (geofenceTransition == Geofence.GEOFENCE_TRANSITION_ENTER ||
-                geofenceTransition == Geofence.GEOFENCE_TRANSITION_EXIT) {
-
-            // Get the geofences that were triggered. A single event can trigger multiple geofences.
-            List<Geofence> triggeringGeofences = event.getTriggeringGeofences();
-
-            // Get the transition details as a String.
-            String geofenceTransitionDetails = getGeofenceTransitionDetails(geofenceTransition,
-                    triggeringGeofences);
-
-            Log.i(TAG, geofenceTransitionDetails);
-        } else {
-            // Log the error.
-            Log.e(TAG, "Unknown transition");
+        for (LatLng center : geofenceData.keySet()) {
+            if (checkInside(center, geofenceData.get(center), triggeringLocation.getLongitude(), triggeringLocation.getLatitude()))
+                return;
         }
 
+        // Avisos aqui
+        Log.e(TAG,"Not in safe zone");
+
     }
-    private static String getGeofenceTransitionDetails(
-            int geofenceTransition,
-            List<Geofence> triggeringGeofences) {
-
-        String geofenceTransitionString = getTransitionString(geofenceTransition);
-
-        // Get the Ids of each geofence that was triggered.
-        ArrayList<String> triggeringGeofencesIdsList = new ArrayList<>();
-        for (Geofence geofence : triggeringGeofences) {
-            triggeringGeofencesIdsList.add(geofence.getRequestId());
-        }
-        String triggeringGeofencesIdsString = TextUtils.join(", ",  triggeringGeofencesIdsList);
-
-        return geofenceTransitionString + ": " + triggeringGeofencesIdsString;
-    }
-
-    private static String getTransitionString(int transitionType) {
-        switch (transitionType) {
-            case Geofence.GEOFENCE_TRANSITION_ENTER:
-                return "Transition Enter";
-            case Geofence.GEOFENCE_TRANSITION_EXIT:
-                return "Transition Exit";
-            default:
-                return "Transition Unknown";
-        }
-    }
-
 }
