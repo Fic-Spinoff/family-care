@@ -36,7 +36,7 @@ public class LinkViewModel extends ViewModel {
         return Transformations.map(this.mRepo.getUserByLink(link), input -> {
             // Check if there are any vip using this link
             if(input == null || input.size() == 0) {
-                // If no users found the use this link
+                // If no users found then use this link
                 Map<String, Object> data = new HashMap<>();
                 data.put(Constants.Properties.LINK, link);
                 this.mRepo.editUser(userUid, data);
