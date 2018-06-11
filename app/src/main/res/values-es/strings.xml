@@ -54,7 +54,7 @@
     <string name="text_member_list_info">Parece que nadie te está vigilando.\nVincula tu dispositivo con otro para empezar a ver miembros.</string>
     <string name="text_link_key">Usa esta clave para vincular el dispositivo de un Guardián al tuyo para que te vigile. No hagas pública esta clave, Sólo compártela con tu familiar. Puedes refrescar tu clave para obtener una nueva, esto invalidará claves anteriores pero no eliminará dispositivos vinculados.</string>
     <string name="text_link_link">Puedes compatir también tu clave con este link para vincular más fácilmente. Alguien con una cuenta Guardián que lo use vinculará su dispositivo automáticamente.</string>
-    <string name="text_share_link">Usa esta clave para vincular tu Family Care App Guardián a mi cuenta VIP:&#032;</string>
+    <string name="text_share_link">Usa esta clave para vincular tu Family Care App Guardián a mi cuenta VIP:</string>
 
     <string name="error_places">Error seleccionando lugar</string>
     <string name="error_location">Error encontrando tu ubicación</string>
