@@ -4,7 +4,7 @@ android {
     compileSdkVersion 27
     defaultConfig {
         applicationId "es.udc.apm.familycare"
-        minSdkVersion 18
+        minSdkVersion 21
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
@@ -45,15 +45,16 @@ dependencies {
     implementation 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
 
     // Play services
-    implementation 'com.google.android.gms:play-services-auth:15.0.0'
-    implementation "com.google.android.gms:play-services-location:15.0.0"
-    implementation "com.google.android.gms:play-services-places:15.0.0"
-    implementation 'com.google.android.gms:play-services-maps:15.0.0'
+    implementation 'com.google.android.gms:play-services-auth:15.0.1'
+    implementation "com.google.android.gms:play-services-location:15.0.1"
+    implementation "com.google.android.gms:play-services-places:15.0.1"
+    implementation 'com.google.android.gms:play-services-maps:15.0.1'
 
     //Firebase
-    implementation 'com.google.firebase:firebase-core:15.0.0'
-    implementation 'com.google.firebase:firebase-auth:15.0.0'
-    implementation 'com.google.firebase:firebase-firestore:15.0.0'
+    implementation 'com.google.firebase:firebase-core:16.0.0'
+    implementation 'com.google.firebase:firebase-auth:16.0.1'
+    implementation 'com.google.firebase:firebase-firestore:17.0.1'
+    implementation "com.google.firebase:firebase-messaging:17.0.0"
 
     //Butterknife
     implementation 'com.jakewharton:butterknife:8.8.1'
@@ -81,5 +82,7 @@ dependencies {
     // Images
     implementation 'com.squareup.picasso:picasso:2.71828'
 }
+
+
 
 apply plugin: 'com.google.gms.google-services'

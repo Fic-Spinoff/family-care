@@ -50,12 +50,10 @@
             android:layout_alignParentTop="true"
             android:layout_toEndOf="@+id/imageHeart"
             android:text="40/190"
-            android:autoSizeTextType="uniform"
-            android:textAlignment="viewEnd"
+            android:gravity="center"
             android:textAppearance="@style/TextAppearance.AppCompat"
             android:textSize="32sp"
-            android:visibility="visible"
-            tools:targetApi="o" />
+            android:visibility="visible"/>
 
     </RelativeLayout>
 
@@ -88,13 +86,11 @@
             android:layout_alignParentTop="true"
             android:layout_alignTop="@+id/imageSteps"
             android:layout_toEndOf="@+id/imageSteps"
-            android:autoSizeTextType="uniform"
             android:text="1233"
-            android:textAlignment="viewEnd"
+            android:gravity="center"
             android:textAppearance="@style/TextAppearance.AppCompat"
             android:textSize="32sp"
-            android:visibility="visible"
-            tools:targetApi="o" />
+            android:visibility="visible" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -119,19 +115,17 @@
             app:srcCompat="@drawable/ic_weekend_white_48dp" />
 
         <TextView
-            android:id="@+id/textStateSedentary"
+            android:id="@+id/tv_state_still"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentTop="true"
             android:layout_toEndOf="@+id/imageSedentary"
-            android:autoSizeTextType="uniform"
-            android:text="2h 23m"
-            android:textAlignment="viewEnd"
+            android:text="@string/caption_loading"
             android:textAppearance="@style/TextAppearance.AppCompat"
             android:textSize="32sp"
             android:visibility="visible"
-            tools:targetApi="o" />
+            android:gravity="center" />
     </RelativeLayout>
 
 </LinearLayout>

@@ -20,6 +20,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import es.udc.apm.familycare.interfaces.RouterActivity;
 import es.udc.apm.familycare.link.BindFragment;
+import es.udc.apm.familycare.state.StateFragment;
 import es.udc.apm.familycare.utils.Constants;
 
 public class GuardActivity extends AppCompatActivity implements RouterActivity {
@@ -42,8 +43,6 @@ public class GuardActivity extends AppCompatActivity implements RouterActivity {
                     }
                     return true;
                 case R.id.navigation_activity:
-                    //text = "Activity Button pressed!";
-                    //Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
                     navigate(BindFragment.newInstance(), null);
                     return true;
                 case R.id.navigation_statistics:
