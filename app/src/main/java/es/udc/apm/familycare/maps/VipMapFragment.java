@@ -30,7 +30,7 @@ public class VipMapFragment extends CustomMapFragment {
     private static final int MAX_CIRCLE_RADIUS = 500;
     private static final int DEFAULT_CIRCLE_RADIUS = 100;
 
-    private HashMap<LatLng, Circle> mCircleHashMap = new HashMap<>();
+    private HashMap<String, Circle> mCircleHashMap = new HashMap<>();
     private GoogleMap mMap;
 
     private FloatingActionButton mAcceptButton;
@@ -55,9 +55,10 @@ public class VipMapFragment extends CustomMapFragment {
 
     private void setMarker(LatLng point) {
         if (lastMarker != null) {
-            mCircleHashMap.get(lastMarker.getPosition()).remove();
+            mCircleHashMap.get(lastMarker.getId()).remove();
             lastMarker.remove();
         }
+        super.removeSearchMarker();
 
         lastMarker = mMap.addMarker(new MarkerOptions()
                 .position(point)
@@ -70,7 +71,7 @@ public class VipMapFragment extends CustomMapFragment {
                 .strokeColor(Color.BLUE));
         showButtonLayer();
 
-        mCircleHashMap.put(point, circle);
+        mCircleHashMap.put(lastMarker.getId(), circle);
 
         mAcceptButton.setOnClickListener(v -> {
             lastMarker = null;
@@ -105,12 +106,19 @@ public class VipMapFragment extends CustomMapFragment {
 
     private boolean modifyMarker(Marker marker) {
         if (lastMarker != null && !lastMarker.equals(marker)) {
-            mCircleHashMap.get(lastMarker.getPosition()).remove();
-            lastMarker.remove();
+                mCircleHashMap.get(lastMarker.getId()).remove();
+                lastMarker.remove();
+        }
+
+        if (super.isSearchMarker(marker)){
+            LatLng lt= marker.getPosition();
+            marker.remove();
+            setMarker(lt);
+            return true;
         }
 
         showButtonLayer();
-        Circle c = mCircleHashMap.get(marker.getPosition());
+        Circle c = mCircleHashMap.get(marker.getId());
         mDeleteButton.setOnClickListener(v -> {
             removeGeofenceFromCircle(c);
             c.remove();
@@ -174,6 +182,7 @@ public class VipMapFragment extends CustomMapFragment {
     public VipMapFragment() {
     }
 
+    @SuppressLint("NewApi")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this.getActivity());
@@ -182,6 +191,7 @@ public class VipMapFragment extends CustomMapFragment {
         mDeleteButton = rootView.findViewById(R.id.button_delete);
         mSeekBar = rootView.findViewById(R.id.seekBar);
         mSeekBar.setMax(MAX_CIRCLE_RADIUS);
+        mSeekBar.setMin(1);
         return rootView;
     }
 
