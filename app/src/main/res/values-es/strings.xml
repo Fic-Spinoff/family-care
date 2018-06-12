@@ -5,10 +5,10 @@
     <string name="guard">Guardián</string>
     <string name="background">background</string>
 
-    <string name="btn_disagree">No estoy de acuerdo</string>
-    <string name="btn_agree">Estoy de acuerdo</string>
+    <string name="btn_disagree">Rechazar</string>
+    <string name="btn_agree">Aceptar</string>
     <string name="btn_bind">VINCULAR</string>
-    <string name="btn_select_role">SELECCIONAR ROL</string>
+    <string name="btn_select_role">ELEGIR ESTE ROL</string>
     <string name="btn_login">Iniciar sesión</string>
     <string name="btn_unbind">Desvincular</string>
 
@@ -30,7 +30,7 @@
     <string name="title_activity_vip_container">VipContainerActivity</string>
     <string name="title_zones">Zonas</string>
     <string name="title_members">Familiares</string>
-    <string name="title_link">Vincular dispositivo</string>
+    <string name="title_link">Vincular</string>
     <string name="title_settings">Configuración</string>
     <string name="title_activity_device_scan">Family Scan</string>
     <string name="title_activity_bluetooth">Family Bluetooth</string>
