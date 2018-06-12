@@ -18,6 +18,7 @@
     <string name="caption_loading">Cargando…</string>
     <string name="caption_still">%1$dh %2$dm</string>
     <string name="caption_still_empty">0h 0m</string>
+    <string name="caption_low_battery">Batería del VIP baja</string>
 
     <string name="title_card_guard">¡Vigilaré!</string>
     <string name="title_card_vip">¡Seré vigilado!</string>
@@ -55,6 +56,7 @@
     <string name="text_link_key">Usa esta clave para vincular el dispositivo de un Guardián al tuyo para que te vigile. No hagas pública esta clave, Sólo compártela con tu familiar. Puedes refrescar tu clave para obtener una nueva, esto invalidará claves anteriores pero no eliminará dispositivos vinculados.</string>
     <string name="text_link_link">Puedes compatir también tu clave con este link para vincular más fácilmente. Alguien con una cuenta Guardián que lo use vinculará su dispositivo automáticamente.</string>
     <string name="text_share_link">Usa esta clave para vincular tu Family Care App Guardián a mi cuenta VIP: %1$s</string>
+    <string name="text_low_battery">Batería del dispositivo VIP por debajo de %1$d%</string>
 
     <string name="error_places">Error seleccionando lugar</string>
     <string name="error_location">Error encontrando tu ubicación</string>
@@ -84,8 +86,6 @@
     <string name="title_activity_accelerometer">Family Acelerómetro</string>
     <string name="title_activity_gyroscope">Family Giroscopio</string>
     <string name="title_activity_stepcounter">Family Contador de pasos</string>
-
-    <string name="battery_low">Alarma de batería baja</string>
 
     <string name="large_text" tools:ignore="Typos">
         "Material is the metaphor.\n\n"

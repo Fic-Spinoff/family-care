@@ -18,6 +18,7 @@
     <string name="caption_loading">Loading…</string>
     <string name="caption_still">%1$dh %2$dm</string>
     <string name="caption_still_empty">0h 0m</string>
+    <string name="caption_low_battery">VIP Low battery!</string>
 
     <string name="title_card_guard">I will be watching!</string>
     <string name="title_card_vip">I will be watched!</string>
@@ -55,6 +56,7 @@
     <string name="text_link_key">Use this key to connect a Guard device to yours and start watching you. Don\'t make the key public, share it just with your family guard. You can refresh your key to get a new one, that will invalidate previous keys but won\'t remove linked devices.</string>
     <string name="text_link_link">Also you can share this link to bind it easier. Someone with a Guard account who use this link will bind his device automatically.</string>
     <string name="text_share_link" tools:keep="@string/text_share_link">Use this key to bind your Guard Family Care App to my VIP account: %1$s</string>
+    <string name="text_low_battery">The VIP device battery is under %1$d%</string>
 
     <string name="error_places">Error selecting place</string>
     <string name="error_location">Error finding your location</string>
@@ -84,8 +86,6 @@
     <string name="title_activity_accelerometer" tools:keep="@string/title_activity_accelerometer">Family Accelerometer</string>
     <string name="title_activity_gyroscope" tools:keep="@string/title_activity_gyroscope">Family Gyroscope</string>
     <string name="title_activity_stepcounter" tools:keep="@string/title_activity_stepcounter">Family Step Counter</string>
-
-    <string name="battery_low">Low battery warning</string>
 
     <string name="large_text">
         "Material is the metaphor.\n\n"
