@@ -1,12 +1,14 @@
 package es.udc.apm.familycare;
 
 import android.os.Bundle;
+import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Layout;
+import android.util.Log;
 import android.view.MenuItem;
 
 import butterknife.BindView;
@@ -31,6 +33,7 @@ public class ConfActivityGuard extends PreferenceActivity
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+
         }
     }
 
@@ -41,6 +44,12 @@ public class ConfActivityGuard extends PreferenceActivity
         {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.activity_config_guard);
+            findPreference("disconnect").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference arg0) {
+                    return true;
+                }
+            });
         }
     }
 }

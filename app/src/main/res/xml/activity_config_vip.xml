@@ -43,6 +43,7 @@
         <CheckBoxPreference
             android:title="Actividad"
             android:summary="Activar seguimiento de actividad"/>
+        <Preference android:title="Desconectar..." android:key="disconnect" android:enabled="true"/>
     </PreferenceCategory>
 
 </PreferenceScreen>
