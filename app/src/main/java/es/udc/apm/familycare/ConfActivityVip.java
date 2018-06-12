@@ -75,7 +75,7 @@ public class ConfActivityVip extends PreferenceActivity
                     FirebaseAuth.getInstance().signOut();
                     Intent intent = new Intent(act, LoginActivity.class);
                     startActivity(intent);
-                    act.finish();
+                    act.finishAffinity();
                     return true;
                 }
             });
@@ -89,7 +89,7 @@ public class ConfActivityVip extends PreferenceActivity
                     mRepo.editUser(uid, hashMap);
                     Intent intent = new Intent(act, RoleActivity.class);
                     startActivity(intent);
-                    act.finish();
+                    act.finishAffinity();
                     return true;
                 }
             });
