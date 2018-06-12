@@ -11,12 +11,21 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-public class AccelerometerDataService extends Service {
+import com.google.firebase.Timestamp;
 
+import java.util.Date;
 
+import es.udc.apm.familycare.R;
+import es.udc.apm.familycare.model.Event;
+import es.udc.apm.familycare.model.EventType;
+import es.udc.apm.familycare.repository.EventRepository;
+import es.udc.apm.familycare.utils.Constants;
+
+public class AccelerometerDataService extends Service implements SensorListener.EventListener {
 
     private SensorListener sensorListener = null;
     private SensorManager sensorManager;
+    private EventRepository mRepo = null;
 
     private int sensorType = Sensor.TYPE_ACCELEROMETER;
 
@@ -30,6 +39,7 @@ public class AccelerometerDataService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+        this.mRepo = new EventRepository();
     }
 
     @Override
@@ -41,8 +51,8 @@ public class AccelerometerDataService extends Service {
         }
 
         if (sensorManager != null && sensorListener == null) {
-            sensorListener = new SensorListener(this);
-
+            sensorListener = new SensorListener();
+            sensorListener.setEventListener(this);
 
             HandlerThread mHandlerThread = new HandlerThread("sensorThread");
             mHandlerThread.start();
@@ -62,5 +72,25 @@ public class AccelerometerDataService extends Service {
         sensorManager.unregisterListener(sensorListener);
         sensorListener = null;
         super.onDestroy();
+    }
+
+    @Override
+    public void onFall(int event) {
+        String uid = getSharedPreferences(Constants.Prefs.USER, MODE_PRIVATE)
+                .getString(Constants.Prefs.KEY_USER_UID, null);
+        if(uid != null && this.mRepo != null) {
+            switch (event) {
+                case Constants.Events.FALL:
+                    this.mRepo.createEvent(uid, new Event(
+                            EventType.FALL.getValue(),
+                            getString(R.string.caption_potential_fall),
+                            getString(R.string.text_potential_fall),
+                            new Timestamp(new Date())
+                    ));
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 }

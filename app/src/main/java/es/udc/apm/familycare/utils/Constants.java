@@ -11,13 +11,16 @@ public class Constants {
     public static final String PREFS_USER_UID = "Prefs.User.UID";
     public static final String PREFS_USER_ROLE= "Prefs.User.Role";
 
-    public static final String PREFS_GUARD_LINK= "Prefs.Guard.Link";
+    public static final String PREFS_GUARD_LINK= "Prefs.MessageGroup.Link";
 
     public static final String ROLE_VIP = "VIP";
     public static final String ROLE_GUARD = "GUARD";
 
     public static class Collections {
         public static final String USERS = "users";
+        public static final String GROUPS = "groups";
+        public static final String TOKENS = "tokens";
+        public static final String EVENTS = "events";
     }
 
     public static class Properties {
@@ -25,6 +28,10 @@ public class Constants {
         public static final String VIP = "vip";
         public static final String VIP_NAME = "vipName";
         public static final String VIP_STILL_SINCE = "stillSince";
+        public static final String FCM_ID = "fcmId";
+        public static final String TITLE = "title";
+        public static final String BODY = "body";
+        public static final String TYPE = "type";
     }
 
     public static class Keys {
@@ -36,7 +43,7 @@ public class Constants {
 
         public static final String KEY_USER_UID = "Prefs.User.UID";
         public static final String KEY_USER_ROLE = "Prefs.User.Role";
-        public static final String KEY_GUARD_LINK = "Prefs.Guard.Link";
+        public static final String KEY_GUARD_LINK = "Prefs.MessageGroup.Link";
 
         // Curate state Still or not
         public static final String KEY_VIP_STATE = "Prefs.Vip.State";
@@ -44,6 +51,10 @@ public class Constants {
         public static final String KEY_VIP_TIMER = "Prefs.Vip.Timer";
         // Is still state on firebase
         public static final String KEY_VIP_STILL = "Prefs.Vip.Still";
+    }
+
+    public static class Events {
+        public static final int FALL = 0;
     }
 
     public static class MimeType {

@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import es.udc.apm.familycare.login.UserRepository;
+import es.udc.apm.familycare.repository.UserRepository;
 import es.udc.apm.familycare.utils.Constants;
 
 /**

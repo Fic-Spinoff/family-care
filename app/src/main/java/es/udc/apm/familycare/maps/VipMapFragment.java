@@ -28,6 +28,7 @@ import es.udc.apm.familycare.R;
 public class VipMapFragment extends CustomMapFragment {
     private static final String TAG = "GuardCustomMapFragment";
     private static final int MAX_CIRCLE_RADIUS = 500;
+    private static final int MIN_CIRCLE_RADIUS = 50;
     private static final int DEFAULT_CIRCLE_RADIUS = 100;
 
     private HashMap<String, Circle> mCircleHashMap = new HashMap<>();
@@ -88,7 +89,11 @@ public class VipMapFragment extends CustomMapFragment {
         mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                circle.setRadius(progress);
+                if (fromUser && progress < MIN_CIRCLE_RADIUS) {
+                    mSeekBar.setProgress(MIN_CIRCLE_RADIUS);
+                } else {
+                    circle.setRadius(progress);
+                }
             }
 
             @Override
@@ -191,7 +196,7 @@ public class VipMapFragment extends CustomMapFragment {
         mDeleteButton = rootView.findViewById(R.id.button_delete);
         mSeekBar = rootView.findViewById(R.id.seekBar);
         mSeekBar.setMax(MAX_CIRCLE_RADIUS);
-        mSeekBar.setMin(1);
+        //mSeekBar.setMin(1); API 26
         return rootView;
     }
 

@@ -9,6 +9,7 @@ import android.util.Log;
 import com.google.android.gms.location.ActivityTransition;
 import com.google.android.gms.location.ActivityTransitionEvent;
 import com.google.android.gms.location.ActivityTransitionResult;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Date;
@@ -28,6 +29,7 @@ public class ActivityRecognizedService extends IntentService {
 
     public static final int STATE_STILL = 0;
     public static final int STATE_NO_STILL = 1;
+    public static final int CHANGE_DELAY = 5000;
 
     public ActivityRecognizedService() {
         super("ActivityRecognizedService");
@@ -60,7 +62,7 @@ public class ActivityRecognizedService extends IntentService {
                             // Update firebase
                             if (uid != null) {
                                 Map<String, Object> data = new Hashtable<>();
-                                data.put(Constants.Properties.VIP_STILL_SINCE, new Date());
+                                data.put(Constants.Properties.VIP_STILL_SINCE, new Timestamp(new Date()));
                                 firestore.collection(Constants.Collections.USERS).document(uid).update(data);
                                 editor.putBoolean(Constants.Prefs.KEY_VIP_STILL, true);
                             }
@@ -91,7 +93,7 @@ public class ActivityRecognizedService extends IntentService {
                                     // Update timer state
                                     editor.putBoolean(Constants.Prefs.KEY_VIP_TIMER, false);
                                 }
-                            }, 15000);
+                            }, CHANGE_DELAY);
                         }
                     }
                     // Commit prefs

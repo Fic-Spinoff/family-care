@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Family Care</string>
 
     <string name="vip">VIP</string>
@@ -12,12 +12,13 @@
     <string name="btn_login">Log in</string>
     <string name="btn_unbind">Unbind</string>
 
-    <string name="caption_link_copied">Link copied to clipboard</string>
+    <string name="caption_link_copied" tools:keep="@string/caption_link_copied">Link copied to clipboard</string>
     <string name="caption_no_key">You must enter a key!</string>
     <string name="caption_invalid_key">Key not valid!</string>
     <string name="caption_loading">Loading…</string>
     <string name="caption_still">%1$dh %2$dm</string>
     <string name="caption_still_empty">0h 0m</string>
+    <string name="caption_low_battery">VIP Low battery!</string>
 
     <string name="title_card_guard">I will be watching!</string>
     <string name="title_card_vip">I will be watched!</string>
@@ -31,8 +32,8 @@
     <string name="title_members">Members</string>
     <string name="title_link">Link device</string>
     <string name="title_settings">Settings</string>
-    <string name="title_activity_device_scan">Family Scan</string>
-    <string name="title_activity_bluetooth">Family Bluetooth</string>
+    <string name="title_activity_device_scan" tools:keep="@string/title_activity_device_scan">Family Scan</string>
+    <string name="title_activity_bluetooth" tools:keep="@string/title_activity_bluetooth">Family Bluetooth</string>
 
     <string name="subtitle_card_guard">This is called Guard role</string>
     <string name="subtitle_card_vip">This is called VIP role</string>
@@ -42,33 +43,34 @@
     <string name="label_center_location">Center location</string>
     <string name="label_clear">Clear</string>
     <string name="label_search">Search</string>
-    <string name="label_share">Share</string>
+    <string name="label_share" tools:keep="@string/label_share">Share</string>
 
 
-    <string name="text_bind">Use they key provided by your family VIP member to link your devices.\n\nWhen your devices are linked you will see the VIP name here. You can unbind them anytime.</string>
+    <string name="text_bind">Use the key provided by your family VIP member to link your devices.\n\nWhen your devices are linked you will see the VIP name here. You can unbind them anytime.</string>
     <string name="text_card_guard">I want to receive notifications when my family member needs me and track his location and health state.</string>
     <string name="text_card_vip">My family members will watch my location and status to help me stay safe and prevent any accident.</string>
-    <string name="text_agreement">Los siguientes términos y condiciones (los Términos y Condiciones) rigen el uso que usted le dé a este sitio web y a cualquiera de los contenidos disponibles por o a través de este sitio web, incluyendo cualquier contenido derivado del mismo (el Sitio Web). Family Care. (Family Care. o nosotros) ha puesto a su disposición el Sitio Web. Podemos cambiar los Términos y Condiciones de vez en cuando, en cualquier momento sin ninguna notificación, sólo publicando los cambios en el Sitio Web. \n\nAL USAR EL SITIO WEB, USTED ACEPTA Y ESTÉ DE ACUERDO CON ESTOS TÉRMINOS Y CONDICIONES EN LO QUE SE REFIERE A SU USO DEL SITIO WEB. Si usted no está de acuerdo con estos Términos y Condiciones, no puede tener acceso al mismo ni usar el Sitio Web de ninguna otra manera.  Derechos de Propiedad. Entre usted y Family Care., Family Care. es dueño único y exclusivo, de todos los derechos, título e intereses en y del Sitio Web, de todo el contenido (incluyendo, por ejemplo, audio, fotografías, ilustraciones, gráficos, otros medios visuales, videos, copias, textos, software, títulos, archivos de Onda de choque, etc.), códigos, datos y materiales del mismo, el aspecto y el ambiente, el diseño y la organización del Sitio Web y la compilación de los contenidos, códigos, datos y los materiales en el Sitio Web, incluyendo pero no limitado a, cualesquiera derechos de autor, derechos de marca, derechos de patente, derechos de base de datos, derechos morales, derechos sui generis y otras propiedades intelectuales y derechos patrimoniales del mismo. Su uso del Sitio Web no le otorga propiedad de ninguno de los contenidos, códigos, datos o materiales a los que pueda acceder en o a través del Sitio Web.</string>
-    <string name="text_unbind">Your device is linked to the next ID. You can unbind the device to link to a new one.\n\n(We can show some info like linked user name, etc.)</string>
+    <string name="text_agreement">The following terms and conditions (Terms and Conditions) dictate the use you shall give to this application and any available content from or through this application, including any content derived from it (the Application). Family Care. (Family Care., i.e, us) has made this application available. We might change the Terms and Conditions every now and then, at any time without a notification to users, just publishing these changes. \n\nBY USING THIS APPLICATION, YOU ACCEPT AND AGREE WITH THESE TERMS AND CONDITIONS REGARDING YOUR USE OF THE APPLICATION. If you disagree with these Terms and Conditions, you may not have access to or use the application in any way.\n\nCopyright. Between you the user and Family Care., Family Care. is the one and exclusive owner of all rights, deeds, and interests of all the app design\'s content (including, for example, audio, photographs, illustrations, graphics, other visual media, videos, copies, texts, software, et cetera.), codes, non-user data and resources, the look and feel, the layout and organization of the application and compilation of the content, code, data, and materials, including, but not limited to, any copyright, brand rights, patent rights, database rights, moral rights, sui generis rights, and other intellectual property rights and patrimonial rights. Your use of the application does not allow you property of any of the content you might access to through this application.</string>
+    <string name="text_unbind" tools:keep="@string/text_unbind">Your device is linked to the next ID. You can unbind the device to link to a new one.</string>
     <string name="text_permission_toast">Permission are mandatory for Family care to work!</string>
     <string name="text_member_list_info">It seems there is nobody guarding you!\nLink your device with someone else\'s to start seeing members.</string>
     <string name="text_link_key">Use this key to connect a Guard device to yours and start watching you. Don\'t make the key public, share it just with your family guard. You can refresh your key to get a new one, that will invalidate previous keys but won\'t remove linked devices.</string>
     <string name="text_link_link">Also you can share this link to bind it easier. Someone with a Guard account who use this link will bind his device automatically.</string>
-    <string name="text_share_link">Use this key to bind your Guard Family Care App to my VIP account: %1$s</string>
+    <string name="text_share_link" tools:keep="@string/text_share_link">Use this key to bind your Guard Family Care App to my VIP account: %1$s</string>
+    <string name="text_low_battery">The VIP device battery is under %1$d%%</string>
 
     <string name="error_places">Error selecting place</string>
     <string name="error_location">Error finding your location</string>
     <string name="error_get_user">Error fetching user!</string>
 
-    <string name="ble_not_supported">BLE is not supported</string>
-    <string name="label_data">Data:</string>
-    <string name="label_device_address">Device address:</string>
-    <string name="label_state">State:</string>
-    <string name="no_data">No data</string>
-    <string name="connected">Connected</string>
-    <string name="disconnected">Disconnected</string>
-    <string name="title_devices">BLE Device Scan</string>
-    <string name="error_bluetooth_not_supported">Bluetooth not supported.</string>
+    <string name="ble_not_supported" tools:keep="@string/ble_not_supported">BLE is not supported</string>
+    <string name="label_data" tools:keep="@string/label_data">Data:</string>
+    <string name="label_device_address" tools:keep="@string/label_device_address">Device address:</string>
+    <string name="label_state" tools:keep="@string/label_state">State:</string>
+    <string name="no_data" tools:keep="@string/no_data">No data</string>
+    <string name="connected" tools:keep="@string/connected">Connected</string>
+    <string name="disconnected" tools:keep="@string/disconnected">Disconnected</string>
+    <string name="title_devices" tools:keep="@string/title_devices">BLE Device Scan</string>
+    <string name="error_bluetooth_not_supported" tools:keep="@string/error_bluetooth_not_supported">Bluetooth not supported.</string>
 
     <string name="unknown_device">Unknown device</string>
     <string name="unknown_characteristic">Unknown characteristic</string>
@@ -111,16 +113,20 @@
         <item>0</item>
         <item>1</item>
     </string-array>
-    <!-- Menu items -->
-    <string name="menu_connect">Connect</string>
-    <string name="menu_disconnect">Disconnect</string>
-    <string name="menu_scan">Scan</string>
-    <string name="menu_stop">Stop</string>
-    <string name="menu_refresh">Refresh</string>
+    <string name="unknown_device" tools:keep="@string/unknown_device">Unknown device</string>
+    <string name="unknown_characteristic" tools:keep="@string/unknown_characteristic">Unknown characteristic</string>
+    <string name="unknown_service" tools:keep="@string/unknown_service">Unknown service</string>
 
-    <string name="title_activity_accelerometer">Family Acelerometro</string>
-    <string name="title_activity_gyroscope">Family Giroscopio</string>
-    <string name="title_activity_stepcounter">Family Contador de pasos</string>
+    <!-- Menu items -->
+    <string name="menu_connect" tools:keep="@string/menu_connect">Connect</string>
+    <string name="menu_disconnect" tools:keep="@string/menu_disconnect">Disconnect</string>
+    <string name="menu_scan" tools:keep="@string/menu_scan">Scan</string>
+    <string name="menu_stop" tools:keep="@string/menu_stop">Stop</string>
+    <string name="menu_refresh" tools:keep="@string/menu_refresh">Refresh</string>
+
+    <string name="title_activity_accelerometer" tools:keep="@string/title_activity_accelerometer">Family Accelerometer</string>
+    <string name="title_activity_gyroscope" tools:keep="@string/title_activity_gyroscope">Family Gyroscope</string>
+    <string name="title_activity_stepcounter" tools:keep="@string/title_activity_stepcounter">Family Step Counter</string>
 
     <string name="large_text">
         "Material is the metaphor.\n\n"
@@ -212,4 +218,6 @@
         "when a user tries to pick up one of cards.\n\n"
     </string>
     <string name="disconnect">disconnect</string>
+    <string name="caption_potential_fall">Potential fall!</string>
+    <string name="text_potential_fall">Your VIP may have fallen!</string>
 </resources>

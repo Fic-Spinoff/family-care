@@ -69,7 +69,6 @@
 
     <SeekBar
         android:id="@+id/seekBar"
-        style="@style/Widget.AppCompat.SeekBar.Discrete"
         android:layout_width="196dp"
         android:layout_height="84dp"
         android:layout_alignParentBottom="true"
@@ -95,7 +94,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/button_delete"
-        android:layout_below="@+id/seekBar"
+        android:layout_below="@id/seekBar"
         android:layout_gravity="end|bottom"
         android:layout_marginTop="-70dp"
         app:srcCompat="@drawable/ic_check_green_24dp"

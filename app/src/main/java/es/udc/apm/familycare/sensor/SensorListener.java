@@ -1,7 +1,6 @@
 package es.udc.apm.familycare.sensor;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -10,13 +9,19 @@ import android.util.Log;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import es.udc.apm.familycare.utils.Constants;
+
 /**
  * Created by Gonzalo on 10/06/2018.
  */
 
 public class SensorListener implements SensorEventListener {
 
-    private  static final int FALL_TIME_OFFSET = 10000;
+    public interface EventListener {
+        void onFall(int event);
+    }
+
+    private  static final int FALL_TIME_OFFSET = 15000;
 
     private static final double sigma = 0.5, th = 10, th1 = 5, th2 = 2;
     private static final int BUFF_SIZE = 50;
@@ -28,15 +33,14 @@ public class SensorListener implements SensorEventListener {
     private boolean moveAfterFall = false;
     private boolean fallTimerActive = false;
 
+    private EventListener mListener = null;
+
     @Override
     public void onAccuracyChanged(Sensor arg0, int arg1) {
 
     }
 
-    private Context context;
-
-    SensorListener(Context context) {
-        this.context = context;
+    SensorListener() {
         this.initialize();
     }
 
@@ -51,7 +55,6 @@ public class SensorListener implements SensorEventListener {
     @SuppressLint("ParserError")
     @Override
     public void onSensorChanged(SensorEvent event) {
-        Log.e("SensorListener", "onSensorChanged");
         int sensorType = Sensor.TYPE_ACCELEROMETER;
         if (event.sensor.getType()== sensorType){
             double ax = event.values[0];
@@ -108,11 +111,11 @@ public class SensorListener implements SensorEventListener {
     private void systemState(String curr_state1, String prev_state1) {
         if(!prev_state1.equalsIgnoreCase(curr_state1)){
             if(curr_state1.equalsIgnoreCase("fall")){
-                // Reset moved
-                this.moveAfterFall = false;
-
+                Log.e("SensorListener", "Potential fall");
                 // Start timer to detect falls
                 if (!this.fallTimerActive) {
+                    // Reset moved
+                    this.moveAfterFall = false;
                     this.fallTimerActive = true;
                     Timer timer = new Timer();
                     timer.schedule(new TimerTask() {
@@ -120,6 +123,9 @@ public class SensorListener implements SensorEventListener {
                         public void run() {
                             if (!SensorListener.this.moveAfterFall) {
                                 Log.e("SensorListener", "fall");
+                                if (SensorListener.this.mListener != null) {
+                                    mListener.onFall(Constants.Events.FALL);
+                                }
                             }
                             SensorListener.this.fallTimerActive = false;
                         }
@@ -127,17 +133,20 @@ public class SensorListener implements SensorEventListener {
                 }
             } else {
                 this.moveAfterFall = true;
-//                String text = "UNK";
-//                if (curr_state1.equalsIgnoreCase("sitting")) {
-//                    text = "sitting";
-//                } else if  (curr_state1.equalsIgnoreCase("walking")) {
-//                    text = "walking";
-//                } else if (curr_state1.equalsIgnoreCase("standing")) {
-//                    text = "standing";
-//                }
-//                Toast.makeText(this.context, text, Toast.LENGTH_SHORT).show();
+                String text = "UNK";
+                if (curr_state1.equalsIgnoreCase("sitting")) {
+                    text = "sitting";
+                } else if  (curr_state1.equalsIgnoreCase("walking")) {
+                    text = "walking";
+                } else if (curr_state1.equalsIgnoreCase("standing")) {
+                    text = "standing";
+                }
+                Log.e("SensorListener", "ChangeState: "+text);
             }
         }
+    }
 
+    public void setEventListener(EventListener listener) {
+        this.mListener = listener;
     }
 }
