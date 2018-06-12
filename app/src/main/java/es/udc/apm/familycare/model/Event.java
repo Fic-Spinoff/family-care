@@ -4,6 +4,8 @@ import com.google.firebase.Timestamp;
 
 public class Event {
 
+    private int type;
+
     // Notification title
     private String title;
 
@@ -15,11 +17,23 @@ public class Event {
 
     // TODO: More data for activity log
 
+    public Event(){
 
-    public Event(String title, String body, Timestamp date) {
+    }
+
+    public Event(int type, String title, String body, Timestamp date) {
+        this.type = type;
         this.title = title;
         this.body = body;
         this.date = date;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 
     public String getTitle() {

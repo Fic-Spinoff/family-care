@@ -176,4 +176,6 @@
         "For example, position the FAB to one side of stream of a cards so the FAB won’t interfere "
         "when a user tries to pick up one of cards.\n\n"
     </string>
+    <string name="caption_potential_fall">Caída potencial</string>
+    <string name="text_potential_fall">¡Puede que tu VIP se haya caído!</string>
 </resources>

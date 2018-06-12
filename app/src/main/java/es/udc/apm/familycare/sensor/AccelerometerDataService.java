@@ -17,6 +17,7 @@ import java.util.Date;
 
 import es.udc.apm.familycare.R;
 import es.udc.apm.familycare.model.Event;
+import es.udc.apm.familycare.model.EventType;
 import es.udc.apm.familycare.repository.EventRepository;
 import es.udc.apm.familycare.utils.Constants;
 
@@ -81,17 +82,14 @@ public class AccelerometerDataService extends Service implements SensorListener.
             switch (event) {
                 case Constants.Events.FALL:
                     this.mRepo.createEvent(uid, new Event(
+                            EventType.FALL.getValue(),
                             getString(R.string.caption_potential_fall),
                             getString(R.string.text_potential_fall),
                             new Timestamp(new Date())
                     ));
                     break;
                 default:
-                    this.mRepo.createEvent(uid, new Event(
-                            "Unknown event happened!",
-                            "Unrecognized event occur to your vip",
-                            new Timestamp(new Date())
-                    ));
+                    break;
             }
         }
     }

@@ -21,7 +21,7 @@ public class SensorListener implements SensorEventListener {
         void onFall(int event);
     }
 
-    private  static final int FALL_TIME_OFFSET = 8000;
+    private  static final int FALL_TIME_OFFSET = 15000;
 
     private static final double sigma = 0.5, th = 10, th1 = 5, th2 = 2;
     private static final int BUFF_SIZE = 50;

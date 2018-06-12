@@ -29,6 +29,9 @@ public class Constants {
         public static final String VIP_NAME = "vipName";
         public static final String VIP_STILL_SINCE = "stillSince";
         public static final String FCM_ID = "fcmId";
+        public static final String TITLE = "title";
+        public static final String BODY = "body";
+        public static final String TYPE = "type";
     }
 
     public static class Keys {

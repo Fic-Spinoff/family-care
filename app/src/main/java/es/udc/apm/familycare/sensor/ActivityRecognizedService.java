@@ -29,6 +29,7 @@ public class ActivityRecognizedService extends IntentService {
 
     public static final int STATE_STILL = 0;
     public static final int STATE_NO_STILL = 1;
+    public static final int CHANGE_DELAY = 5000;
 
     public ActivityRecognizedService() {
         super("ActivityRecognizedService");
@@ -92,7 +93,7 @@ public class ActivityRecognizedService extends IntentService {
                                     // Update timer state
                                     editor.putBoolean(Constants.Prefs.KEY_VIP_TIMER, false);
                                 }
-                            }, 15000);
+                            }, CHANGE_DELAY);
                         }
                     }
                     // Commit prefs

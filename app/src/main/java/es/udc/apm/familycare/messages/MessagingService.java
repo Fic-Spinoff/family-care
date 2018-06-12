@@ -16,6 +16,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import es.udc.apm.familycare.R;
 import es.udc.apm.familycare.SplashActivity;
+import es.udc.apm.familycare.utils.Constants;
 
 public class MessagingService extends FirebaseMessagingService {
 
@@ -46,25 +47,18 @@ public class MessagingService extends FirebaseMessagingService {
     public void onMessageReceived(RemoteMessage remoteMessage) {
         Log.d(TAG, "From: " + remoteMessage.getFrom());
 
-        if (remoteMessage.getNotification() != null) {
-            showNotification(remoteMessage.getNotification().getTitle(),
-                    remoteMessage.getNotification().getBody());
-        }
-
-        // Check if message contains a data payload.
-        if (remoteMessage.getData().size() > 0) {
-            Log.d(TAG, "Message data payload: " + remoteMessage.getData());
-            // TODO:
-//            if (/* Check if data needs to be processed by long running job */) {
-//                // For long-running tasks (10 seconds or more) use Firebase Job Dispatcher.
-//                scheduleJob();
-//            } else {
-//                // Handle message within 10 seconds
-//                handleNow();
-//            }
+        // Our notification, always using payload to customize notification and show heads up
+        if (remoteMessage.getData() != null && remoteMessage.getData().size() > 0) {
+            //int type = Integer.parseInt(remoteMessage.getData().get(Constants.Properties.TYPE));
+            String title = remoteMessage.getData().get(Constants.Properties.TITLE);
+            String body = remoteMessage.getData().get(Constants.Properties.BODY);
+            showNotification(title, body);
         }
     }
 
+    /**
+     * Creates a notification with heads up
+     */
     private void showNotification(String title, String content) {
         NotificationManager mNotificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
@@ -83,6 +77,7 @@ public class MessagingService extends FirebaseMessagingService {
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext(), "default")
                 .setSmallIcon(R.drawable.ic_notification)
+                .setPriority(NotificationCompat.PRIORITY_HIGH) // Heads up
                 .setContentTitle(title)
                 .setContentText(content)
                 .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
