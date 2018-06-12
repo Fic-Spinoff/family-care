@@ -51,9 +51,20 @@
             android:label="@string/title_activity_guard"
             android:launchMode="singleTask"/>
         <activity
+            android:name=".ConfActivityVip"
+            android:label=".cConfActivityVip" />
+        <activity
+            android:name=".ConfActivityGuard"
+            android:label=".cConfActivityGuard" />
+        <activity
             android:name=".VipActivity"
-            android:label="@string/title_activity_vip_container"
-            android:launchMode="singleTask"/>
+            android:label="@string/title_activity_vip_container">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".ConfActivity" />
 
         <!--

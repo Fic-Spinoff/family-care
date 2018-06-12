@@ -178,4 +178,11 @@
     </string>
     <string name="caption_potential_fall">Caída potencial</string>
     <string name="text_potential_fall">¡Puede que tu VIP se haya caído!</string>
+
+    <!-- Menu configuration -->
+    <string name="config_entry_account">Cuenta</string>
+    <string name="config_option_rol_reset">Reiniciar Rol</string>
+    <string name="config_option_disconnect">Desconectar...</string>
+    <!-- ****************** -->
+
 </resources>

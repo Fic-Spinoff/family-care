@@ -72,9 +72,10 @@
     <string name="title_devices" tools:keep="@string/title_devices">BLE Device Scan</string>
     <string name="error_bluetooth_not_supported" tools:keep="@string/error_bluetooth_not_supported">Bluetooth not supported.</string>
 
-    <string name="unknown_device" tools:keep="@string/unknown_device">Unknown device</string>
-    <string name="unknown_characteristic" tools:keep="@string/unknown_characteristic">Unknown characteristic</string>
-    <string name="unknown_service" tools:keep="@string/unknown_service">Unknown service</string>
+    <string name="unknown_device">Unknown device</string>
+    <string name="unknown_characteristic">Unknown characteristic</string>
+    <string name="unknown_service">Unknown service</string>
+    <!-- Config Layout -->
 
     <!-- Menu items -->
     <string name="menu_connect" tools:keep="@string/menu_connect">Connect</string>
@@ -176,6 +177,14 @@
         "For example, position the FAB to one side of stream of a cards so the FAB won’t interfere "
         "when a user tries to pick up one of cards.\n\n"
     </string>
+
     <string name="caption_potential_fall">Potential fall!</string>
     <string name="text_potential_fall">Your VIP may have fallen!</string>
+
+    <!-- Menu configuration -->
+    <string name="config_entry_account">Account</string>
+    <string name="config_option_rol_reset">Reset Rol</string>
+    <string name="config_option_disconnect">Disconnect...</string>
+    <!-- ****************** -->-->
+
 </resources>

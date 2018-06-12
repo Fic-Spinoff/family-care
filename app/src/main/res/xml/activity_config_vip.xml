@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="@string/config_entry_account">
+        <Preference android:title="@string/config_option_rol_reset" android:key="delete" android:enabled="true"/>
+        <Preference android:title="@string/config_option_disconnect" android:key="disconnect" android:enabled="true"/>
+    </PreferenceCategory>
+</PreferenceScreen>
