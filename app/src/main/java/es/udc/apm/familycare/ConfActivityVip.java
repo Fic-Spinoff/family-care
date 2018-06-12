@@ -16,14 +16,22 @@ import android.util.Log;
 import android.view.MenuItem;
 
 import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.HashMap;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import es.udc.apm.familycare.login.LoginActivity;
+import es.udc.apm.familycare.model.User;
+import es.udc.apm.familycare.repository.UserRepository;
+import es.udc.apm.familycare.utils.Constants;
 
 
 public class ConfActivityVip extends PreferenceActivity
@@ -47,7 +55,6 @@ public class ConfActivityVip extends PreferenceActivity
         }
     }
 
-
     public  static class ConfVipFragment extends PreferenceFragment
     {
         @Override
@@ -60,9 +67,27 @@ public class ConfActivityVip extends PreferenceActivity
             findPreference("disconnect").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference arg0) {
-                    GoogleApiClient  mGoogleApiClient = new GoogleApiClient.Builder(act).addApi(Auth.GOOGLE_SIGN_IN_API).build();
+                    GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                            .requestEmail()
+                            .build();
+                    GoogleSignInClient mGoogleApiClient = GoogleSignIn.getClient(act, gso);
+                    mGoogleApiClient.signOut();
                     FirebaseAuth.getInstance().signOut();
                     Intent intent = new Intent(act, LoginActivity.class);
+                    startActivity(intent);
+                    act.finish();
+                    return true;
+                }
+            });
+            findPreference("delete").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference arg0) {
+                    UserRepository mRepo = new UserRepository();
+                    String uid = act.getSharedPreferences(Constants.Prefs.USER, MODE_PRIVATE).getString(Constants.Prefs.KEY_USER_UID, null);
+                    HashMap<String, Object> hashMap = new HashMap<String, Object>();
+                    hashMap.put("role", null);
+                    mRepo.editUser(uid, hashMap);
+                    Intent intent = new Intent(act, RoleActivity.class);
                     startActivity(intent);
                     act.finish();
                     return true;

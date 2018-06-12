@@ -2,48 +2,8 @@
 <PreferenceScreen
     xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory
-        android:title="@string/GPS">
-        <CheckBoxPreference
-            android:persistent="false"
-            android:title="Habilitar seguimiento GPS" />
-        <ListPreference
-            android:title="@string/Tiempo_de_refresco"
-            android:entries="@array/frecuencia"
-            android:entryValues="@array/lista_frecuencia"
-            android:defaultValue="2"/>
-        <CheckBoxPreference
-            android:title="Guards"
-            android:summary="Permitir que los Guards vean mi posición en tiempo real"/>
-        <CheckBoxPreference
-            android:title="Zona de seguridad"
-            android:summary="Notificarme cuando me salga de una zona de seguridad"/>
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:title="@string/Sensores">
-        <CheckBoxPreference
-            android:title="Pulsómetro"
-            android:summary="Activar seguimiento pulsómetro"/>
-        <CheckBoxPreference
-            android:title="Pasos"
-            android:summary="Activar seguimiento pasos"/>
-        <CheckBoxPreference
-            android:title="Actividad"
-            android:summary="Activar seguimiento de actividad"/>
-    </PreferenceCategory>
-
-    <PreferenceCategory
         android:title="@string/Cuenta">
-        <CheckBoxPreference
-            android:title="Pulsómetro"
-            android:summary="Activar seguimiento pulsómetro"/>
-        <CheckBoxPreference
-            android:title="Pasos"
-            android:summary="Activar seguimiento pasos"/>
-        <CheckBoxPreference
-            android:title="Actividad"
-            android:summary="Activar seguimiento de actividad"/>
+        <Preference android:title="Borrar Rol" android:key="delete" android:enabled="true"/>
         <Preference android:title="Desconectar..." android:key="disconnect" android:enabled="true"/>
     </PreferenceCategory>
-
 </PreferenceScreen>

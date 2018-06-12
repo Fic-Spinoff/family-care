@@ -113,9 +113,7 @@
         <item>0</item>
         <item>1</item>
     </string-array>
-    <string name="unknown_device" tools:keep="@string/unknown_device">Unknown device</string>
-    <string name="unknown_characteristic" tools:keep="@string/unknown_characteristic">Unknown characteristic</string>
-    <string name="unknown_service" tools:keep="@string/unknown_service">Unknown service</string>
+
 
     <!-- Menu items -->
     <string name="menu_connect" tools:keep="@string/menu_connect">Connect</string>
@@ -220,4 +218,5 @@
     <string name="disconnect">disconnect</string>
     <string name="caption_potential_fall">Potential fall!</string>
     <string name="text_potential_fall">Your VIP may have fallen!</string>
+    <string name="borrar_rol">reset role</string>
 </resources>

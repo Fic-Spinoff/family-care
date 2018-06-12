@@ -65,8 +65,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-            android:label="@string/title_activity_vip_container"
-            android:launchMode="singleTask"/>
         <activity android:name=".ConfActivity" />
 
         <!--

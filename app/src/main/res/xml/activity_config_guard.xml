@@ -1,90 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen
     xmlns:android="http://schemas.android.com/apk/res/android">
-
     <PreferenceCategory
-        android:title="@string/Notificaciones">
-        <CheckBoxPreference
-            android:title="VIP"
-            android:summary="Desactivar notificaciones cuando estoy cerca del VIP"/>
-        <CheckBoxPreference
-            android:title="VIP"
-            android:summary="Desactivar notificaciones cuando otro miembro está cerca del VIP"/>
-        <CheckBoxPreference
-            android:title="Notificaciones nocturnas"
-            android:summary="Desactivar notificaciones durante la noche"/>
+        android:title="@string/Cuenta">
+        <Preference android:title="@string/borrar_rol" android:key="delete" android:enabled="true"/>
+        <Preference android:title="@string/disconnect" android:key="disconnect" android:enabled="true"/>
     </PreferenceCategory>
-
-    <PreferenceCategory
-        android:title="@string/GPS">
-        <CheckBoxPreference
-            android:title="Zonas de seguridad"
-            android:summary="Recibir notificaciones de zonas de seguridad"/>
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:title="@string/Caídas">
-        <CheckBoxPreference
-            android:title="Caídas"
-            android:summary="Activar notificaciones de caídas"/>
-        <ListPreference
-            android:title="@string/Nivel_de_sensibilidad_de_caídas"
-            android:entries="@array/caidas"
-            android:entryValues="@array/lista_caidas"
-            android:defaultValue="0"/>
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:title="@string/Sensores_corporales">
-        <CheckBoxPreference
-            android:title="Sensores corporales"
-            android:summary="Activar datos de sensores corporales"/>
-        <CheckBoxPreference
-            android:title="Alerta de pulso"
-            android:summary="Activar alerta de pulso"/>
-        <EditTextPreference
-            android:title="Rango pulso normal"
-            android:summary="Introduzca un rango de valores para el pulso"
-            android:defaultValue="60-100"
-            android:inputType="number"
-            />
-        <CheckBoxPreference
-            android:title="Sedentarismo"
-            android:summary="Activar notificación de sedentarismo"/>
-        <EditTextPreference
-            android:title="Tiempo máximo sin movimiento "
-            android:summary="Introduzca horas y minutos"
-            android:defaultValue="1h/15min"
-            />
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:title="@string/Contacto">
-        <CheckBoxPreference
-            android:title="Contacto"
-            android:summary="Activar alerta de contacto"/>
-        <EditTextPreference
-            android:title="Tiempo máximo sin contactar "
-            android:summary="Introduzca un número de días"
-            android:defaultValue="1 día"
-            />
-        <EditTextPreference
-            android:title="Hora preferida para contactar"
-            android:summary="Introduzca una hora en formato 24h"
-            android:defaultValue="20:00"
-            />
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:title="@string/Batería">
-        <CheckBoxPreference
-            android:title="Batería"
-            android:summary="Activar notificación de batería"/>
-        <EditTextPreference
-            android:title="Nivel de batería crítico"
-            android:summary="Introduzca un nivel de batería para notificar"
-            android:defaultValue="35%"
-            />
-    </PreferenceCategory>
-
 </PreferenceScreen>
