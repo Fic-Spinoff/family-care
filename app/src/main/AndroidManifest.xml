@@ -71,6 +71,12 @@
         <service android:name=".maps.GeolocationService" />
         <service android:name=".maps.GeofenceUpdateService" />
         <service android:name=".sensor.ActivityRecognizedService" />
+
+        <receiver android:name=".receiver.BatteryLevelReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BATTERY_LOW"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
