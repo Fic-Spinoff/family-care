@@ -178,43 +178,11 @@
     </string>
     <string name="caption_potential_fall">Caída potencial</string>
     <string name="text_potential_fall">¡Puede que tu VIP se haya caído!</string>
-    <string name="borrar_rol">resetear rol</string>
 
-    <string name="GPS">GPS</string>
-    <string name="Tiempo_de_refresco">Tiempo de refresco </string>
-    <string-array name="frecuencia">
-        <item>1 seg</item>
-        <item>10 seg</item>
-        <item>30 seg</item>
-        <item>1 min</item>
-        <item>10 min</item>
-    </string-array>
-
-    <string-array name="lista_frecuencia">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-    </string-array>
-
-    <string name="Sensores">Sensores</string>
-    <string name="Cuenta">Cuenta</string>
-    <!-- GUARD -->
-    <string name="Notificaciones">Notificaciones</string>
-    <string name="Caídas">Caídas</string>
-    <string name="Sensores_corporales">Sensores corporales</string>
-    <string name="Contacto">Contacto</string>
-    <string name="Batería">Batería</string>
-    <string name="Nivel_de_sensibilidad_de_caídas">Nivel de sensibilidad de caídas</string>
-    <string-array name="caidas">
-        <item>Baja</item>
-        <item>Alta</item>
-    </string-array>
-
-    <string-array name="lista_caidas">
-        <item>0</item>
-        <item>1</item>
-    </string-array>
+    <!-- Menu configuration -->
+    <string name="config_entry_account">Cuenta</string>
+    <string name="config_option_rol_reset">Reiniciar Rol</string>
+    <string name="config_option_disconnect">Desconectar...</string>
+    <!-- ****************** -->
 
 </resources>

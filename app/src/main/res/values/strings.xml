@@ -76,44 +76,6 @@
     <string name="unknown_characteristic">Unknown characteristic</string>
     <string name="unknown_service">Unknown service</string>
     <!-- Config Layout -->
-    <!-- VIP -->
-    <string name="GPS">GPS</string>
-    <string name="Tiempo_de_refresco">Tiempo de refresco </string>
-    <string-array name="frecuencia">
-        <item>1 seg</item>
-        <item>10 seg</item>
-        <item>30 seg</item>
-        <item>1 min</item>
-        <item>10 min</item>
-    </string-array>
-
-    <string-array name="lista_frecuencia">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-    </string-array>
-
-    <string name="Sensores">Sensores</string>
-    <string name="Cuenta">Cuenta</string>
-    <!-- GUARD -->
-    <string name="Notificaciones">Notificaciones</string>
-    <string name="Caídas">Caídas</string>
-    <string name="Sensores_corporales">Sensores corporales</string>
-    <string name="Contacto">Contacto</string>
-    <string name="Batería">Batería</string>
-    <string name="Nivel_de_sensibilidad_de_caídas">Nivel de sensibilidad de caídas</string>
-    <string-array name="caidas">
-        <item>Baja</item>
-        <item>Alta</item>
-    </string-array>
-
-    <string-array name="lista_caidas">
-        <item>0</item>
-        <item>1</item>
-    </string-array>
-
 
     <!-- Menu items -->
     <string name="menu_connect" tools:keep="@string/menu_connect">Connect</string>
@@ -215,8 +177,14 @@
         "For example, position the FAB to one side of stream of a cards so the FAB won’t interfere "
         "when a user tries to pick up one of cards.\n\n"
     </string>
-    <string name="disconnect">disconnect</string>
+
     <string name="caption_potential_fall">Potential fall!</string>
     <string name="text_potential_fall">Your VIP may have fallen!</string>
-    <string name="borrar_rol">reset role</string>
+
+    <!-- Menu configuration -->
+    <string name="config_entry_account">Account</string>
+    <string name="config_option_rol_reset">Reset Rol</string>
+    <string name="config_option_disconnect">Disconnect...</string>
+    <!-- ****************** -->-->
+
 </resources>
