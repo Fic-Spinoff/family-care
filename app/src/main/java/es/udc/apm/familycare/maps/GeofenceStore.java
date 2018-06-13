@@ -66,4 +66,8 @@ public class GeofenceStore{
     public HashMap<LatLng, Float> getGeofenceData(){
         return geofenceData;
     }
+
+    public void removeAll() {
+        geofenceData.clear();
+    }
 }

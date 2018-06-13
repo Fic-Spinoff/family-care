@@ -39,7 +39,7 @@ public class GeofenceUpdateService extends IntentService {
 
     @SuppressLint("MissingPermission")
     private void updateGeofences() {
-        if ((GeofenceStore.getInstance()).getGeofenceList().isEmpty()){
+        if (GeofenceStore.getInstance().getGeofenceList().isEmpty()){
             if (mGeofencePendingIntent != null) {
                 mGeofendcingClient.removeGeofences(mGeofencePendingIntent);
             }
@@ -59,8 +59,8 @@ public class GeofenceUpdateService extends IntentService {
 
     private GeofencingRequest getGeofencingRequest() {
         builder = new GeofencingRequest.Builder();
-        builder.setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER);
-        builder.addGeofences((GeofenceStore.getInstance()).getGeofenceList());
+        //builder.setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER);
+        builder.addGeofences(GeofenceStore.getInstance().getGeofenceList());
         return builder.build();
     }
 

@@ -17,7 +17,7 @@ import es.udc.apm.familycare.utils.Constants;
 
 public class EventRepository {
 
-    public static final String TAG = "TAG_GROUPREPO";
+    public static final String TAG = "TAG_EVENTREPO";
     private FirebaseFirestore mFirestore;
 
     public EventRepository() {

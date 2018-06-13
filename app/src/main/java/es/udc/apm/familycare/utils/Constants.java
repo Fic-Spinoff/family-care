@@ -21,6 +21,7 @@ public class Constants {
         public static final String GROUPS = "groups";
         public static final String TOKENS = "tokens";
         public static final String EVENTS = "events";
+        public static final String GEOFENCE = "geofences";
     }
 
     public static class Properties {

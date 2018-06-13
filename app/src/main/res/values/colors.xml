@@ -12,6 +12,9 @@
     <color name="dots">#3FBEE4</color>
     <color name="bgBoard">#1E88E5</color>
 
+    <color name="mapStroke">#2196F3</color>
+    <color name="mapFill">#602196F3</color>
+
     <color name="stateShoe">#825123</color>
     <color name="colorLightGrey">#D6D7D7</color>
 </resources>

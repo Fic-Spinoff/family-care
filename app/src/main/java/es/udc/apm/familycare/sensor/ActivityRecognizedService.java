@@ -29,16 +29,17 @@ public class ActivityRecognizedService extends IntentService {
 
     public static final int STATE_STILL = 0;
     public static final int STATE_NO_STILL = 1;
-    public static final int CHANGE_DELAY = 5000;
+    public static final int CHANGE_DELAY = 0;
+    public static final String TAG = "ActivityRecognizedSer";
 
     public ActivityRecognizedService() {
         super("ActivityRecognizedService");
-        Log.e("ActivityRecognition", "Service");
+        Log.e(TAG, "Service");
     }
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        Log.e("ActivityRecognition", "Intent");
+        Log.e(TAG, "Intent");
         if (ActivityTransitionResult.hasResult(intent)) {
             ActivityTransitionResult result = ActivityTransitionResult.extractResult(intent);
             if (result != null) {
@@ -53,7 +54,7 @@ public class ActivityRecognizedService extends IntentService {
 
                 for (ActivityTransitionEvent event : result.getTransitionEvents()) {
                     if (event.getTransitionType() == ActivityTransition.ACTIVITY_TRANSITION_ENTER) {
-                        Log.e("ActivityRecognition", "Enter");
+                        Log.e(TAG, "Enter");
                         // Update state in prefs
                         editor.putInt(Constants.Prefs.KEY_VIP_STATE, STATE_STILL);
 
@@ -68,7 +69,7 @@ public class ActivityRecognizedService extends IntentService {
                             }
                         }
                     } else if (event.getTransitionType() == ActivityTransition.ACTIVITY_TRANSITION_EXIT) {
-                        Log.e("ActivityRecognition", "Exit");
+                        Log.e(TAG, "Exit");
                         // Update state in prefs
                         editor.putInt(Constants.Prefs.KEY_VIP_STATE, STATE_NO_STILL);
 

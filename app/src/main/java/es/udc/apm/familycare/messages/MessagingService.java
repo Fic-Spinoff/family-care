@@ -12,8 +12,6 @@ import android.util.Log;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
-import java.util.concurrent.atomic.AtomicInteger;
-
 import es.udc.apm.familycare.R;
 import es.udc.apm.familycare.SplashActivity;
 import es.udc.apm.familycare.utils.Constants;
@@ -21,8 +19,6 @@ import es.udc.apm.familycare.utils.Constants;
 public class MessagingService extends FirebaseMessagingService {
 
     public static final String TAG = "MessagingService";
-
-    private final static AtomicInteger id = new AtomicInteger(0);
 
     public MessagingService() {
         super();
@@ -49,17 +45,17 @@ public class MessagingService extends FirebaseMessagingService {
 
         // Our notification, always using payload to customize notification and show heads up
         if (remoteMessage.getData() != null && remoteMessage.getData().size() > 0) {
-            //int type = Integer.parseInt(remoteMessage.getData().get(Constants.Properties.TYPE));
+            int type = Integer.parseInt(remoteMessage.getData().get(Constants.Properties.TYPE));
             String title = remoteMessage.getData().get(Constants.Properties.TITLE);
             String body = remoteMessage.getData().get(Constants.Properties.BODY);
-            showNotification(title, body);
+            showNotification(type, title, body);
         }
     }
 
     /**
      * Creates a notification with heads up
      */
-    private void showNotification(String title, String content) {
+    private void showNotification(int type, String title, String content) {
         NotificationManager mNotificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
@@ -85,6 +81,7 @@ public class MessagingService extends FirebaseMessagingService {
         Intent intent = new Intent(getApplicationContext(), SplashActivity.class);
         PendingIntent pi = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         mBuilder.setContentIntent(pi);
-        mNotificationManager.notify(id.incrementAndGet(), mBuilder.build());
+        // Use type as id, just one notification of each kind
+        mNotificationManager.notify(type, mBuilder.build());
     }
 }

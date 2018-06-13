@@ -1,4 +1,4 @@
-package es.udc.apm.familycare.members;
+package es.udc.apm.familycare.repository;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;

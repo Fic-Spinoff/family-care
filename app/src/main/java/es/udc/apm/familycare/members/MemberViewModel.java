@@ -7,6 +7,7 @@ import android.arch.lifecycle.ViewModel;
 import java.util.List;
 
 import es.udc.apm.familycare.model.Member;
+import es.udc.apm.familycare.repository.MemberRepository;
 
 /**
  * Created by Gonzalo on 29/04/2018.
