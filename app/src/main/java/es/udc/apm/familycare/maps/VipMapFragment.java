@@ -80,20 +80,24 @@ public class VipMapFragment extends CustomMapFragment {
     }
 
     private void setMarker(LatLng point, float radius) {
-        if (lastMarker != null) {
-            //mCircleHashMap.get(lastMarker.getId()).remove();
-            lastMarker.remove();
+        if (this.lastMarker != null) {
+            //mCircleHashMap.get(this.lastMarker.getId()).remove();
+            this.lastMarker.remove();
         }
         super.removeSearchMarker();
 
-        lastMarker = newMarker(point);
+        this.lastMarker = newMarker(point);
         Circle circle = newCircle(point, radius);
         showButtonLayer();
 
-        //mCircleHashMap.put(lastMarker.getId(), circle);
+        //mCircleHashMap.put(this.lastMarker.getId(), circle);
 
         // On click save
         mAcceptButton.setOnClickListener(v -> {
+            // Clear last marker ref
+            Marker marker = this.lastMarker;
+            this.lastMarker = null;
+
             hideButtonLayer();
             if (this.uid != null) {
                 // Save in firebase
@@ -103,29 +107,27 @@ public class VipMapFragment extends CustomMapFragment {
                 )).addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         addGeofenceFromCircle(circle);
-                        // Save circle in map
-                        mCircleHashMap.put(this.lastMarker.getId(), circle);
+                        // Save circle in local
+                        mCircleHashMap.put(marker.getId(), circle);
                         // Save Geofence
-                        mGeoFenceMap.put(this.lastMarker.getId(), new Geofence(
+                        mGeoFenceMap.put(marker.getId(), new Geofence(
                                 task.getResult().getId(),
                                 circle.getCenter(),
                                 (float) circle.getRadius())
                         );
-                        // Clear last marker ref
-                        this.lastMarker = null;
                     } else {
-                        this.errorSaving(circle);
+                        this.errorSaving(marker, circle);
                     }
                 });
             } else {
-                this.errorSaving(circle);
+                this.errorSaving(marker, circle);
             }
         });
 
         mDeleteButton.setOnClickListener(v -> {
             circle.remove();
             hideButtonLayer();
-            lastMarker.remove();
+            this.lastMarker.remove();
         });
 
         mSeekBar.setProgress((int) circle.getRadius());
@@ -150,17 +152,20 @@ public class VipMapFragment extends CustomMapFragment {
         });
     }
 
-    private void errorSaving(Circle circle) {
+    private void errorSaving(Marker marker, Circle circle) {
         Toast.makeText(getActivity(), "Error saving zone", Toast.LENGTH_SHORT).show();
         circle.remove();
-        lastMarker.remove();
-        lastMarker = null;
+        marker.remove();
     }
 
     private boolean modifyMarker(Marker marker) {
-        if (lastMarker != null && !lastMarker.equals(marker)) {
-                //mCircleHashMap.get(lastMarker.getId()).remove();
-                lastMarker.remove();
+        if (this.mCircleHashMap.get(marker.getId()) == null) {
+            Toast.makeText(getActivity(), "Marker is still being saved!", Toast.LENGTH_SHORT).show();
+            return true;
+        }
+        if (this.lastMarker != null && !this.lastMarker.equals(marker)) {
+                //mCircleHashMap.get(this.lastMarker.getId()).remove();
+                this.lastMarker.remove();
         }
 
         // If search marker replace with a geofence marker
@@ -173,6 +178,7 @@ public class VipMapFragment extends CustomMapFragment {
 
         showButtonLayer();
         Circle circle = mCircleHashMap.get(marker.getId());
+        double initialRadius = circle.getRadius();
         mDeleteButton.setOnClickListener(v -> {
             hideButtonLayer();
             // Remove from api
@@ -204,7 +210,8 @@ public class VipMapFragment extends CustomMapFragment {
                 // Update circle in map
                 mCircleHashMap.put(marker.getId(), circle);
             } else {
-                this.errorSaving(circle);
+                Toast.makeText(getActivity(), "Error updating zone", Toast.LENGTH_SHORT).show();
+                circle.setRadius(initialRadius);
             }
         });
 
