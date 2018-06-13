@@ -155,7 +155,9 @@ public class VipActivity extends AppCompatActivity implements RouterActivity {
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.menu_conf:
-                startActivity(new Intent(this, ConfActivity.class));
+                Intent intent = new Intent(this, ConfActivityVip.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
                 return true;
             case android.R.id.home:
                 this.onBackPressed();
