@@ -54,6 +54,7 @@ public class ConfActivityGuard extends PreferenceActivity
 
     public static class ConfGuardFragment extends PreferenceFragment
     {
+
         @Override
         public void onCreate(final Bundle savedInstanceState)
         {
@@ -72,7 +73,7 @@ public class ConfActivityGuard extends PreferenceActivity
                     FirebaseAuth.getInstance().signOut();
                     Intent intent = new Intent(act, LoginActivity.class);
                     startActivity(intent);
-                    act.finish();
+                    act.finishAffinity();
                     return true;
                 }
             });
@@ -86,10 +87,12 @@ public class ConfActivityGuard extends PreferenceActivity
                     mRepo.editUser(uid, hashMap);
                     Intent intent = new Intent(act, RoleActivity.class);
                     startActivity(intent);
-                    act.finish();
+                    act.finishAffinity();
                     return true;
                 }
             });
+
+
         }
     }
 }

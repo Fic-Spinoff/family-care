@@ -156,7 +156,6 @@ public class VipActivity extends AppCompatActivity implements RouterActivity {
         switch (item.getItemId()) {
             case R.id.menu_conf:
                 Intent intent = new Intent(this, ConfActivityVip.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 return true;
             case android.R.id.home:
