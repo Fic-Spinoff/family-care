@@ -185,4 +185,6 @@
     <string name="config_option_disconnect">Desconectar...</string>
     <!-- ****************** -->
 
+    <string name="title_activity_fit">Family Fit</string>
+    <string name="error_fit">GoogleFit requerido</string>
 </resources>
